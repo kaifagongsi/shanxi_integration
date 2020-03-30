@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用地标企业 - 中国▪陕西地理标志保护产品</title>
+	<meta content="陕西地理标志保护产品,陕西地理标志保护产品,产品,地理,保护,标志,地理标志,地理标志保护,地理标志保护产品,茶,酒,果蔬,养殖,中药材,经济作物,地方特种,地方特色食品,食品,工艺品" name="keywords" />
+	<meta content="" name="description" />
+	<script src="../../js/jquery-1.8.3.js"></script>
+
+	<!--  导入angularjs  -->
+	<script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="../../js/firstWebBase.js"></script>
+	<script type="text/javascript" src="../../js/service/sydbqyService.js"></script>
+	<script type="text/javascript" src="../../js/controller/sydbqyController.js"></script>
+
+</head>
+
+<body ng-app="shanxi-firstweb" ng-controller="sydbqyController" ng-init="load()" class="syqy">
+<!--top-->
+<link rel="stylesheet" type="text/css" href="../../css/index/dbcp.css">
+<link rel="stylesheet" type="text/css" href="../../css/index/cmsstyle.css">
+<link href="../../css/index/atlas.css" rel="stylesheet"/>
+
+<!--分页-->
+<link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.min.css">
+<link href="../../plugins/adminLTE/css/AdminLTE.css" rel="stylesheet"/>
+
+<!-- custom scrollbar plugin -->
+<link rel="stylesheet" type="text/css" href="../../css/index/jquery.mCustomScrollbar.css" />
+<script src="../../js/index/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script type="text/javascript" src="../../js/index/mcomm.js"></script>
+
+<div class="headerbg">
+	<div class="header">
+		<div class="logo"></div>
+		<div class="nav">
+			<ul>
+                <li ><a href="http://172.17.1.249:9103/page/index.do" target="_self">首 页</a></li>
+                <li ><a href="http://172.17.1.249:9103/page/dbcpzs.do" target="_self" title="地标产品展示">地标产品展示</a></li>
+                <li class="current"><a href="http://172.17.1.249:9103/page/sydbqy.do" target="_self" title="使用地标企业">使用地标企业</a></li>
+                <li ><a href="http://172.17.1.249:9103/statisticsProductBulletin.html" target="_self" title="产品公告">地标产品公告</a></li>
+                <li ><a href="http://172.17.1.249:9103/statisticsStatistics.html" target="_self" title="地标产品统计">地标产品统计</a></li>
+                <li ><a href="http://172.17.1.249:9103/proclamationIndex.html" target="_self" title="地标保护公告">地标保护公告</a></li>
+                <li ><a href="http://172.17.1.249:9103/proclamationGuideBook.html" target="_self" title="地标申报指南">地标申报指南</a></li>
+                <li ><a href="http://172.17.1.249:9103/policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
+                <li ><a href="http://172.17.1.249:9103/ComplainsRight.html" target="_self" title="投诉维权">投诉维权</a></li>
+                <li ><a href="http://172.17.1.249:9103/productIntroduction.html" target="_self" title="地标产品介绍">地标产品介绍</a></li>
+			</ul>
+			<a href="http://www.patviewer.com/" target="_blank"><label class="showSearch" title="搜索"></label></a>
+		</div>
+	</div>
+
+</div>
+
+<div>
+
+
+	<div class="bztitle"></div>
+	<div class="ctnindex">
+		<div class="qycnt">
+
+			<div class="query" style="float:left;height:45px;padding-top:8px;margin-right: 15px; ">
+				<form id="docQform" action="/dbcp/sydbqy/query.jsp"  method="post" onsubmit="return checkvalqy();">
+
+					<input type="text" name="qv" value="请输入产品名称或企业名称"
+                    onfocus="if(this.value=='请输入产品名称或企业名称')this.value=''" onblur="if(this.value=='')this.value='请输入产品名称或企业名称'" autocomplete="off">
+					<input class="button" type="submit" value="查询">
+				</form>
+			</div>
+
+			<div class="listth">
+				<table cellspacing="0" cellpadding="0">
+					<tr valign="middle">
+						<td class="th" width="50px;">序号</td>
+						<td class="th" width="100px;">产品名称</td>
+						<td class="th" width="100px;">企业名称</td>
+						<!--<td class="th" width="100px;">地 址</td>
+						<td class="th" width="100px;">商 标</td>
+						<td class="th" width="60px;">批 次</td>-->
+						<td class="th" width="100px;">统一社会信用代码</td>
+						<td class="th" width="180px;">核准使用公告号</td>
+						<td class="th" width="80px;">核准时间</td>
+						<td class="th" width="150px">核准单位</td>
+						<!--<td class="th" width="80px;">有效期限</td>-->
+					</tr>
+				</table>
+			</div>
+			<div class="qylist">
+				<table cellspacing="0" cellpadding="0">
+					<tr ng-repeat="item in resultMap.rows">
+						<td class="th" width="50px;">{{$index+1}}</td>
+						<td class="th" width="100px;">{{item.productName}}</td>
+						<td class="th" width="100px;">{{item.enterpriseName}}</td>
+						<!--<td class="th" width="100px;">{{item.address}}</td>
+						<td class="th" width="100px;">{{item.trademark}}</td>
+						<td class="th" width="60px;">{{item.batch}}</td>-->
+						<td class="th" width="120px">{{item.uniformSocialCreditCode}}</td>
+						<td class="th" width="180px;">{{item.approvalAnnouncementNoEnterprise}}</td>
+						<td class="th" width="80px;">{{item.approvalYear}}</td>
+						<td class="th" width="150px">{{item.approvalAuthorityEnterprise}}</td>
+						<!--<td class="th" width="80px;">{{item.periodOfValidity}}</td>-->
+					</tr>
+				</table>
+			</div>
+			<div class="pagebar" style="margin-top:0;height: 46px;line-height: 46px;">
+
+				<div class="pmsPage">
+					<div class="pull-left">
+						<div class="form-group form-inline">
+							总共{{resultMap.totalPages}} 页，共{{resultMap.total}} 条数据。
+							<!--<span>
+                                到第<input style="width: 54px;height: 29px;" type="text" class="page-num" ng-model="searchMap.pageNo">页
+                                <button class="page-confirm" ng-click="queryByPage(searchMap.pageNo)">确定</button>
+                            </span>-->
+						</div>
+					</div>
+
+					<div class="box-tools pull-right">
+						<ul class="pagination">
+							<li>
+								<a href="#" aria-label="Previous" ng-click="queryByPage(1)">首页</a>
+							</li>
+							<li class="prev {{isTopPage()?'disabled':''}}">
+								<a href="#" ng-click="queryByPage(searchMap.pageNo - 1)">上一页</a>
+							</li>
+							<li class="dotted" ng-if="firstDot == true"><span>...</span></li>
+							<li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryByPage(p)">{{p}}</a></li>
+							<li class="dotted" ng-if="lastDot == true"><span>...</span></li>
+							<li class="next {{isEndPage() ? 'disabled': ''}}">
+								<a href="#"  ng-click="queryByPage(searchMap.pageNo + 1)">下一页</a>
+							</li>
+							<li>
+								<a href="#" aria-label="Next"  ng-click="queryByPage(resultMap.totalPages)">尾页</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class=""  style="height: 3px;"></div>
+		</div>
+	</div>
+
+	<!--footer-->
+	<div class="footer">
+		<span style="margin-top: 2px;display: block;"></span>
+	</div>		<!--/footer-->
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		cobj=$(".qylist");
+		minus=345;
+		setContent();
+		$(window).resize(setContent);
+		$(".qylist").mCustomScrollbar({theme:"3d-dark"});
+	});
+</script>
+</body>
+</html>

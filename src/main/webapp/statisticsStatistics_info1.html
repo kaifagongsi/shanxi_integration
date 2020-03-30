@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>统计</title>
+    <link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="plugins/ztree-3.5/css/zTreeStyle.css">
+
+
+    <!--  导入angularjs  -->
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="plugins/echarts-4.5.0/dist/echarts.js"></script>
+
+    <script type="text/javascript" src="js/statisticsBase.js"></script>
+    <script type="text/javascript" src="js/service/statisticsService.js"></script>
+    <script type="text/javascript" src="js/controller/statisticsController.js"></script>
+    <script type="text/javascript" src="js/controller/pie.js"></script>
+    <script type="text/javascript" src="js/controller/block.js"></script>
+    <script type="text/javascript" src="js/controller/histogram.js"></script>
+    <script type="text/javascript" src="js/controller/pieArea.js"></script>
+    <script type="text/javascript" src="js/controller/lineChartByYear.js"></script>
+    <script type="text/javascript" src="js/controller/histogramEnt.js"></script>
+    <script type="text/javascript" src="js/controller/pieAreaEnt.js"></script>
+    <script type="text/javascript" src="js/controller/lineChartByYearEnt.js"></script>
+    <!--<script type="text/javascript" src="plugins/adminLTE/js/app.js"></script>-->
+    <!--  导入 ztree -->
+    <script type="text/javascript" src="plugins/ztree-3.5/js/jquery.ztree.all-3.5.min.js"></script>
+    <script type="text/javascript" src="plugins/ztree-3.5/js/jquery.ztree.exhide.js"></script>
+
+
+</head>
+<body class="hold-transition skin-purple sidebar-mini" style="width: 100%;height: 100%; " ng-app="shanxi-tongji" ng-controller="statisticsController" ng-init="getPieChart();getBlock();" >
+<div class="wrapper"  >
+
+    <!--   正文  -->
+    <div class="content-wrapper" style="margin-left: 0px;">
+        <section class="content"  >
+            <div class="box-body" style="padding-top: 32px;">
+                <!--  table 页面 -->
+                <div class="nav-tabs-custom" style="margin-bottom:0px;">
+                    <!--tab头-->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab-allState" data-toggle="tab">陕西省地理标志整体概况</a>
+                        </li>
+                        <li >
+                            <a href="#tab-product" data-toggle="tab">地标产品统计</a>
+                        </li>
+                        <li>
+                            <a href="#tab-enterprise" data-toggle="tab">用标企业统计</a>
+                        </li>
+                    </ul>
+                    <!-- tab 头end -->
+                    <!--tab内容 start-->
+                    <div class="tab-content" style="min-height: 710px;">
+                        <!--label显示的内容  陕西省地理标志整体情况 -->
+                        <div class="tab-pane active " style="width: 100%" id="tab-allState">
+                            <section class="content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- Line chart -->
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+                                                <div   style="height: 300px;">
+                                                    <div >
+                                                        <p style="text-indent: 2em; padding-top: 10px;font-size: 17px;  ">
+                                                            陕西省已获批准的地理标志保护产品86个，按照保护地域范围划分，省级产品1个——陕西苹果，地市级产品6个——紫阳富硒茶、商洛丹参、延安酸枣、汉中仙毫、汉中附子和宝鸡辣椒，和79个区县级产品。陕西省地理标志产品数量前三名为：渭南市、榆林市和汉中市，分别有15、15和13件地理标志产品。按产品类别可划分为9类，其中茶类3个，酒类4个，蔬菜类10个，水果类19个，养殖类7个，药材类11个，粮食类11个，加工食品类12个，工艺品类8个，其他1个。
+                                                        </p>
+                                                        <p style="text-indent: 2em; padding-top: 10px;font-size: 17px;  ">陕西省已获批准的地标产品中有35个产品有企业用标，核准使用地理标志专用标志的企业共194家，用标企业数量排名前三的是榆林市、渭南市和安康市，分别有54、44和33家企业。用标企业数量排名前四的产品为：紫阳富硒茶、汉中仙毫、定边马铃薯和流曲琼锅糖，分别有29、18、17和17家企业。
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col -->
+
+                                    <div class="col-md-6">
+                                        <!-- Bar chart -->
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+                                                <!--<div id="bar-chart" style="height: 300px;"></div>-->
+                                                <div id="pieChart"  style="height: 300px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!-- interactive chart -->
+                                        <div class="box box-solid">
+
+                                            <div class="box-body">
+                                                <!--<div id="interactive" style="height: 400px;"></div>-->
+                                                <div id="fangkuai" style="height: 310px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </section>
+                        </div>
+                        <!-- 地标产品统计 -->
+                        <div class="tab-pane  "  style="width: 100%;/*min-height: 1024px;*/ " id="tab-product">
+                            <section class="content-header">
+                                <div class="row">
+                                    <div class="col-md-1 text-right " style="margin-top:  8px;font-size: 15px">行政区</div>
+                                    <div class="col-md-2" id="stationWrap">
+                                        <div class=" " style="position: relative; z-index: 1">
+                                            <button id="stationBtn" type="button" class="form-control btn dropdown-toggle btn-default"  data-toggle="dropdown" data-id="role" title="陕西省" style="position: relative;text-align: left;">
+                                                <input   id="station" name="station" type="hidden" ng-model="search.area">
+                                                <span class="filter-option pull-left" style="width: 80%;overflow: hidden;">陕西省</span>&nbsp;
+                                                <span class="caret" style="position: absolute;top: 12px;right: 10px;"></span>
+                                            </button>
+                                            <div id="stationPanel" class="tree-panel" style="display: none;width: 100%;position: absolute;left: 0px;border: 1px solid #d2d6de;border-radius: 4px;background-color: #fff;padding: 10px 5px;">
+                                                <input class="form-control" id="selectTree" value="" autocomplete="off" style="width: 90%; margin: 0 5%;"/>
+                                                <ul id="rptEmpTree0" class="ztree" style="height:200px;overflow-y:auto;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-md-offset-1 text-right " style="margin-top:  8px;font-size: 15px">批准年度</div>
+                                    <div class="col-md-2" id="approvalYear">
+                                        <!--class="form-control" ng-model="entity.categoryId" ng-options="  item.id as item.name for item in contentCategoryList"></select>-->
+                                        <select id="approvalYearSelect" class="form-control" ng-model="search.approvalYear" ng-options="  item for item in  approvalYear  ">
+                                            <option value="">全部</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1   col-md-offset-1 text-right " style="margin-top:  8px;font-size: 15px">产品分类</div>
+                                    <div class="col-md-2" id="classification">
+                                        <select id="classificationSelect" class="form-control"  ng-model="search.classification" ng-options=" item.classificationid as item.name for item in classification ">
+                                            <option value="">全部</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr style="filter: alpha(opacity=100,finishopacity=0,style=2);border-top: 1px solid #3c8dbc" width="99%"  size="2" />
+                            <section class="content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- Line chart -->
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+                                                <div id="Histogram"  style="height: 300px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col -->
+
+                                    <div class="col-md-6">
+                                        <!-- Bar chart -->
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+                                                <!--<div id="bar-chart" style="height: 300px;"></div>-->
+                                                <div id="pieArea"  style="height: 300px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!-- interactive chart -->
+                                        <div class="box box-solid">
+
+                                            <div class="box-body">
+                                                <!--<div id="interactive" style="height: 400px;"></div>-->
+                                                <div id="lineChartByYear" style="height: 330px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                                <hr style="filter: alpha(opacity=100,finishopacity=0,style=3);border-top: 1px solid #3c8dbc" width="99%"  size="2" />
+                                <!-- .box-body -->
+                                <div class="box ">
+                                    <div class="box-header with-border" style="text-align: center">
+                                        <h3 class="box-title" >相关地理标志产品信息</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <!-- 数据表格 -->
+                                        <div class="table-box">
+                                            <!--数据列表-->
+                                            <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                                                <thead>
+                                                <tr>
+                                                    <th class="sorting_asc">产品名称</th>
+                                                    <th class="sorting_desc">类别</th>
+                                                    <th class="sorting_asc sorting_asc_disabled">省份</th>
+                                                    <th class="sorting_desc sorting_desc_disabled">地市</th>
+                                                    <th class="sorting">区县</th>
+                                                    <th class="text-center sorting">批准公告</th>
+                                                    <th class="text-center">批准年份</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in records">
+                                                        <td>{{x.name}}</td>
+                                                        <td>{{x.classificationName}}</td>
+                                                        <td>{{x.provinceName}}</td>
+                                                        <td>{{x.cityName}}</td>
+                                                        <td>{{x.administrativeAreaName}}</td>
+                                                        <td>{{x.approvalAnnouncementNoProduct}}</td>
+                                                        <td>{{x.approvalYear}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--数据列表/-->
+                                        </div>
+                                        <!-- 数据表格 /-->
+                                    </div>
+                                    <!-- /.box-body -->
+                                    <!-- .box-footer-->
+                                    <div class="box-footer">
+                                        <div class="pull-left">
+                                            <div class="form-group form-inline" style="margin-top: 2px">
+                                                总共{{resultMap.queryResult.map.totalPages}} 页，共{{resultMap.queryResult.map.total}} 条数据。
+                                                <span>
+                                                    到第<input type="text" style="width: 30px" class="page-num" ng-model="currPageNo">页
+                                                    <button class="page-confirm" ng-click="queryByPage(currPageNo)">确定</button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="box-tools pull-right">
+                                            <ul class="pagination" style="margin:  0;">
+                                                <li>
+                                                    <a href="#" aria-label="Previous" ng-click="queryByPage(1)">首页</a>
+                                                </li>
+                                                <li class="prev {{isTopPage()?'disabled':''}}">
+                                                    <a href="#" ng-click="queryByPage(currPageNo - 1)">上一页</a>
+                                                </li>
+                                                <li class="dotted" ng-if="firstDot == true"><span>...</span></li>
+                                                <li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryByPage(p)">{{p}}</a></li>
+                                                <li class="dotted" ng-if="lastDot == true"><span>...</span></li>
+                                                <li class="next {{isEndPage()?'disabled':''}}">
+                                                    <a href="#"  ng-click="queryByPage(currPageNo + 1)">下一页</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" aria-label="Next"  ng-click="queryByPage(resultMap.queryResult.map.totalPages)">尾页</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <!-- .box-footer-->
+                                </div>
+                            </section>
+
+                        </div>
+                        <!-- 用标企业统计  -->
+                        <div class="tab-pane " id="tab-enterprise">
+                            <section class="content-header">
+                                <div class="row">
+                                    <div class="col-md-1 text-right " style="margin-top:  8px;font-size: 15px">行政区</div>
+                                    <div class="col-md-2" id="stationWrapEnt">
+                                        <div class=" " style="position: relative; z-index: 1">
+                                            <button id="stationBtnEnt" type="button" class="form-control btn dropdown-toggle btn-default"  data-toggle="dropdown" data-id="role" title="陕西省" style="position: relative;text-align: left;">
+                                                <input   id="stationEnt" name="stationEnt" type="hidden" ng-model="searchEnt.area">
+                                                <span class="filter-option pull-left" style="width: 80%;overflow: hidden;">陕西省</span>&nbsp;
+                                                <span class="caret" style="position: absolute;top: 12px;right: 10px;"></span>
+                                            </button>
+                                            <div id="stationPanelEnt" class="tree-panel" style="display: none;width: 100%;position: absolute;left: 0px;border: 1px solid #d2d6de;border-radius: 4px;background-color: #fff;padding: 10px 5px;">
+                                                <input class="form-control" id="selectTreeEnt" value="" autocomplete="off" style="width: 90%; margin: 0 5%;"/>
+                                                <ul id="rptEmpTree0Ent" class="ztree" style="height:200px;overflow-y:auto;"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-md-offset-1 text-right " style="margin-top:  8px;font-size: 15px">批准年度</div>
+                                    <div class="col-md-2" id="approvalYearEnt">
+                                        <!--class="form-control" ng-model="entity.categoryId" ng-options="  item.id as item.name for item in contentCategoryList"></select>-->
+                                        <select id="approvalYearSelectEnt" class="form-control" ng-model="searchEnt.approvalYear" ng-options="  item for item in  approvalYearEnt">
+                                            <option value="">全部</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 col-md-offset-1 text-right " style="margin-top:  8px;font-size: 15px">产品分类</div>
+                                    <div class="col-md-2" id="classificationEnt">
+                                        <select id="classificationSelectEnt" class="form-control" ng-model="searchEnt.classification" ng-options=" item.classificationid as item.name for item in classificationEnt">
+                                            <option value="">全部</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
+                            <hr style="filter: alpha(opacity=100,finishopacity=0,style=2);border-top: 1px solid #3c8dbc" width="99%"  size="2" />
+                            <section class="content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- Line chart -->
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+                                                <div id="HistogramEnt"  style="height: 300px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col -->
+
+                                    <div class="col-md-6">
+                                        <!-- Bar chart -->
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+                                                <!--<div id="bar-chart" style="height: 300px;"></div>-->
+                                                <div id="pieAreaEnt"  style="height: 300px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!-- interactive chart -->
+                                        <div class="box box-solid">
+
+                                            <div class="box-body">
+                                                <!--<div id="interactive" style="height: 400px;"></div>-->
+                                                <div id="lineChartByYearEnt" style="height: 330px; "></div>
+                                            </div>
+                                            <!-- /.box-body-->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="js/controller/ztree.js"></script>
+<script type="text/javascript" src="js/controller/ztreeEnt.js"></script>
+</html>

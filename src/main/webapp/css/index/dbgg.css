@@ -1,0 +1,58 @@
+.dbgg{
+	background: url("../img/ggbg.jpg") fixed  no-repeat;
+	background-size: cover;
+}
+
+.ggindex{
+	width:100%;
+	min-width:1200px;
+	min-height:200px;
+	background:#fff;
+	filter:alpha(Opacity=95);
+	background:rgba(255,255,255,0.95)!important;
+}
+.ggcnt{
+	width: 1000px;
+	margin: 0 auto;
+	position:relative;
+}
+.ggcnt .title{
+	display:block;
+	margin-left:30px;
+	font-size: 20px;
+	height:50px;
+	line-height:50px;
+	color:#009943;
+}
+.gglist{
+	text-align: center;
+	margin:0 auto;
+	width: 100%;
+	overflow:hidden;
+	overflow-y:auto;
+	min-height: 525px;
+}
+.gglist .gtable{
+	width: 960px;
+	font-size: 14px;
+	position:relative;
+	margin-left: 20px;
+}
+
+.gtable .table tr{
+	vertical-align: middle;
+	valign: middle;
+}
+
+.gglist .gtable tr td{
+	height: 35px;
+	padding: 5px;
+	padding-left:10px;
+	text-align: left;
+}
+.gglist .gtable .tr11{
+	background-color: #F2F7FB;
+}
+.gglist .gtable .tr2{
+	background: #fff;
+}

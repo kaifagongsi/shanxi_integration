@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kfgs.mapper.TbProductMapper" >
+    <resultMap id="BaseResultMap" type="com.kfgs.domain.TbProduct" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="classificationId" property="classificationid" jdbcType="VARCHAR" />
+        <result column="administrative_area" property="administrativeArea" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+        <result column="approval_year" property="approvalYear" jdbcType="VARCHAR" />
+        <result column="approval_authority_product" property="approvalAuthorityProduct" jdbcType="VARCHAR" />
+        <result column="approval_announcement_no_product" property="approvalAnnouncementNoProduct" jdbcType="VARCHAR" />
+        <result column="approval_announcement_no_product_all" property="approvalAnnouncementNoProductAll" jdbcType="VARCHAR" />
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+        <result column="preliminary_examination_body" property="preliminaryExaminationBody" jdbcType="VARCHAR" />
+        <result column="applicant_organization" property="applicantOrganization" jdbcType="VARCHAR" />
+        <result column="protection_scope" property="protectionScope" jdbcType="VARCHAR" />
+        <result column="document_defining_the_scope_of_protection" property="documentDefiningTheScopeOfProtection" jdbcType="VARCHAR" />
+        <result column="technical_specifications" property="technicalSpecifications" jdbcType="VARCHAR" />
+        <result column="use_of_special_signs" property="useOfSpecialSigns" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+    id, name, classificationId, administrative_area, create_time, isdelete, approval_year,
+    approval_authority_product, approval_announcement_no_product, approval_announcement_no_product_all,
+    province_name, city_name, preliminary_examination_body, applicant_organization, protection_scope,
+    document_defining_the_scope_of_protection, technical_specifications, use_of_special_signs
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbProductExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from tb_product
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_product
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.kfgs.domain.TbProductExample" >
+        delete from tb_product
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.kfgs.domain.TbProduct" >
+    insert into tb_product (id, name, classificationId,
+      administrative_area, create_time, isdelete,
+      approval_year, approval_authority_product,
+      approval_announcement_no_product, approval_announcement_no_product_all,
+      province_name, city_name, preliminary_examination_body,
+      applicant_organization, protection_scope,
+      document_defining_the_scope_of_protection, technical_specifications,
+      use_of_special_signs)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{classificationid,jdbcType=VARCHAR},
+      #{administrativeArea,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isdelete,jdbcType=INTEGER},
+      #{approvalYear,jdbcType=VARCHAR}, #{approvalAuthorityProduct,jdbcType=VARCHAR},
+      #{approvalAnnouncementNoProduct,jdbcType=VARCHAR}, #{approvalAnnouncementNoProductAll,jdbcType=VARCHAR},
+      #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{preliminaryExaminationBody,jdbcType=VARCHAR},
+      #{applicantOrganization,jdbcType=VARCHAR}, #{protectionScope,jdbcType=VARCHAR},
+      #{documentDefiningTheScopeOfProtection,jdbcType=VARCHAR}, #{technicalSpecifications,jdbcType=VARCHAR},
+      #{useOfSpecialSigns,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.kfgs.domain.TbProduct" >
+        insert into tb_product
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="classificationid != null" >
+                classificationId,
+            </if>
+            <if test="administrativeArea != null" >
+                administrative_area,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="isdelete != null" >
+                isdelete,
+            </if>
+            <if test="approvalYear != null" >
+                approval_year,
+            </if>
+            <if test="approvalAuthorityProduct != null" >
+                approval_authority_product,
+            </if>
+            <if test="approvalAnnouncementNoProduct != null" >
+                approval_announcement_no_product,
+            </if>
+            <if test="approvalAnnouncementNoProductAll != null" >
+                approval_announcement_no_product_all,
+            </if>
+            <if test="provinceName != null" >
+                province_name,
+            </if>
+            <if test="cityName != null" >
+                city_name,
+            </if>
+            <if test="preliminaryExaminationBody != null" >
+                preliminary_examination_body,
+            </if>
+            <if test="applicantOrganization != null" >
+                applicant_organization,
+            </if>
+            <if test="protectionScope != null" >
+                protection_scope,
+            </if>
+            <if test="documentDefiningTheScopeOfProtection != null" >
+                document_defining_the_scope_of_protection,
+            </if>
+            <if test="technicalSpecifications != null" >
+                technical_specifications,
+            </if>
+            <if test="useOfSpecialSigns != null" >
+                use_of_special_signs,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="classificationid != null" >
+                #{classificationid,jdbcType=VARCHAR},
+            </if>
+            <if test="administrativeArea != null" >
+                #{administrativeArea,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isdelete != null" >
+                #{isdelete,jdbcType=INTEGER},
+            </if>
+            <if test="approvalYear != null" >
+                #{approvalYear,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalAuthorityProduct != null" >
+                #{approvalAuthorityProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalAnnouncementNoProduct != null" >
+                #{approvalAnnouncementNoProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalAnnouncementNoProductAll != null" >
+                #{approvalAnnouncementNoProductAll,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null" >
+                #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null" >
+                #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="preliminaryExaminationBody != null" >
+                #{preliminaryExaminationBody,jdbcType=VARCHAR},
+            </if>
+            <if test="applicantOrganization != null" >
+                #{applicantOrganization,jdbcType=VARCHAR},
+            </if>
+            <if test="protectionScope != null" >
+                #{protectionScope,jdbcType=VARCHAR},
+            </if>
+            <if test="documentDefiningTheScopeOfProtection != null" >
+                #{documentDefiningTheScopeOfProtection,jdbcType=VARCHAR},
+            </if>
+            <if test="technicalSpecifications != null" >
+                #{technicalSpecifications,jdbcType=VARCHAR},
+            </if>
+            <if test="useOfSpecialSigns != null" >
+                #{useOfSpecialSigns,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.kfgs.domain.TbProductExample" resultType="java.lang.Integer" >
+        select count(*) from tb_product
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update tb_product
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.name != null" >
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.classificationid != null" >
+                classificationId = #{record.classificationid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.administrativeArea != null" >
+                administrative_area = #{record.administrativeArea,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null" >
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.isdelete != null" >
+                isdelete = #{record.isdelete,jdbcType=INTEGER},
+            </if>
+            <if test="record.approvalYear != null" >
+                approval_year = #{record.approvalYear,jdbcType=VARCHAR},
+            </if>
+            <if test="record.approvalAuthorityProduct != null" >
+                approval_authority_product = #{record.approvalAuthorityProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="record.approvalAnnouncementNoProduct != null" >
+                approval_announcement_no_product = #{record.approvalAnnouncementNoProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="record.approvalAnnouncementNoProductAll != null" >
+                approval_announcement_no_product_all = #{record.approvalAnnouncementNoProductAll,jdbcType=VARCHAR},
+            </if>
+            <if test="record.provinceName != null" >
+                province_name = #{record.provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cityName != null" >
+                city_name = #{record.cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.preliminaryExaminationBody != null" >
+                preliminary_examination_body = #{record.preliminaryExaminationBody,jdbcType=VARCHAR},
+            </if>
+            <if test="record.applicantOrganization != null" >
+                applicant_organization = #{record.applicantOrganization,jdbcType=VARCHAR},
+            </if>
+            <if test="record.protectionScope != null" >
+                protection_scope = #{record.protectionScope,jdbcType=VARCHAR},
+            </if>
+            <if test="record.documentDefiningTheScopeOfProtection != null" >
+                document_defining_the_scope_of_protection = #{record.documentDefiningTheScopeOfProtection,jdbcType=VARCHAR},
+            </if>
+            <if test="record.technicalSpecifications != null" >
+                technical_specifications = #{record.technicalSpecifications,jdbcType=VARCHAR},
+            </if>
+            <if test="record.useOfSpecialSigns != null" >
+                use_of_special_signs = #{record.useOfSpecialSigns,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update tb_product
+        set id = #{record.id,jdbcType=INTEGER},
+        name = #{record.name,jdbcType=VARCHAR},
+        classificationId = #{record.classificationid,jdbcType=VARCHAR},
+        administrative_area = #{record.administrativeArea,jdbcType=VARCHAR},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        isdelete = #{record.isdelete,jdbcType=INTEGER},
+        approval_year = #{record.approvalYear,jdbcType=VARCHAR},
+        approval_authority_product = #{record.approvalAuthorityProduct,jdbcType=VARCHAR},
+        approval_announcement_no_product = #{record.approvalAnnouncementNoProduct,jdbcType=VARCHAR},
+        approval_announcement_no_product_all = #{record.approvalAnnouncementNoProductAll,jdbcType=VARCHAR},
+        province_name = #{record.provinceName,jdbcType=VARCHAR},
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+        preliminary_examination_body = #{record.preliminaryExaminationBody,jdbcType=VARCHAR},
+        applicant_organization = #{record.applicantOrganization,jdbcType=VARCHAR},
+        protection_scope = #{record.protectionScope,jdbcType=VARCHAR},
+        document_defining_the_scope_of_protection = #{record.documentDefiningTheScopeOfProtection,jdbcType=VARCHAR},
+        technical_specifications = #{record.technicalSpecifications,jdbcType=VARCHAR},
+        use_of_special_signs = #{record.useOfSpecialSigns,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.kfgs.domain.TbProduct" >
+        update tb_product
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="classificationid != null" >
+                classificationId = #{classificationid,jdbcType=VARCHAR},
+            </if>
+            <if test="administrativeArea != null" >
+                administrative_area = #{administrativeArea,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isdelete != null" >
+                isdelete = #{isdelete,jdbcType=INTEGER},
+            </if>
+            <if test="approvalYear != null" >
+                approval_year = #{approvalYear,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalAuthorityProduct != null" >
+                approval_authority_product = #{approvalAuthorityProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalAnnouncementNoProduct != null" >
+                approval_announcement_no_product = #{approvalAnnouncementNoProduct,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalAnnouncementNoProductAll != null" >
+                approval_announcement_no_product_all = #{approvalAnnouncementNoProductAll,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null" >
+                province_name = #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null" >
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="preliminaryExaminationBody != null" >
+                preliminary_examination_body = #{preliminaryExaminationBody,jdbcType=VARCHAR},
+            </if>
+            <if test="applicantOrganization != null" >
+                applicant_organization = #{applicantOrganization,jdbcType=VARCHAR},
+            </if>
+            <if test="protectionScope != null" >
+                protection_scope = #{protectionScope,jdbcType=VARCHAR},
+            </if>
+            <if test="documentDefiningTheScopeOfProtection != null" >
+                document_defining_the_scope_of_protection = #{documentDefiningTheScopeOfProtection,jdbcType=VARCHAR},
+            </if>
+            <if test="technicalSpecifications != null" >
+                technical_specifications = #{technicalSpecifications,jdbcType=VARCHAR},
+            </if>
+            <if test="useOfSpecialSigns != null" >
+                use_of_special_signs = #{useOfSpecialSigns,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.kfgs.domain.TbProduct" >
+    update tb_product
+    set name = #{name,jdbcType=VARCHAR},
+      classificationId = #{classificationid,jdbcType=VARCHAR},
+      administrative_area = #{administrativeArea,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      approval_year = #{approvalYear,jdbcType=VARCHAR},
+      approval_authority_product = #{approvalAuthorityProduct,jdbcType=VARCHAR},
+      approval_announcement_no_product = #{approvalAnnouncementNoProduct,jdbcType=VARCHAR},
+      approval_announcement_no_product_all = #{approvalAnnouncementNoProductAll,jdbcType=VARCHAR},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      preliminary_examination_body = #{preliminaryExaminationBody,jdbcType=VARCHAR},
+      applicant_organization = #{applicantOrganization,jdbcType=VARCHAR},
+      protection_scope = #{protectionScope,jdbcType=VARCHAR},
+      document_defining_the_scope_of_protection = #{documentDefiningTheScopeOfProtection,jdbcType=VARCHAR},
+      technical_specifications = #{technicalSpecifications,jdbcType=VARCHAR},
+      use_of_special_signs = #{useOfSpecialSigns,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <!-- 自己增加的 -->
+    <select id="selectProductGroupByApprovalYear" resultType="java.util.HashMap">
+        select count(1),approval_year from tb_product group by approval_year
+    </select>
+    <select id="selectDistinctProductApprovalYear" resultType="java.lang.String">
+        select DISTINCT approval_year from tb_product
+    </select>
+
+    <select id="selectByIdInList" resultType="com.kfgs.domain.TbProduct">
+        select id,name from tb_product where id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectHistogramByPro" resultType="java.util.Map" >
+        select t1.city_id as area ,ifnull(t0.countNum,0) AS countNum from tb_administrative_area t1 LEFT JOIN  (
+        SELECT
+        <choose>
+            <when test="parentId ==null or parentId =='' or parentId == '610000' ">
+                SUBSTR(administrative_area , 1  ,4) as area,count(1)  as countNum from  tb_product  WHERE 1 = 1
+                <choose>
+                    <when test="parentId ==null or parentId ==''">
+                        and administrative_area !=  '610000'
+                    </when>
+                    <otherwise>
+                        and administrative_area !=  #{parentId}
+                    </otherwise>
+                </choose>
+
+
+            </when>
+            <otherwise>
+                <choose>
+                    <when test="parentId.lastIndexOf('00') > 0">
+                        administrative_area as area,count(1)  as countNum from  tb_product  WHERE 1 = 1 and administrative_area !=  #{parentId}
+                    </when>
+                    <otherwise>
+                        administrative_area as area,count(1)  as countNum from  tb_product  WHERE 1 = 1
+                    </otherwise>
+                </choose>
+
+            </otherwise>
+        </choose>
+        <if test="year != null and year != '' and year!='全部' ">
+            and  approval_year =#{year}
+        </if>
+        <if test="classification != null and classification != '' and classification!='0000' ">
+            and   classificationId   in (select classificationId from tb_classification where 1 = 1 and  parentId = #{classification})
+        </if>
+        <if test="parentId !=null and parentId !='' and  parentId != '610000' ">
+            <choose>
+                <when test=" parentId.lastIndexOf('00') > 0 ">
+                    and administrative_area in (select city_id  from  tb_administrative_area where parent_id = #{parentId})
+                </when>
+                <otherwise>
+                    and   administrative_area = #{parentId}
+                </otherwise>
+            </choose>
+        </if>
+
+        group by
+        <choose>
+            <when test="parentId ==null or parentId =='' or parentId == '610000' ">
+                SUBSTR(administrative_area , 1  ,4)
+            </when>
+            <otherwise>
+                administrative_area
+            </otherwise>
+        </choose>
+
+        ) t0 on
+        <choose>
+            <when test="parentId ==null or parentId =='' or parentId == '610000'">
+                SUBSTR(t1.city_id, 1, 4) = t0.area
+            </when>
+            <otherwise>
+                t1.city_id = t0.area
+            </otherwise>
+        </choose>
+
+
+        where 1 = 1
+        <choose>
+            <when test="parentId ==null or parentId =='' or parentId == '610000'">
+                and t1.city_id in (select city_id  from  tb_administrative_area where parent_id = '610000')
+            </when>
+            <otherwise>
+                <choose>
+                    <when test="parentId.lastIndexOf('00') > 0">
+                        and t1.parent_id = #{parentId}
+                    </when>
+                    <otherwise>
+                        and t1.city_id = #{parentId}
+                    </otherwise>
+                </choose>
+
+            </otherwise>
+        </choose>
+        order by  countNum
+
+
+    </select>
+
+    <select id="selectPieAreaData" resultType="java.util.Map">
+        SELECT
+        SUBSTR(classificationId FROM 1 FOR 2) as pieArea,
+        count(1)
+        FROM
+        tb_product
+        where 1 = 1
+        <if test="year != null and year != '' and year!='全部' ">
+            and  approval_year =#{year}
+        </if>
+        <if test="classification != null and classification != '' and classification!='0000' ">
+            and   classificationId   in (select classificationId from tb_classification where parentId = #{classification})
+        </if>
+        <if test="parentId !=null and parentId !='' and  parentId != '610000' ">
+            <choose>
+                <when test=" parentId.lastIndexOf('00') > 0 ">
+                    and administrative_area in (select city_id  from  tb_administrative_area where parent_id = #{parentId})
+                </when>
+                <otherwise>
+                    and   administrative_area = #{parentId}
+                </otherwise>
+            </choose>
+        </if>
+        GROUP BY
+        SUBSTR(classificationId FROM 1 FOR 2)
+        ORDER BY
+        count(1) desc
+    </select>
+
+    <select id="selectLineChartByYear" resultType="java.util.Map">
+        SELECT
+        approval_year as years,COUNT(1)
+        FROM
+        tb_product
+        WHERE  1 = 1
+        <if test="classification != null and classification != '' and classification!='0000' ">
+            and   classificationId   in (select classificationId from tb_classification where parentId = #{classification})
+        </if>
+        <if test="parentId !=null and parentId !='' and  parentId != '610000' ">
+            <choose>
+                <when test=" parentId.lastIndexOf('00') > 0 ">
+                    and administrative_area in (select city_id  from  tb_administrative_area where parent_id = #{parentId})
+                </when>
+                <otherwise>
+                    and   administrative_area = #{parentId}
+                </otherwise>
+            </choose>
+        </if>
+        GROUP BY
+        approval_year
+        ORDER BY
+        approval_year
+    </select>
+
+    <select id="selectListSecondTable" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        from
+        tb_product
+        where
+        1 = 1
+        <if test="year != null and year != '' and year!='全部' ">
+            and  approval_year =#{year}
+        </if>
+        <if test="classification != null and classification != '' and classification!='0000' ">
+            and   classificationId   in (select classificationId from tb_classification where 1 = 1 and  parentId = #{classification})
+        </if>
+        <if test="parentId !=null and parentId !='' and  parentId != '610000' ">
+            <choose>
+                <when test=" parentId.lastIndexOf('00') > 0 ">
+                    and administrative_area in (select city_id  from  tb_administrative_area where parent_id = #{parentId})
+                </when>
+                <otherwise>
+                    and   administrative_area = #{parentId}
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
+    <select id="selectListSecondTableByExt" resultType="com.kfgs.domain.ext.TbProductExt">
+        SELECT
+        t0.city_name as cityName,t0.province_name as provinceName,t0.approval_announcement_no_product as approvalAnnouncementNoProduct,
+        t0.name as name,t0.approval_year as approvalYear,t0.classificationId as classificationid, (
+        SELECT
+        t1. NAME
+        FROM
+        tb_administrative_area t1
+        WHERE
+        t0.administrative_area = t1.city_id
+        ) AS administrativeAreaName,
+        (
+        SELECT
+        t2. NAME
+        FROM
+        tb_classification t2
+        WHERE
+        t2.parentId = '0000'
+        AND SUBSTR(
+        t0.classificationId
+        FROM
+        1 FOR 2
+        ) = substr(t2.classificationId, 1, 2)
+        ) AS classificationName
+        FROM
+        tb_product t0
+        where 1 = 1
+        <if test="year != null and year != '' and year!='全部' ">
+            and  approval_year =#{year}
+        </if>
+        <if test="classification != null and classification != '' and classification!='0000' ">
+            and   classificationId   in (select classificationId from tb_classification where 1 = 1 and  parentId = #{classification})
+        </if>
+        <if test="parentId !=null and parentId !='' and  parentId != '610000' ">
+            <choose>
+                <when test=" parentId.lastIndexOf('00') > 0 ">
+                    and administrative_area in (select city_id  from  tb_administrative_area where parent_id = #{parentId})
+                </when>
+                <otherwise>
+                    and   administrative_area = #{parentId}
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
+    <select id="selectByIdAndName" resultType="java.util.Map">
+        select  id,name from   tb_product
+    </select>
+
+    <select id="getList"  resultType="com.kfgs.domain.ext.TbProductExt"  parameterType="com.kfgs.domain.TbProductExample" >
+        SELECT
+        t0.id as id,t0.approval_announcement_no_product as approvalAnnouncementNoProduct,t0.protection_scope as protectionScope,
+        t0.name as name,t0.approval_year as approvalYear,t0.approval_authority_product as approvalAuthorityProduct,
+        CONCAT(province_name,city_name) AS administrativeAreaName,
+        (
+        SELECT
+        t2. NAME
+        FROM
+        tb_classification t2
+        WHERE
+        t2.parentId = '0000'
+        AND SUBSTR(
+        t0.classificationId
+        FROM
+        1 FOR 2
+        ) = substr(t2.classificationId, 1, 2)
+        ) AS classificationName
+        FROM
+        tb_product t0
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+</mapper>

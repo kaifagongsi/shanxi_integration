@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kfgs.mapper.TbClassficationCountryMapper" >
+  <resultMap id="BaseResultMap" type="com.kfgs.domain.TbClassficationCountry" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="rootId" property="rootid" jdbcType="VARCHAR" />
+    <result column="classificationId" property="classificationid" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentid" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="reserve" property="reserve" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, rootId, classificationId, parentId, content, create_time, isdelete, level, 
+    reserve
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbClassficationCountryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_classfication_country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_classfication_country
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_classfication_country
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kfgs.domain.TbClassficationCountryExample" >
+    delete from tb_classfication_country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kfgs.domain.TbClassficationCountry" >
+    insert into tb_classfication_country (id, name, rootId, 
+      classificationId, parentId, content, 
+      create_time, isdelete, level, 
+      reserve)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{rootid,jdbcType=VARCHAR}, 
+      #{classificationid,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isdelete,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, 
+      #{reserve,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kfgs.domain.TbClassficationCountry" >
+    insert into tb_classfication_country
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="rootid != null" >
+        rootId,
+      </if>
+      <if test="classificationid != null" >
+        classificationId,
+      </if>
+      <if test="parentid != null" >
+        parentId,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="reserve != null" >
+        reserve,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="rootid != null" >
+        #{rootid,jdbcType=VARCHAR},
+      </if>
+      <if test="classificationid != null" >
+        #{classificationid,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        #{reserve,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kfgs.domain.TbClassficationCountryExample" resultType="java.lang.Integer" >
+    select count(*) from tb_classfication_country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_classfication_country
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rootid != null" >
+        rootId = #{record.rootid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classificationid != null" >
+        classificationId = #{record.classificationid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        parentId = #{record.parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdelete != null" >
+        isdelete = #{record.isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve != null" >
+        reserve = #{record.reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_classfication_country
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      rootId = #{record.rootid,jdbcType=VARCHAR},
+      classificationId = #{record.classificationid,jdbcType=VARCHAR},
+      parentId = #{record.parentid,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      isdelete = #{record.isdelete,jdbcType=INTEGER},
+      level = #{record.level,jdbcType=VARCHAR},
+      reserve = #{record.reserve,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kfgs.domain.TbClassficationCountry" >
+    update tb_classfication_country
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="rootid != null" >
+        rootId = #{rootid,jdbcType=VARCHAR},
+      </if>
+      <if test="classificationid != null" >
+        classificationId = #{classificationid,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve != null" >
+        reserve = #{reserve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kfgs.domain.TbClassficationCountry" >
+    update tb_classfication_country
+    set name = #{name,jdbcType=VARCHAR},
+      rootId = #{rootid,jdbcType=VARCHAR},
+      classificationId = #{classificationid,jdbcType=VARCHAR},
+      parentId = #{parentid,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      isdelete = #{isdelete,jdbcType=INTEGER},
+      level = #{level,jdbcType=VARCHAR},
+      reserve = #{reserve,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

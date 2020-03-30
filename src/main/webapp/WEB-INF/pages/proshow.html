@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>使用地标企业 - 中国▪陕西地理标志保护产品</title>
+    <meta content="陕西地理标志保护产品,陕西地理标志保护产品,产品,地理,保护,标志,地理标志,地理标志保护,地理标志保护产品,茶,酒,果蔬,养殖,中药材,经济作物,地方特种,地方特色食品,食品,工艺品" name="keywords" />
+    <meta content="" name="description" />
+    <script src="../../js/jquery-1.8.3.js"></script>
+</head>
+<body class="syqy">
+<div>
+    <!--top-->
+    <link rel="stylesheet" type="text/css" href="../../css/index/dbcp.css">
+    <link rel="stylesheet" type="text/css" href="../../css/index/cmsstyle.css">
+    <link href="../../css/index/atlas.css" rel="stylesheet"/>
+
+    <!-- custom scrollbar plugin -->
+    <link rel="stylesheet" type="text/css" href="../../css/index/jquery.mCustomScrollbar.css" />
+    <script src="../../js/index/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript" src="../../js/index/mcomm.js"></script>
+    <div class="headerbg">
+        <div class="header">
+            <div class="logo"></div>
+            <div class="nav">
+                <ul>
+                    <li class="current"><a href="http://172.17.1.249:9103/page/index.do" target="_self">首 页</a></li>
+                    <li><a href="http://172.17.1.249:9103/page/dbcpzs.do" target="_self" title="地标产品展示">地标产品展示</a></li>
+                    <li><a href="http://172.17.1.249:9103/page/sydbqy.do" target="_self" title="使用地标企业">使用地标企业</a></li>
+                    <li><a href="http://172.17.1.249:9103/Statistics.html" target="_self" title="地标产品统计">地标产品统计</a></li>
+                    <li><a href="http://172.17.1.249:9103/index.html" target="_self" title="地标保护公告">地标保护公告</a></li>
+                    <li><a href="http://172.17.1.249:9103/guideBook.html" target="_self" title="地标申报指南">地标申报指南</a></li>
+                    <li><a href="http://172.17.1.249:9103/policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
+                    <li><a href="http://172.17.1.249:9103/productIntroduction.html" target="_self" title="地标产品介绍">地标产品介绍</a></li>
+                </ul>
+                <a href="http://www.patviewer.com/" target="_blank"><label class="showSearch" title="搜索"></label></a>
+            </div>
+        </div>
+        <div class="search" style="display:none;">
+            <div class="smtt query">
+                <div style="width: 1200px;margin:0 auto;position:relative;height:65px;line-height:65px">
+                    <div id="searchmain" style="position:relative;float:right;margin-top:22px;margin-right:10px;">
+                        <form action="/dbcp/query.jsp" name="search" id="search" method="post" onsubmit="return checkval();">
+                            <input type="text" value="请输入关键词" onfocus="if(this.value=='请输入关键词')this.value=''" onblur="if(this.value=='')this.value='请输入关键词'" autocomplete="off" name="q"/>
+                            <input type="submit" class="sbutton" value="" title="开始搜索">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function checkval(){
+            if($("input[name='q']").val()=="请输入关键词"||$("input[name='q']").val()==""){
+                alert("请输入关键词!");
+                $("input[name='q']").focus();
+                return false;
+            }
+            return true;
+        }
+        $(".showSearch").on("click", function(e){
+            $("input[name='q']").blur();
+            $(".search").show();
+            $(document).on("click", function(){
+                $("input[name='q']").val("");
+                $(".search").hide();
+            });
+            e.stopPropagation();
+        });
+        $("#searchmain").on("click", function(e){
+            e.stopPropagation();
+        });
+    </script>		<!--/top-->
+
+    <div class="bztitle"></div>
+    <div class="ctnindex">
+        <div class="qycnt">
+            <div class="query" style="float:right;height:45px;line-height: 42px;margin-right: 15px; ">
+                <form id="docQform" action="/dbcp/sydbqy/query.jsp"  method="post" onsubmit="return checkvalqy();">
+                    <!--<input type="text" name="qv" value="请输入产品名称或企业名称"
+                    onfocus="if(this.value=='请输入产品名称或企业名称')this.value=''" onblur="if(this.value=='')this.value='请输入产品名称或企业名称'" autocomplete="off">-->
+                    <input style="visibility:hidden" class="button" type="submit" value="查询">
+                </form>
+            </div>
+            <div class="listth">
+                <table cellspacing="0" cellpadding="0">
+                    <tr valign="middle">
+                        <td class="th" width="50px;">序号</td>
+                        <td class="th" width="100px;">产品名称</td>
+                        <td class="th" width="100px;">企业名称</td>
+                        <td class="th" width="100px;">地 址</td>
+                        <td class="th" width="100px;">商 标</td>
+                        <td class="th" width="60px;">批 次</td>
+                        <td class="th" width="180px;">核准使用公告号</td>
+                        <td class="th" width="80px;">核准时间</td>
+                        <td class="th" width="150px">核准单位</td>
+                        <td class="th" width="80px;">有效期限</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="qylist">
+                <table cellspacing="0" cellpadding="0">
+                    <tr class="tr1">
+                        <td width="50px;">1</td>
+                        <td width="100px;">贵州茅台酒</td>
+                        <td width="100px;">贵州茅台酒股份有限公司</td>
+                        <td width="100px;">贵州省仁怀市茅台镇</td>
+                        <td width="100px;"></td>
+                        <td width="60px;"></td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2003年第16号）</td>
+                        <td width="80px;">2003-03-24</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">2</td>
+                        <td width="100px;">凤冈富锌富硒茶</td>
+                        <td width="100px;">凤冈县仙人岭有机茶厂</td>
+                        <td width="100px;">永安镇田坝村</td>
+                        <td width="100px;">仙人岭</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第175号)</td>
+                        <td width="80px;">2006-11-30</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">3</td>
+                        <td width="100px;">凤冈富锌富硒茶</td>
+                        <td width="100px;">贵州省凤冈县龙江有机茶叶有限公司</td>
+                        <td width="100px;">永安镇田坝村</td>
+                        <td width="100px;">浪竹</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第175号)</td>
+                        <td width="80px;">2006-11-30</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">4</td>
+                        <td width="100px;">凤冈富锌富硒茶</td>
+                        <td width="100px;">贵州省凤冈县锌硒茶叶有限公司</td>
+                        <td width="100px;">永安镇田坝村</td>
+                        <td width="100px;">万佛缘</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第175号)</td>
+                        <td width="80px;">2006-11-30</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">5</td>
+                        <td width="100px;">凤冈富锌富硒茶</td>
+                        <td width="100px;">贵州凤冈黔风有机茶叶有限公司</td>
+                        <td width="100px;">永安镇田坝村</td>
+                        <td width="100px;">春江花月夜</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第175号)</td>
+                        <td width="80px;">2006-11-30</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">6</td>
+                        <td width="100px;">余庆苦丁茶</td>
+                        <td width="100px;">余庆七砂绿色产业开发有限责任公司</td>
+                        <td width="100px;">白泥镇中华北路9号</td>
+                        <td width="100px;">山绿丹、绿色金子</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第79号)</td>
+                        <td width="80px;">2006-05-31</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">7</td>
+                        <td width="100px;">余庆苦丁茶</td>
+                        <td width="100px;">义世纪阳光茶业有限责任公司</td>
+                        <td width="100px;">白泥镇世纪阳光绿色产业园</td>
+                        <td width="100px;">雨贞</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第79号)</td>
+                        <td width="80px;">2006-05-31</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">8</td>
+                        <td width="100px;">余庆苦丁茶</td>
+                        <td width="100px;">贵州余庆小叶苦丁茶业有限责任公司</td>
+                        <td width="100px;">白泥镇中华中路33号</td>
+                        <td width="100px;">春、夏、秋、冬</td>
+                        <td width="60px;">第三批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第211号）</td>
+                        <td width="80px;">2007-12-26</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">9</td>
+                        <td width="100px;">余庆苦丁茶</td>
+                        <td width="100px;">余庆构皮滩供销社</td>
+                        <td width="100px;">构皮滩镇</td>
+                        <td width="100px;">构皮滩</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第79号)</td>
+                        <td width="80px;">2006-05-31</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">10</td>
+                        <td width="100px;">余庆苦丁茶</td>
+                        <td width="100px;">余庆狮山香茗茶场</td>
+                        <td width="100px;">白泥镇中华中路5号</td>
+                        <td width="100px;">富源春</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告(2006年第79号)</td>
+                        <td width="80px;">2006-05-31</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">11</td>
+                        <td width="100px;">凤冈富锌富硒茶</td>
+                        <td width="100px;">贵州寸心草有机茶叶有限公司</td>
+                        <td width="100px;">贵州省风冈县绥阳镇金鸡村</td>
+                        <td width="100px;">寸心草</td>
+                        <td width="60px;">第二批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2008年第93号）</td>
+                        <td width="80px;">2008-08-27</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">12</td>
+                        <td width="100px;">梵净山翠峰茶</td>
+                        <td width="100px;">印江土家族苗族自治县新业钻天井茶场</td>
+                        <td width="100px;">贵州省印江县新业乡凉风坳</td>
+                        <td width="100px;">新秀</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第93号）</td>
+                        <td width="80px;">2007-06-18</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">13</td>
+                        <td width="100px;">梵净山翠峰茶</td>
+                        <td width="100px;">印江土家族苗族自治县梵净山团龙茶场</td>
+                        <td width="100px;">贵州省印江县永义乡团龙村</td>
+                        <td width="100px;">蘑菇岩</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第93号）</td>
+                        <td width="80px;">2007-06-18</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">14</td>
+                        <td width="100px;">梵净山翠峰茶</td>
+                        <td width="100px;">印江土家族苗族自治县新寨茶场</td>
+                        <td width="100px;">贵州省印江县新寨乡后坝村代家组</td>
+                        <td width="100px;">黔栗香</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第93号）</td>
+                        <td width="80px;">2007-06-18</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">15</td>
+                        <td width="100px;">梵净山翠峰茶</td>
+                        <td width="100px;">印江土家族苗族自治县洋溪镇茶场</td>
+                        <td width="100px;">贵州省印江县洋溪镇蒋家坝村</td>
+                        <td width="100px;">梵绿</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第93号）</td>
+                        <td width="80px;">2007-06-18</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">16</td>
+                        <td width="100px;">梵净山翠峰茶</td>
+                        <td width="100px;">印江土家族苗族自治县云峰茶叶有限责任公司</td>
+                        <td width="100px;">贵州省印江县西环开发区</td>
+                        <td width="100px;">云峰</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第93号）</td>
+                        <td width="80px;">2007-06-18</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">17</td>
+                        <td width="100px;">梵净山翠峰茶</td>
+                        <td width="100px;">贵州省印江县银辉茶叶有限责任公司</td>
+                        <td width="100px;">贵州省印江县缠溪镇湄溪村</td>
+                        <td width="100px;">Meixi</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第93号）</td>
+                        <td width="80px;">2007-06-18</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">18</td>
+                        <td width="100px;">梵净山翠峰茶</td>
+                        <td width="100px;">贵州省印江土家族苗族自治县净团茶叶有限公司</td>
+                        <td width="100px;">贵州省印江县昌园路27号</td>
+                        <td width="100px;">净团</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2007年第93号）</td>
+                        <td width="80px;">2007-06-18</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr1">
+                        <td width="50px;">19</td>
+                        <td width="100px;">沙子空心李</td>
+                        <td width="100px;">沿河土家族自治县天然富硒绿色食品开发有限公司</td>
+                        <td width="100px;">贵州省沿河县沙子镇新沙村</td>
+                        <td width="100px;">天赋</td>
+                        <td width="60px;">第一批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2008年第121号）</td>
+                        <td width="80px;">2008-10-31</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                    <tr class="tr2">
+                        <td width="50px;">20</td>
+                        <td width="100px;">沙子空心李</td>
+                        <td width="100px;">沿河土家族自治县沙子空心李农民专业合作社</td>
+                        <td width="100px;">贵州省沿河县沙子镇场上</td>
+                        <td width="100px;">沙子场空心</td>
+                        <td width="60px;">第二批</td>
+                        <td width="180px;">国家质量监督检验检疫总局公告（2011年第101号）</td>
+                        <td width="80px;">2011-07-06</td>
+                        <td width="150px">国家质检总局</td>
+                        <td width="80px;">长期</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="pagebar" style="margin-top: 0;height: 46px;line-height: 46px;">
+                <div class="pmsPage">
+                    共有227条&nbsp;
+                    每页20条&nbsp;
+                    第1页/共12页&nbsp;&nbsp;
+                    <a  class="disabled">&lt; 上一页</a>
+
+
+                    <a class="current">1</a>
+
+
+                    <a href="index_2.html">2</a>
+                    <a href="index_3.html">3</a>
+                    <a href="index_4.html">4</a>
+                    <a href="index_5.html">5</a>
+                    ...
+                    <a href="index_11.html">11</a>
+                    <a href="index_12.html">12</a>
+
+
+                    <a href="index_2.html" >下一页 &gt;</a>
+                </div>
+            </div>
+            <div class=""  style="height: 3px;"></div>
+        </div>
+    </div>
+
+    <!--footer-->
+    <div class="footer">
+        <span style="margin-top: 2px;display: block;"></span>
+    </div>		<!--/footer-->
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        cobj=$(".qylist");
+        minus=345;
+        setContent();
+        $(window).resize(setContent);
+        $(".qylist").mCustomScrollbar({theme:"3d-dark"});
+    });
+
+    function checkvalqy(){
+        if($("input[name='qv']").val()=="请输入产品名称或企业名称"){
+            alert("请输入产品名称或企业名称!");
+            $("input[name='qv']").focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

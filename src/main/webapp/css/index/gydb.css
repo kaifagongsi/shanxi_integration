@@ -1,0 +1,31 @@
+.gydbcp{
+	background: url("../img/gybg.jpg") fixed  no-repeat;
+	background-size: cover;
+}
+/**
+
+**/
+
+.gycnt{
+	width: 1000px;
+	margin: 0 auto;
+	position:relative;
+}
+.gycnt .title{
+	display:block;
+	margin-left:30px;
+	font-size: 20px;
+	height:20px;
+	line-height:20px;
+	color:#009943;
+}
+.gym{
+	text-align: left;
+	overflow:hidden;
+	overflow-y:auto;
+}
+.gym p{
+	margin-left:30px;
+	text-align: left;
+}
+

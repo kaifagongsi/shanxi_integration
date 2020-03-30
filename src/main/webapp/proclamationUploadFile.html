@@ -1,0 +1,64 @@
+﻿<!doctype html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>中国▪陕西地理标志保护产品</title>
+    <meta content="陕西地理标志保护产品,陕西地理标志保护产品,产品,地理,保护,标志,地理标志,地理标志保护,地理标志保护产品,茶,酒,果蔬,养殖,中药材,经济作物,地方特种,地方特色食品,食品,工艺品" name="keywords" />
+    <meta content="" name="description" />
+
+    <link rel="stylesheet" type="text/css" href="css/index/owl.carousel.css" />
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+
+    <script src="js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="js/index/home.js"></script>
+    <script type="text/javascript" src="js/index/owl.carousel.js"></script>
+
+    <script type="text/javascript" src="plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="plugins/ckeditor/config.js"></script>
+
+    <!--  导入angularjs  -->
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="js/proclamationBase.js"></script>
+    <script type="text/javascript" src="js/service/proclamationService.js"></script>
+    <script type="text/javascript" src="js/controller/proclamationController.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            CKEDITOR.replace('content');
+        });
+    </script>
+</head>
+
+<body ng-app="shanxi-proclamation" ng-controller="proclamationController" >
+<form ng-submit="onsubmit(regForm.value)" novalidate #regForm="ngForm">
+    <div align="center"  ><h1>文件详情页面</h1></div>
+    <div style="padding-top: 10px;">
+        <span><p>文件类型：&nbsp;&nbsp;&nbsp;&nbsp;
+            <select id="fileType" style="width: 200px;height: 27px;">
+                <option value="公告">公告</option>
+                <option value="政策">政策</option>
+            </select></p>
+        </span>
+        <span><p>文件标题：&nbsp;&nbsp;&nbsp;&nbsp;
+            <input id="title" style="width:800px;height:32px;" type="text" value="" ng-model="title" name="title" /></p>
+        </span>
+        <div align="center" style="padding-top: 7px;">
+            <textarea id="TextArea1" ng-model="content" name="content" cols="20" rows="2" class="ckeditor" ></textarea>
+        </div>
+        <div align="center" style="padding-top: 15px;">
+            <input  type="button" ng-click="upload()" style="width: 80px;height: 35px;" value="提交" />
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    function buttonSubmit() {
+        alert("走到方法")
+        var a=CKEDITOR.instances.TextArea1.getData();
+        alert(a);
+    }
+
+</script>
+</body>
+</html>

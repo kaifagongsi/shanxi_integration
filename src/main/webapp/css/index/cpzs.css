@@ -1,0 +1,84 @@
+.cpzs{
+	background: url("../../img/index/indexbg2.jpg") fixed  no-repeat;
+	background-size: cover;
+}
+.cpindex{
+	width:1110px;
+	height:505px;
+	left:50%;
+	top:50%;
+	margin-left:-555px;
+	margin-top:-235px;
+	position:absolute;
+	overflow:hidden;
+	padding: 0;
+}
+
+/*切换样式*/
+.home_ad{width:1110px;overflow:hidden;margin:20px auto;}
+.home_ad .picScroll-left{width:1110px;position:relative;}
+.home_ad .picScroll-left .ad_title{
+	height:60px;width:1108px;overflow:hidden;
+	top:50%;
+	margin-top:-30px;
+	position: absolute;z-index: 0;
+}
+.home_ad .picScroll-left .ad_title span{float:left;font-size:20px;color:red;}
+.home_ad .picScroll-left .ad_title .hd{margin:0 auto;height:60px;width:100%;position: relative;}
+.home_ad .picScroll-left .ad_title .hd a{cursor:pointer;width:60px;height:60px;display:block;position:absolute;}
+.home_ad .picScroll-left .ad_title .hd a.next{background:url("../../img/index/cpright1.png") center center no-repeat;background-size: cover;right:0px;float: right;}
+.home_ad .picScroll-left .ad_title .hd a.prev{background:url("../../img/index/cpleft1.png") center center no-repeat;background-size: cover;left:0px;float: left;}
+.home_ad .picScroll-left .ad_title .hd a.next:hover{background:url("../../img/index/cpright2.png") center center no-repeat;background-size: cover;}
+.home_ad .picScroll-left .ad_title .hd a.prev:hover{background:url("../../img/index/cpleft2.png") center center no-repeat;background-size: cover;}
+.home_ad .picScroll-left .ad_title .hd a.prevStop{cursor:not-allowed;}
+.home_ad .picScroll-left .ad_title .hd a.nextStop{cursor:not-allowed;}
+.home_ad .picScroll-left .ad_title .hd a.prevStop:hover{background:url("../../img/index/cpleft1.png") center center no-repeat;background-size: cover;}
+.home_ad .picScroll-left .ad_title .hd a.nextStop:hover{background:url("../../img/index/cpright1.png") center center no-repeat;background-size: cover;}
+.home_ad .picScroll-left .ad_title .hd ul{height: 40px;margin-left: 60px;}
+.home_ad .picScroll-left .ad_title .hd ul li{text-indent:-9999px;margin-left:10px;display:inline;float:left;width:23px;height:40px;cursor:pointer;background:url("../../img/index/pagenation.jpg") no-repeat center;}
+.home_ad .picScroll-left .ad_title .hd ul li.on{background:url("../../img/index/pagenation-current.jpg") no-repeat center;}
+
+.home_ad .picScroll-left .bd{width:968px;height:482px;padding:0;margin: auto auto;position: relative;z-index: 1;}
+.home_ad .picScroll-left .bd .picList li{float:left;display:inline;padding:6px;position:relative;}
+.home_ad .picScroll-left .bd ul{overflow:hidden;zoom:1;}
+.home_ad .picScroll-left .bd ul li{float:left;_display:inline;overflow:hidden;text-align:center;}
+.home_ad .picScroll-left .bd ul li{text-align:center;}
+.home_ad .picScroll-left .bd ul .ad{height: 473px;width:230px;position:relative;
+	background:rgba(255,255,255,0.9)!important;
+	background: #fff;filter:alpha(Opacity=90);
+}
+.home_ad .picScroll-left .bd ul .ad .tl{position: absolute;color: #fff;font-size: 24px;margin-left:10px;margin-top: 160px; }
+.home_ad .picScroll-left .bd ul .ad .cplist{margin-top:15px;width:233px;height: 226px;overflow-y:auto;overflow-x:hidden;text-align: left;}
+.home_ad .picScroll-left .bd ul .ad .cplist p{width:219px;margin-left: 5px;overflow:hidden;}
+/*
+.home_ad .picScroll-left .bd ul .ad .cplist a{
+	border: 1px solid;margin: 5px;float: left;padding: 4px;color:#444;
+	display:inline-block;
+    border: 1px solid #999;
+    font-size:13px;
+    background:#fff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	text-decoration: none;
+}*/
+
+.home_ad .picScroll-left .bd ul .ad .cplist a{
+	margin: 5px;
+	padding:8px 4px;
+	color:#444;
+	color:#3DB14E;
+	display:block;
+    border: 0px solid #999;
+    font-size:18px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	text-decoration: none;
+	text-align: center;
+}
+.home_ad .picScroll-left .bd ul .ad .cplist a:hover{background: #3DB14E;color: #fff;border-color:#3DB14E;text-decoration: none;}
+.home_ad .picScroll-left .bd ul li img{width:230px;height:220px;display:block;padding:0;border: 0;}
+

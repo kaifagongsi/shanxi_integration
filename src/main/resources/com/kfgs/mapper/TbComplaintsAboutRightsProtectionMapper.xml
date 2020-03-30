@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kfgs.mapper.TbComplaintsAboutRightsProtectionMapper" >
+  <resultMap id="BaseResultMap" type="com.kfgs.domain.TbComplaintsAboutRightsProtection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="object_of_complaint" property="objectOfComplaint" jdbcType="VARCHAR" />
+    <result column="details_of_complaints" property="detailsOfComplaints" jdbcType="VARCHAR" />
+    <result column="amount_of_complaint" property="amountOfComplaint" jdbcType="DOUBLE" />
+    <result column="path_of_evidence_upload" property="pathOfEvidenceUpload" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="handling_situation" property="handlingSituation" jdbcType="VARCHAR" />
+    <result column="complainant" property="complainant" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, object_of_complaint, details_of_complaints, amount_of_complaint, path_of_evidence_upload, 
+    state, handling_situation, complainant, contact, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtectionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_complaints_about_rights_protection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_complaints_about_rights_protection
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_complaints_about_rights_protection
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtectionExample" >
+    delete from tb_complaints_about_rights_protection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+
+    <insert id="insertComplain" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtection" useGeneratedKeys="true" keyProperty="id">
+        <!--<selectKey  keyProperty="id" order="AFTER" resultType="int">
+          select LAST_INSERT_ID()
+        </selectKey>-->
+        insert into tb_complaints_about_rights_protection (object_of_complaint, details_of_complaints,
+        amount_of_complaint, path_of_evidence_upload,
+        state, handling_situation, complainant,
+        contact, create_time)
+        values (#{objectOfComplaint,jdbcType=VARCHAR}, #{detailsOfComplaints,jdbcType=VARCHAR},
+        #{amountOfComplaint,jdbcType=DOUBLE}, #{pathOfEvidenceUpload,jdbcType=VARCHAR},
+        #{state,jdbcType=VARCHAR}, #{handlingSituation,jdbcType=VARCHAR}, #{complainant,jdbcType=VARCHAR},
+        #{contact,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+
+  <insert id="insert" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtection" >
+    insert into tb_complaints_about_rights_protection (id, object_of_complaint, details_of_complaints, 
+      amount_of_complaint, path_of_evidence_upload, 
+      state, handling_situation, complainant, 
+      contact, create_time)
+    values (#{id,jdbcType=INTEGER}, #{objectOfComplaint,jdbcType=VARCHAR}, #{detailsOfComplaints,jdbcType=VARCHAR}, 
+      #{amountOfComplaint,jdbcType=DOUBLE}, #{pathOfEvidenceUpload,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{handlingSituation,jdbcType=VARCHAR}, #{complainant,jdbcType=VARCHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtection" >
+    insert into tb_complaints_about_rights_protection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="objectOfComplaint != null" >
+        object_of_complaint,
+      </if>
+      <if test="detailsOfComplaints != null" >
+        details_of_complaints,
+      </if>
+      <if test="amountOfComplaint != null" >
+        amount_of_complaint,
+      </if>
+      <if test="pathOfEvidenceUpload != null" >
+        path_of_evidence_upload,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="handlingSituation != null" >
+        handling_situation,
+      </if>
+      <if test="complainant != null" >
+        complainant,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="objectOfComplaint != null" >
+        #{objectOfComplaint,jdbcType=VARCHAR},
+      </if>
+      <if test="detailsOfComplaints != null" >
+        #{detailsOfComplaints,jdbcType=VARCHAR},
+      </if>
+      <if test="amountOfComplaint != null" >
+        #{amountOfComplaint,jdbcType=DOUBLE},
+      </if>
+      <if test="pathOfEvidenceUpload != null" >
+        #{pathOfEvidenceUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="handlingSituation != null" >
+        #{handlingSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="complainant != null" >
+        #{complainant,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtectionExample" resultType="java.lang.Integer" >
+    select count(*) from tb_complaints_about_rights_protection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_complaints_about_rights_protection
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.objectOfComplaint != null" >
+        object_of_complaint = #{record.objectOfComplaint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailsOfComplaints != null" >
+        details_of_complaints = #{record.detailsOfComplaints,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amountOfComplaint != null" >
+        amount_of_complaint = #{record.amountOfComplaint,jdbcType=DOUBLE},
+      </if>
+      <if test="record.pathOfEvidenceUpload != null" >
+        path_of_evidence_upload = #{record.pathOfEvidenceUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handlingSituation != null" >
+        handling_situation = #{record.handlingSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.complainant != null" >
+        complainant = #{record.complainant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contact != null" >
+        contact = #{record.contact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_complaints_about_rights_protection
+    set id = #{record.id,jdbcType=INTEGER},
+      object_of_complaint = #{record.objectOfComplaint,jdbcType=VARCHAR},
+      details_of_complaints = #{record.detailsOfComplaints,jdbcType=VARCHAR},
+      amount_of_complaint = #{record.amountOfComplaint,jdbcType=DOUBLE},
+      path_of_evidence_upload = #{record.pathOfEvidenceUpload,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=VARCHAR},
+      handling_situation = #{record.handlingSituation,jdbcType=VARCHAR},
+      complainant = #{record.complainant,jdbcType=VARCHAR},
+      contact = #{record.contact,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtection" >
+    update tb_complaints_about_rights_protection
+    <set >
+      <if test="objectOfComplaint != null" >
+        object_of_complaint = #{objectOfComplaint,jdbcType=VARCHAR},
+      </if>
+      <if test="detailsOfComplaints != null" >
+        details_of_complaints = #{detailsOfComplaints,jdbcType=VARCHAR},
+      </if>
+      <if test="amountOfComplaint != null" >
+        amount_of_complaint = #{amountOfComplaint,jdbcType=DOUBLE},
+      </if>
+      <if test="pathOfEvidenceUpload != null" >
+        path_of_evidence_upload = #{pathOfEvidenceUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="handlingSituation != null" >
+        handling_situation = #{handlingSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="complainant != null" >
+        complainant = #{complainant,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kfgs.domain.TbComplaintsAboutRightsProtection" >
+    update tb_complaints_about_rights_protection
+    set object_of_complaint = #{objectOfComplaint,jdbcType=VARCHAR},
+      details_of_complaints = #{detailsOfComplaints,jdbcType=VARCHAR},
+      amount_of_complaint = #{amountOfComplaint,jdbcType=DOUBLE},
+      path_of_evidence_upload = #{pathOfEvidenceUpload,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      handling_situation = #{handlingSituation,jdbcType=VARCHAR},
+      complainant = #{complainant,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

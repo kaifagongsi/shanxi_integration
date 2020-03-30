@@ -1,0 +1,53 @@
+.sbzn{
+	background: url("../img/sbznbg.jpg") fixed  no-repeat;
+	background-size: cover;
+}
+/**
+
+**/
+.zncnt{
+	position:relative;
+	width:1100px;
+	margin:0 auto;
+	border:0px solid red;
+	text-align: center;
+	overflow:hidden
+}
+.zncnt .title{
+	display:block;
+	font-size: 18px;
+	height:70px;
+	width:1098px;
+	color:#009943;
+	background: #fff;
+}
+.title ul{
+	width: 100%;
+	margin: 0;
+	background:#fff;
+}
+.title ul li{
+	cursor:pointer;
+	width:548px;
+	float: left;
+	height: 60px;
+	line-height: 60px;
+	background: #F5F5F5;
+	color:#A0A0A0;
+	border-left: 1px solid #DCDCDC; 
+	border-bottom: 1px solid #DCDCDC;
+}
+.title ul li.first{
+	border-right: 1px solid #DCDCDC; 
+	border-left: 0; 
+}
+.title ul li.current{
+	background: #fff;
+	color:#009943;
+	border-color: #fff; 
+}
+
+.msbzl{
+	overflow:hidden;
+	overflow-y:auto;
+}
