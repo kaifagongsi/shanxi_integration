@@ -23,7 +23,6 @@ public class ProductController {
 
     @GetMapping("/selectAllApprovalYeat")
     public QueryResponseResult selectAllApprovalYeat(){
-        System.out.println("11111111111111111111111");
         return  productService.selectByDistinctApprovalYear();
     }
 

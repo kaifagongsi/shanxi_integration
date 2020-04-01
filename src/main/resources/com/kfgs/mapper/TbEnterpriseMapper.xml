@@ -536,11 +536,11 @@
             approval_announcement_no_enterprise_all as approvalAnnouncementNoEnterpriseAll,
             approval_year as approvalYear,
             corporate_representative as corporateRepresentative,
-            enterprise_address as enterpriseAddress
+            enterprise_address as enterpriseAddress,
+            if(is_first_submission = '未变更','核准公告','变更公告') as isFirstSubmission
         FROM
             tb_enterprise
         where
-
           product_id = #{productId}
     </select>
 </mapper>
