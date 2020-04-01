@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Date: 2019-12-04-19-37
@@ -55,14 +53,49 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Map getList(Map searchMap){
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
         //返回页面结果集
         Map mapResult = new HashMap();
         TbProductExample slectExample = new TbProductExample();
-        slectExample.createCriteria().andIsdeleteEqualTo(0);
+        TbProductExample.Criteria criteria = slectExample.createCriteria();
+        //检索的关键字
+        String searchType = searchMap.get("searchType").toString();
+        String searchVal = searchMap.get("searchVal").toString();
+        if(searchType != null && searchType != "" && searchVal != null && searchVal != "" &&  !"请输入待查询信息".equals(searchVal)){
+            if("name".equals(searchType)){
+                criteria.andIsdeleteEqualTo(0).andNameLike('%' + searchVal + '%');
+            }else if("classificationName".equals(searchType)){
+                List<String> ids = new LinkedList<String>();
+                TbClassificationExample tbClassificationExample = new TbClassificationExample();
+                tbClassificationExample.createCriteria().andParentidEqualTo("0000").andNameLike('%' + searchVal + '%');
+                List<TbClassification> tbClassifications = tbClassificationMapper.selectByExample(tbClassificationExample);
+                if(tbClassifications != null && tbClassifications.size() > 0){
+                    for(TbClassification  tbClassification : tbClassifications){
+                        // 获取分类的名称 根据分类ID
+                        tbClassificationExample = new TbClassificationExample();
+                        tbClassificationExample.createCriteria().andParentidEqualTo(tbClassification.getClassificationid());
+                        List<TbClassification> classificationList = tbClassificationMapper.selectByExample(tbClassificationExample);
+                        if(classificationList != null && classificationList.size() > 0){
+                            for(TbClassification temp : classificationList){
+                                ids.add(temp.getClassificationid());
+                            }
+                        }
+                    }
+                    if(ids != null && ids.size() > 0){
+                        criteria.andIsdeleteEqualTo(0).andClassificationidIn(ids);
+                    }
+                }
+            }else if("administrativeAreaName".equals(searchType)){
+                slectExample.or().andIsdeleteEqualTo(0).andProvinceNameLike('%' + searchVal + '%');
+                slectExample.or().andIsdeleteEqualTo(0).andCityNameLike('%' + searchVal + '%');
+            }else if("approvalYear".equals(searchType)){
+                criteria.andIsdeleteEqualTo(0).andApprovalYearLike('%' + searchVal + '%');
+            }
+        }else{
+            criteria.andIsdeleteEqualTo(0);
+        }
         slectExample.setOrderByClause("  create_time desc  ");
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
         Page<TbProductExt> page = (Page<TbProductExt>) tbProductMapper.getList(slectExample);
-        System.out.println(page.getTotal());
         mapResult.put("rows",page.getResult());
         mapResult.put("totalPages", page.getPages());
         mapResult.put("total",page.getTotal());

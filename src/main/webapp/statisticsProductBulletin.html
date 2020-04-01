@@ -74,6 +74,23 @@
     <div class="bztitle"></div>
     <div class="ctnindex">
         <div class="qycnt">
+
+            <div class="query" style="float:left;height:45px;padding-top:8px;margin-right: 15px; ">
+                <div class="col-md-2" style="width: 25%;padding-left: 1px;" id="typeVal">
+                    <select id="classificationSelect" class="form-control"   ng-model="searchMap.searchType" >
+                        <option value="" >请选择</option>
+                        <option value="name">产品名称</option>
+                        <option value="classificationName">产品类别</option>
+                        <option value="administrativeAreaName">区域</option>
+                        <option value="approvalYear">批准时间</option>
+                    </select>
+                </div>
+
+                <input type="text" name="searchMap.searchVal" value="请输入待查询信息" style="min-height: 34px;"
+                       onfocus="if(this.value=='请输入待查询信息')this.value=''" onblur="if(this.value=='')this.value='请输入待查询信息'" autocomplete="off">
+                <button style="height: 34px;width: 55px;"  class="button" ng-click="search()">确定</button>
+            </div>
+
             <div class="listth">
                 <table cellspacing="0" cellpadding="0">
                     <tr valign="middle">
