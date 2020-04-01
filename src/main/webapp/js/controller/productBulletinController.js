@@ -2,7 +2,7 @@
 tongjiApp.controller('productBulletinController',function ($scope,$location,$window,productBulletinService) {
 
 
-    $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':15};
+    $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':15,'searchType':'','searchVal':''};
     $scope.resultMap= {"totalPages":"0"};
 
     //列表页加载
@@ -17,6 +17,21 @@ tongjiApp.controller('productBulletinController',function ($scope,$location,$win
 
     //搜索
     $scope.search=function(){
+        //获取查询关键字
+        if($("#classificationSelect") != undefined && $("#classificationSelect").val() != null && $("#classificationSelect").val() != ''){
+            $scope.searchMap.searchType = $("#classificationSelect").val();
+        }else{
+            $scope.searchMap.searchType = '';
+            $scope.searchMap.searchVal = '';
+        }
+        //获取查询数值
+        if($("input[name='searchMap.searchVal']") != undefined && $("input[name='searchMap.searchVal']").val() != null  && $("input[name='searchMap.searchVal']").val() != ''
+            && $("input[name='searchMap.searchVal']").val() != '请输入待查询信息' ){
+            $scope.searchMap.searchVal = $("input[name='searchMap.searchVal']").val();
+        }else{
+            $scope.searchMap.searchVal = '';
+            $scope.searchMap.searchType = '';
+        }
         productBulletinService.load( $scope.searchMap ).success(
             function(response1){
                 $scope.resultMap = response1;//搜索返回的结果
