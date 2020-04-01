@@ -65,8 +65,8 @@
                 <ul>
                     <li ><a href="http://172.17.1.249:9103/page/index.do" target="_self">首 页</a></li>
                     <li ><a href="http://172.17.1.249:9103/page/dbcpzs.do" target="_self" title="特色展示">特色展示</a></li>
-                    <li class="current"><a href="http://172.17.1.249:9103/statisticsProductBulletin.html" target="_self" title="产品信息">产品信息</a></li>
-                    <li ><a href="http://172.17.1.249:9103/page/sydbqy.do" target="_self" title="用标企业">用标企业</a></li>
+                    <li ><a href="http://172.17.1.249:9103/statisticsProductBulletin.html" target="_self" title="产品信息">产品信息</a></li>
+                    <li class="current"><a href="http://172.17.1.249:9103/page/sydbqy.do" target="_self" title="用标企业">用标企业</a></li>
                     <li ><a href="http://172.17.1.249:9103/statisticsStatistics.html" target="_self" title="查询统计">查询统计</a></li>
                     <li ><a href="http://172.17.1.249:9103/proclamationIndex.html" target="_self" title="地标公告">地标公告</a></li>
                     <li ><a href="http://172.17.1.249:9103/proclamationGuideBook.html" target="_self" title="地标指南">地标指南</a></li>
@@ -191,17 +191,15 @@
                                 <tr style="background-color: #E8E8E8">
                                     <th align="center">企业名称</th>
                                     <th>统一社会信用代码</th>
-                                    <th style="max-width: 350px">公告</th>
-                                    <th>公告类型</th>
-                                    <th>公告年份</th>
+                                    <th>核准公告</th>
+                                    <th>公告日期</th>
                                     <th>法人代表</th>
                                     <th>申请人地址</th>
                                 </tr>
                                 <tr ng-repeat=" item in list">
                                     <td>{{item.enterpriseName}}</td>
                                     <td>{{item.uniformSocialCreditCode}}</td>
-                                    <td style="max-width: 350px">{{item.approvalAnnouncementNoEnterpriseAll}}</td>
-                                    <td>{{item.isFirstSubmission}}</td>
+                                    <td>{{item.approvalAnnouncementNoEnterpriseAll}}</td>
                                     <td>{{item.approvalYear}}</td>
                                     <td>{{item.corporateRepresentative}}</td>
                                     <td>{{item.enterpriseAddress}}</td>

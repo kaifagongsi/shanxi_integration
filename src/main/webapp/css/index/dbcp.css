@@ -251,6 +251,8 @@ img {
 	background: #fff;
 	filter: alpha(Opacity = 95);
 	background: rgba(255, 255, 255, 0.95) !important;
+
+	display: table;
 }
 
 .mindex {
