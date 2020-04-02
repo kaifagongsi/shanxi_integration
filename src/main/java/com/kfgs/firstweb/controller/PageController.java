@@ -31,6 +31,11 @@ public class PageController {
     @RequestMapping("uploadFile")
     public String uploadFile(){return "uploadFile";}
 
+    @RequestMapping("detailAbout")
+    public String detailAbout(){
+        return "detail_about";
+    }
+
     @RequestMapping("detail")
     public String detail(){
         return "detail";

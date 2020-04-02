@@ -27,37 +27,26 @@ public class UploadServiceImpl implements UploadService {
         return returnResult;
     }
 
-    /*@Override
-    public void insertByExample(Map pData) {
-        Map<String,Object> map = new HashMap<>();
-        TbProductShowExample tbProductShowExample = new TbProductShowExample();
-        TbProductShow record = new TbProductShow();
-        record.setContent(pData.get("content").toString().getBytes());
-        //record.setCreateTime(pData.get("time"));
-
-    }*/
-
     @Override
     public Map<String,Object> selectByPrimaryKey(Map pData){
         Map<String,Object> map = new HashMap<>();
+        //1.查询产品的内容
         TbProductShowExample tbProductShowExample = new TbProductShowExample();
         tbProductShowExample.createCriteria().andIdEqualTo(Integer.parseInt(pData.get("id").toString())).andTitleEqualTo(pData.get("title").toString());
         List<TbProductShow> model = tbProductShowMapper.selectByExampleWithBLOBs(tbProductShowExample);
         if (model !=null && model.size()== 1) {
             for (TbProductShow xx : model) {
                 if(xx.getContent() == null){
-                    System.out.println("content 为空");
+                    map.put("content","相关资料等待上传中...");
+
                 }else {
-                    System.out.println("=============" + new String(xx.getContent()));
                     map.put("content", new String(xx.getContent()));
                 }
             }
         }else if(model == null){
-            map.put("content","相关资料等待上传中...");
+            map.put("content","参数错误");
         }
-        /*TbProductShow model = tbProductShowMapper.selectByPrimaryKey(Integer.parseInt(pData.get("id").toString()));
-        System.out.println("=============" +  new String(model.getContent()));
-        map.put("content",new String(model.getContent()));*/
+        //2查询相关网站、相关
         return map;
     }
 

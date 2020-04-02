@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletOutputStream;
@@ -34,8 +35,9 @@ public class SXProShowControllerLXL {
     @Autowired
     CountryProShowService countryProShowService;
 
+
+
     @RequestMapping("textIndexProPreview")
-    //public void previewIndexPro(HttpServletResponse response){
     public void previewIndexPro(HttpServletRequest req, HttpServletResponse response){
 
         //0.定义html
@@ -71,6 +73,7 @@ public class SXProShowControllerLXL {
             pageHtml =  generateHtml(template,map);
         }
         if(StringUtils.isNotEmpty(pageHtml)){
+
             try {
                 ServletOutputStream outputStream = response.getOutputStream();
                 response.setContentType("text/html;charset=utf‐8");

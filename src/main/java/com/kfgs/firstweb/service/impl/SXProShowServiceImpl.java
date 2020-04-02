@@ -55,9 +55,8 @@ public class SXProShowServiceImpl implements SXProShowService {
         //按照类别提供数据集
         Map<String,List<TbClassification>> typeMap = new HashMap<String,List<TbClassification>>();
 
-        TbClassificationExample tbClassificationExample = new TbClassificationExample();
-        tbClassificationExample.createCriteria().andParentidEqualTo("0000");
-        List<TbClassification> list = tbClassificationMapper.selectByExample(null);
+        List<TbClassification> list = tbClassificationMapper.selectProductIdAndAllTbClassification();
+       //List<TbClassification> list = tbClassificationMapper.selectByExample(null);
 
         if (list != null && list.size()>0){
             for(TbClassification temp:list){
@@ -65,7 +64,6 @@ public class SXProShowServiceImpl implements SXProShowService {
                 if(temp.getRootid().equals("1") || temp.getRootid() == "1"){
                     List<TbClassification> list_father = new ArrayList<>();
                     String idAndName = temp.getClassificationid().concat(temp.getName());
-                    //typeMap.put(idAndName,list_father);
                     typeMap.put(temp.getClassificationid(),list_father);
                 }
             }
@@ -80,13 +78,10 @@ public class SXProShowServiceImpl implements SXProShowService {
                 }
             }
         }
-
         //新建map
         Map<String,List<TbClassification>> newtypeMap = new HashMap<String,List<TbClassification>>();
-        //List<Map<String,List<TbClassification>>> newtypeList= new ArrayList<>();
         Iterator it = typeMap.keySet().iterator();
         while (it.hasNext()){
-           // Map<String,List<TbClassification>> newtypeMap = new HashMap<String,List<TbClassification>>();
             //取出key
             String key = it.next().toString();
             String id = "";
@@ -96,7 +91,6 @@ public class SXProShowServiceImpl implements SXProShowService {
             //取出value
             List<TbClassification> newlist = new ArrayList<>();
             newlist = typeMap.get(key);
-
             //根据key（id）获取name
             TbClassificationExample tbClassificationExample1 = new TbClassificationExample();
             tbClassificationExample1.createCriteria().andClassificationidEqualTo(key);
@@ -105,16 +99,10 @@ public class SXProShowServiceImpl implements SXProShowService {
                 id = fa.getClassificationid();
                 name = fa.getName();
                 idAndName = id.concat(name);
-                /*nameList.add(name);
-                listId.add(fa.getClassificationid());*/
             }
             newtypeMap.put(idAndName,newlist);
-            //newtypeList.add(newtypeMap);
         }
-        //map.put("type",typeMap);
         map.put("type",newtypeMap);
-        /*map.put("list",listId);
-        map.put("listName",nameList);*/
         return map;
     }
 

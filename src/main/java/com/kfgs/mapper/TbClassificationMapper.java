@@ -28,4 +28,6 @@ public interface TbClassificationMapper {
     int updateByPrimaryKeySelective(TbClassification record);
 
     int updateByPrimaryKey(TbClassification record);
+
+    List<TbClassification> selectProductIdAndAllTbClassification();
 }

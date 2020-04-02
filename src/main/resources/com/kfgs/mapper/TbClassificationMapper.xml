@@ -288,4 +288,21 @@
       reserve = #{reserve,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectProductIdAndAllTbClassification" resultType="com.kfgs.domain.TbClassification">
+      SELECT
+            IFNULL(p.id, '000') AS id,
+            c. NAME AS NAME,
+            c.rootId AS rootId,
+            c.classificationId AS classificationId,
+            c.parentId AS parentId,
+            c.content AS content,
+            c.create_time AS create_time,
+            c.isdelete AS isdelete,
+            c.LEVEL AS level,
+            reserve
+        FROM
+            tb_classification c
+        LEFT JOIN tb_product p ON c.name = p.name
+  </select>
 </mapper>
