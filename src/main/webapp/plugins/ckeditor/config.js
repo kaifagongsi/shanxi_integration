@@ -18,8 +18,11 @@ CKEDITOR.editorConfig = function( config ) {
         { name: 'colors' },
         { name: 'tools' },
         { name: 'others' },
-        { name: 'about' }
+        { name: 'about' },
+        { name: 'justify',  groups:['justifyleft','justifycenter','justifyright','justifyblock']}
     ];
+
+    config.extraPlugins = 'justify';
 
 
     /*将编辑器的语言设置为中文*/
