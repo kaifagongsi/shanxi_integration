@@ -68,9 +68,10 @@ public class ImgUploadUtil {
                             realPathDirectory.mkdirs();
                         }
                         // 重命名上传后的文件名 111112323.jpg
-                        fileName = Math.random() + suffix;
+//                        fileName = Math.random() + suffix;
+                        fileName = myFileName;
                         // 定义上传路径 .../upload/111112323.jpg
-                        File uploadFile = new File(realPathDirectory + "\\" + fileName);
+                        File uploadFile = new File(realPathDirectory + "\\" + myFileName);
                         System.out.println(uploadFile);
                         file.transferTo(uploadFile);
                     }
@@ -106,7 +107,7 @@ public class ImgUploadUtil {
         System.out.println("callback=========" + callback);
         PrintWriter out = response.getWriter();
         out.println("<script type=\"text/javascript\">");
-        out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + imageContextPath + "',''" + ")");
+        out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + new String(imageContextPath.getBytes(),"utf-8") + "',''" + ")");
         out.println("</script>");
         out.flush();
         out.close();
