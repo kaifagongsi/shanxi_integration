@@ -118,7 +118,7 @@ public class ProclamationServiceImpl implements ProclamtionService {
         Map<String,Object> map = new HashMap<>();
         TbProtectionNotice model = tbProtectionNoticeMapper.selectByPrimaryKey(Integer.parseInt(pData.get("id").toString()));
         //System.out.println("=============" +  new String(model.getContent()));
-        if(model.getContent() == null){
+        if(model != null && model.getContent() == null){
             map.put("content",new String("暂无数据"));
         }else if(StringUtils.isNotBlank(model.getContent().toString())){
             map.put("content",new String(model.getContent()));
