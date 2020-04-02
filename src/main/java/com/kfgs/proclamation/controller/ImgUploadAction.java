@@ -1,6 +1,7 @@
 package com.kfgs.proclamation.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.kfgs.domain.ext.ImageUploadVo;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -18,18 +24,30 @@ import java.util.UUID;
 @RequestMapping("/imgUpload")
 public class ImgUploadAction {
 
-	@Value(value = "${ckeditor.storage.image.path}")
+	@Value(value = "D:\\idea_workspace\\shanxi_integration\\src\\main\\webapp\\static\\image\\")
 	private String imageFilePath;
 
-	@Value(value = "${ckeditor.storage.file.path}")
+	@Value(value = "D:\\idea_workspace\\shanxi_integration\\src\\main\\webapp\\static\\file\\")
 	private String filePath;
 
-	@Value(value = "${ckeditor.access.image.url}")
+	@Value(value = "http://localhost:9103/static/")
 	private String url;
 
 	private File upload; // 文件
 	private String uploadContentType; // 文件类型
 	private String uploadFileName; // 文件名
+
+	@RequestMapping(value="/upload")
+	public void fileUpload(HttpServletRequest request, HttpServletResponse response) {
+		String DirectoryName = "static";
+		try {
+			ImgUploadUtil.ckeditor(request, response, DirectoryName);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	/**
@@ -66,7 +84,16 @@ public class ImgUploadAction {
 		}else{
 			filePath = url + "/file/" + newfileName;
 		}
+//		response.setContentType("text/html; charset=UTF-8");
 		imageUploadVo.setUrl(new String(filePath.getBytes(),"utf-8"));
+//		Map<String, String> reMap = new HashMap<String, String>();
+//
+//		//必须返回这样格式的json字符串
+//		reMap.put("uploaded", "1");
+//		reMap.put("fileName", fileName);
+//		reMap.put("url", new String(filePath.getBytes(),"utf-8"));
+//		return JSON.toJSONString(reMap);
+
 		return imageUploadVo;
 	}
 
