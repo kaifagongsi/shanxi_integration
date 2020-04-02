@@ -1,6 +1,6 @@
 //统计控制层
 firstwebApp.controller('sydbqyController',function ($scope,$location,sydbqyService) {
-    $scope.searchMap = {'pageNo':1,'pageSize':20};
+    $scope.searchMap = {'pageNo':1,'pageSize':20,'keywords':'','selectType':''};
     $scope.resultMap= {"totalPages":"0"};
     //页面加载
     $scope.load=function() {

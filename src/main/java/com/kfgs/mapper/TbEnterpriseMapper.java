@@ -61,4 +61,7 @@ public interface TbEnterpriseMapper {
     List<TbEnterpriseExt> selectSydbqyList(TbEnterpriseExt tbEnterpriseExt);
 
     List<TbEnterpriseExt> selectEnterpriseByProductId(String productId);
+
+
+    List<TbEnterpriseExt> selectByExampleReturnTBEXT( TbEnterpriseExample example);
 }

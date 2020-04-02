@@ -18,6 +18,35 @@
         <result column="approval_year" property="approvalYear" jdbcType="VARCHAR" />
         <result column="is_first_submission" property="isFirstSubmission" jdbcType="VARCHAR" />
     </resultMap>
+
+    <sql id="Example_Where_Clause_Product" >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+    </sql>
+
     <sql id="Example_Where_Clause" >
         <where >
             <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -372,13 +401,19 @@
     <!--新增方法 -->
 
     <select id="selectSydbqyList" resultType="com.kfgs.domain.ext.TbEnterpriseExt">
-    select e.enterprise_name as enterpriseName,e.uniform_social_credit_code as uniformSocialCreditCode,
-    e.approval_announcement_no_enterprise as approvalAnnouncementNoEnterprise,
-    e.approval_year as approvalYear,e.approval_authority_enterprise as approvalAuthorityEnterprise,
-    p.name as productName
-    from tb_enterprise e,tb_product p
-    where e.product_id=p.id
-
+      SELECT
+        e.enterprise_name AS enterpriseName,
+        e.uniform_social_credit_code AS uniformSocialCreditCode,
+        e.approval_announcement_no_enterprise AS approvalAnnouncementNoEnterprise,
+        e.approval_year AS approvalYear,
+        e.approval_authority_enterprise AS approvalAuthorityEnterprise,
+        e.product_id as productId,
+        p.NAME AS productName
+    FROM
+        tb_enterprise e,
+        tb_product p
+    WHERE
+        e.product_id = p.id
   </select>
 
     <select id="selectEnterpriseGroupByApprovalYear" resultType="java.util.Map">
@@ -542,5 +577,29 @@
             tb_enterprise
         where
           product_id = #{productId}
+    </select>
+
+    <select id="selectByExampleReturnTBEXT" resultType="com.kfgs.domain.ext.TbEnterpriseExt" parameterType="com.kfgs.domain.TbEnterpriseExample" >
+        select
+            e.enterprise_name AS enterpriseName,
+            e.uniform_social_credit_code AS uniformSocialCreditCode,
+            e.approval_announcement_no_enterprise AS approvalAnnouncementNoEnterprise,
+            e.approval_year AS approvalYear,
+            e.approval_authority_enterprise AS approvalAuthorityEnterprise,
+            e.product_id as productId,
+            p.NAME AS productName
+        from
+          tb_enterprise e,
+          tb_product p
+        where e.product_id = p.id
+        <if test="_parameter != null" >
+          <if test="_parameter.oredCriteria.size != 0">
+            and
+              <include refid="Example_Where_Clause_Product" />
+          </if>
+
+        </if>
+
+
     </select>
 </mapper>

@@ -2,7 +2,10 @@ package com.kfgs.firstweb.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.kfgs.domain.TbEnterprise;
 import com.kfgs.domain.TbEnterpriseExample;
+import com.kfgs.domain.TbProduct;
+import com.kfgs.domain.TbProductExample;
 import com.kfgs.domain.ext.TbEnterpriseExt;
 import com.kfgs.firstweb.service.SydbqyService;
 import com.kfgs.mapper.TbEnterpriseMapper;
@@ -10,7 +13,9 @@ import com.kfgs.mapper.TbProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,6 +23,7 @@ public class SydbqyServiceImpl implements SydbqyService {
 
     @Autowired
     TbEnterpriseMapper tbEnterpriseMapper;
+    @Autowired
     TbProductMapper tbProductMapper;
 
     @Override
@@ -242,12 +248,38 @@ public class SydbqyServiceImpl implements SydbqyService {
 
     @Override
     public Map<String,Object> getList(Map searchMap) {
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),20);
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
-        TbEnterpriseExample tbLandmarkEnterpriseExample = new TbEnterpriseExample();
-        //tbLandmarkEnterpriseExample.createCriteria().andProductIdEqualTo();
-        Page<TbEnterpriseExt> page = (Page<TbEnterpriseExt>) tbEnterpriseMapper.selectSydbqyList(null);
+        TbEnterpriseExample tbEnterpriseExample = new TbEnterpriseExample();
+        String type = searchMap.get("selectType").toString();
+        String keywords = searchMap.get("keywords").toString();
+        if("产品名称".equals(type)){
+            TbProductExample productExample = new TbProductExample();
+            productExample.createCriteria().andNameLike("%" + keywords + "%" );
+            List<TbProduct> productList = tbProductMapper.selectByExample(productExample);
+            List<Integer> list  = new ArrayList<>();
+            for(TbProduct product : productList){
+                list.add(product.getId());
+            }
+            tbEnterpriseExample.createCriteria().andProductIdIn(list);
+            //List<TbEnterpriseExt> tbEnterpriseList = tbEnterpriseMapper.selectByExampleReturnTBEXT(tbEnterpriseExample);
+        }else if("企业名称".equals(type)){
+            tbEnterpriseExample.createCriteria().andEnterpriseNameLike("%" + keywords + "%");
+        }else if("统一信用代码".equals(type)){
+            tbEnterpriseExample.createCriteria().andUniformSocialCreditCodeLike("%" + keywords + "%");
+        }else if("核准使用公告号".equals(type)){
+            tbEnterpriseExample.createCriteria().andApprovalAnnouncementNoEnterpriseLike("%" + keywords + "%");
+        }else if("核准时间".equals(type)){
+            tbEnterpriseExample.createCriteria().andApprovalYearLike("%" + keywords + "%");
+        }else if("核准单位".equals(type)){
+            tbEnterpriseExample.createCriteria().andApprovalAuthorityEnterpriseLike("%" + keywords + "%");
+        }else if("".equals(type)){
+
+        }
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),20);
+        Page<TbEnterpriseExt> page = (Page<TbEnterpriseExt>)tbEnterpriseMapper.selectByExampleReturnTBEXT(tbEnterpriseExample);
+        //Page<TbEnterpriseExt> page = (Page<TbEnterpriseExt>) tbEnterpriseMapper.selectByExample(tbEnterpriseExample);
+        //Page<TbEnterpriseExt> page = (Page<TbEnterpriseExt>) tbEnterpriseMapper.selectSydbqyList(null);
         System.out.println(page.getPages());
         map.put("rows",page.getResult());
         map.put("totalPages", page.getPages());
