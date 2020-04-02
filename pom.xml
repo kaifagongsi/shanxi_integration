@@ -302,6 +302,7 @@
                     <port>9103</port>
                     <!-- 请求路径 -->
                     <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>
