@@ -54,6 +54,14 @@ firstwebApp.controller('uploadFileController',function ($scope,$location,$window
             function(response2){
                 console.log(response2);
                 $scope.contentMap=response2;//搜索返回的结果
+                $scope.list = response2.list;
+                if( $scope.list == '' ){
+                    $scope.isShow = false;// 表示没有相关企业
+                }else{
+                    $scope.isShow = true;//表示有相关企业或网站
+                }
+                $scope.websites = response2.list.websites;
+                $scope.enter = response2.list.enter;
             }
         );
     };

@@ -8,6 +8,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="web_url" property="webUrl" jdbcType="VARCHAR" />
     <result column="spare" property="spare" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, product_id, pic_url, name, web_url, spare
+    id, product_id, pic_url, name, web_url, spare, type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbRelatedWebsitesExample" >
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.kfgs.domain.TbRelatedWebsites" >
     insert into tb_related_websites (id, product_id, pic_url, 
-      name, web_url, spare
-      )
+      name, web_url, spare, 
+      type)
     values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{webUrl,jdbcType=VARCHAR}, #{spare,jdbcType=VARCHAR}
-      )
+      #{name,jdbcType=VARCHAR}, #{webUrl,jdbcType=VARCHAR}, #{spare,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kfgs.domain.TbRelatedWebsites" >
     insert into tb_related_websites
@@ -129,6 +130,9 @@
       <if test="spare != null" >
         spare,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="spare != null" >
         #{spare,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.spare != null" >
         spare = #{record.spare,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       pic_url = #{record.picUrl,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       web_url = #{record.webUrl,jdbcType=VARCHAR},
-      spare = #{record.spare,jdbcType=VARCHAR}
+      spare = #{record.spare,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="spare != null" >
         spare = #{spare,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -222,7 +236,8 @@
       pic_url = #{picUrl,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       web_url = #{webUrl,jdbcType=VARCHAR},
-      spare = #{spare,jdbcType=VARCHAR}
+      spare = #{spare,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -1,6 +1,8 @@
 package com.kfgs.domain;
 
-public class TbRelatedWebsites {
+import java.io.Serializable;
+
+public class TbRelatedWebsites implements Serializable {
     private Integer id;
 
     private String productId;
@@ -12,6 +14,8 @@ public class TbRelatedWebsites {
     private String webUrl;
 
     private String spare;
+
+    private String type;
 
     public Integer getId() {
         return id;
@@ -59,5 +63,13 @@ public class TbRelatedWebsites {
 
     public void setSpare(String spare) {
         this.spare = spare == null ? null : spare.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 }

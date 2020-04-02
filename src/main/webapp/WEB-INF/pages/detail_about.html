@@ -58,22 +58,36 @@
         <!--/top-->
 
         <div class="bztitle"></div>
-        <div class="ctnindex">
-
-            <div class="ggcnt doccnt" style="width: 75%; float: left;">
-
-                <div id="content" class="w96" ng-bind-html="contentMap.content|trustHtml ">
-                    &lt;!&ndash;	{{contentMap.content}}&ndash;&gt;
+        <div  ng-if = "!isShow">
+            <div class="ctnindex">
+                <div class="ggcnt doccnt" style="width: 85%; "  >
+                    <div id="content" class="w96" ng-bind-html="contentMap.content|trustHtml ">
+                        <!--	{{contentMap.content}}-->
+                    </div>
+                    <div style="margin-top: 30px;">&nbsp;</div>
                 </div>
             </div>
-            <div class="ggcnt" style="width: 25%; float: left;">
+        </div>
+
+
+        <div ng-if="isShow">
+            <div class="ctnindex">
+                <div class="ggcnt doccnt" style="width: 73%; float: left"  >
+                    <div id="content" class="w96" ng-bind-html="contentMap.content|trustHtml ">
+                    </div>
+                </div>
+                <div class="ggcnt" style="width: 25%; float: right;" >
 
                 <div class="     title">
                     相关企业
                 </div>
 
                 <div style="width: 95%;float: right;">
-                    <ul>
+                    <ul ng-repeat=" item in enter">
+                        <li style="float: left;text-align: center;padding-left: 5px;" >
+                            <p class=" pic"><a href="#"><img src="{{item.picUrl}}" style="display: block; width: 75px;height: 75px;">{{item.name}}</a></p>
+                        </li>
+                      <!--  </li>
                         <li style="float: left;text-align: center;padding-left: 5px;">
                             <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
                         </li>
@@ -82,10 +96,7 @@
                         </li>
                         <li style="float: left;text-align: center;padding-left: 5px;">
                             <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
-                        </li>
-                        <li style="float: left;text-align: center;padding-left: 5px;">
-                            <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
-                        </li>
+                        </li>-->
                     </ul>
                 </div>
 
@@ -94,19 +105,75 @@
                 </div>
 
                 <div style="width: 95%;float: right; margin-top: 50px;">
-                    <ul>
+                    <ul ng-repeat=" item in websites">
                         <li style="float: left;text-align: center;padding-left: 5px;">
-                            <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
+                            <p class=" pic"><a href="#"><img src="{{item.picUrl}}" style="display: block; width: 75px;height: 75px;">{{item.name}}</a></p>
                         </li>
-                        <li style="float: left;text-align: center;padding-left: 5px;">
-                            <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
-                        </li>
-
                     </ul>
                 </div>
 
             </div>
+            </div>
         </div>
+
+       <!-- <div ng-if = "!isShow">
+
+        </div>-->
+       <!-- <div class="ctnindex">
+            <div ng-if="!{{isShow}}">
+                <div class="ggcnt doccnt" style="width: 85%; "  >
+                    <div id="content" class="w96" ng-bind-html="contentMap.content|trustHtml ">
+                    </div>
+                </div>
+            </div>
+            <div ng-if="{{isShow}} ">
+                <div class="ggcnt doccnt" style="width: 75%; float: left;"  >
+                    <div id="content" class="w96" ng-bind-html="contentMap.content|trustHtml ">
+                    </div>
+                </div>
+
+                <div class="ggcnt" style="width: 25%; float: left;" >
+
+                    <div class="     title">
+                        相关企业
+                    </div>
+
+                    <div style="width: 95%;float: right;">
+                        <ul>
+                            <li style="float: left;text-align: center;padding-left: 5px;">
+                                <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
+                            </li>
+                            <li style="float: left;text-align: center;padding-left: 5px;">
+                                <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
+                            </li>
+                            <li style="float: left;text-align: center;padding-left: 5px;">
+                                <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
+                            </li>
+                            <li style="float: left;text-align: center;padding-left: 5px;">
+                                <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class=" title">
+                        相关网站
+                    </div>
+
+                    <div style="width: 95%;float: right; margin-top: 50px;">
+                        <ul>
+                            <li style="float: left;text-align: center;padding-left: 5px;">
+                                <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
+                            </li>
+                            <li style="float: left;text-align: center;padding-left: 5px;">
+                                <p class=" pic"><a href="#"><img src="/img/index/logo.png" style="display: block;">产品名称</a></p>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>-->
 
     </div>
 </div>
