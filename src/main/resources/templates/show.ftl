@@ -7,7 +7,7 @@
     <meta content="" name="description" />
 
     <script type="text/javascript" src="http://localhost:9103/js/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="http://1ocalhost:9103/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script type="text/javascript" src="http://172.17.1.78:9103/js/jquery.SuperSlide.2.1.1.js"></script>
     <script type="text/javascript" src="http://localhost:9103/js/jquery.hoverdir.js"></script>
 
     <!--  导入angularjs  -->
@@ -84,6 +84,27 @@
                                 </li>
                             </#list>
                         </#if>
+
+
+                        <#if tongjiguonei??>
+                            <#list  tongjiguonei?keys as k >
+                                <li>
+                                    <div class="ad">
+                                        <div class="tl">${k?substring(4)}</div>
+                                        <img src="http://localhost:9103/img/index/guonei/${k?substring(0,4)}.jpg" />
+                                        <div class=" cplist">
+                                            <p>
+                                                <#list tongjiguonei[k] as list>
+                                                <#--${list.classificationid}-->
+                                                    <a href="http://localhost:9103/page/detail.do#?idVal=${list.id}&titleVal=${list.name}" title="${list.name}" target="_blank">${list.name}</a>
+                                                </#list>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </#list>
+                        </#if>
+
                     </ul>
                 </div>
                 <div class="ad_title">

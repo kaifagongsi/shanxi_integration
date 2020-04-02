@@ -52,7 +52,7 @@ public class SXProShowControllerLXL {
         }else if (type.equals("2")){//国内
             Map<String, Object> body1 = countryProShowService.search();
 
-            map.put("tongji",body1.get("type"));
+            map.put("tongjiguonei",body1.get("type"));
             map.put("123456","456789456");
         }
         //1.模型获取数据：
