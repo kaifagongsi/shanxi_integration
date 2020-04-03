@@ -44,14 +44,16 @@
             <div class="logo"></div>
             <div class="nav">
                 <ul>
-                    <li><a href="/page/index.do" target="_self">首 页</a></li>
-                    <li class="current"><a href="/page/dbcpzs.do" target="_self" title="地标产品展示">地标产品展示</a></li>
-                    <li><a href="/page/sydbqy.do" title="使用地标企业">使用地标企业</a></li>
-                    <li><a href="http://172.17.1.249:9102/Statistics.html" target="_self" title="地标产品统计">地标产品统计</a></li>
-                    <li><a href="http://172.17.2.15:9103/index.html" target="_self" title="地标保护公告">地标保护公告</a></li>
-                    <li><a href="http://172.17.2.15:9103/guideBook.htm" target="_self" title="地标申报指南">地标申报指南</a></li>
-                    <li><a href="http://172.17.2.15:9104/policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
-                    <li><a href="http://172.17.2.15:9103/productIntroduction.html" target="_self" title="地标产品介绍">地标产品介绍</a></li>
+                    <li ><a href="http://172.17.1.249:9103/page/index.do" target="_self">首 页</a></li>
+                    <li class="current"><a href="http://172.17.1.249:9103/page/dbcpzs.do" target="_self" title="特色展示">特色展示</a></li>
+                    <li ><a href="http://172.17.1.249:9103/statisticsProductBulletin.html" target="_self" title="产品信息">产品信息</a></li>
+                    <li ><a href="http://172.17.1.249:9103/page/sydbqy.do" target="_self" title="用标企业">用标企业</a></li>
+                    <li ><a href="http://172.17.1.249:9103/statisticsStatistics.html" target="_self" title="查询统计">查询统计</a></li>
+                    <li ><a href="http://172.17.1.249:9103/proclamationIndex.html" target="_self" title="地标公告">地标公告</a></li>
+                    <li ><a href="http://172.17.1.249:9103/proclamationGuideBook.html" target="_self" title="地标指南">地标指南</a></li>
+                    <li ><a href="http://172.17.1.249:9103/policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
+                    <li ><a href="http://172.17.1.249:9103/ComplainsRight.html" target="_self" title="投诉维权">投诉维权</a></li>
+                    <li ><a href="http://172.17.1.249:9103/productIntroduction.html" target="_self" title="地标制度">地标制度</a></li>
                 </ul>
                 <label class="showSearch" title="搜索"></label>
             </div>
@@ -87,12 +89,12 @@
                                 <li>
                                     <div class="ad">
                                         <div class="tl">${k?substring(4)}</div>
-                                        <img src="http://localhost:9103/img/index/guonei/${k?substring(0,4)}.jpg" />
+                                        <img src="http://172.17.1.249:9103/img/index/guonei/${k?substring(0,4)}.jpg" />
                                         <div class=" cplist">
                                             <p>
                                                 <#list tongjiguonei[k] as list>
                                                 <#--${list.classificationid}-->
-                                                    <a href="http://localhost:9103/page/detail.do#?idVal=${list.id}&titleVal=${list.name}" title="${list.name}" target="_blank">${list.name}</a>
+                                                    <a href="http://172.17.1.249:9103/page/detail.do#?idVal=${list.id}&titleVal=${list.name}" title="${list.name}" target="_blank">${list.name}</a>
                                                 </#list>
                                             </p>
                                         </div>

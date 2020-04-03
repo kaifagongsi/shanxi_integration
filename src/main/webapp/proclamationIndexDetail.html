@@ -70,7 +70,7 @@
 						<tbody>
                     <tr ng-repeat=" item in resultMap.rows ">
                         <td>
-                            <a href="show.html#?idVal={{item.id}}" ng-bind-html="item.title | trustHtml" target="_blank" style="text-decoration: none">
+                            <a href="proclamationShow.html#?idVal={{item.id}}" ng-bind-html="item.title | trustHtml" target="_blank" style="text-decoration: none">
                                 <label style="float:left;width:150px;display: block;text-align: left;">{{item.title}}</label></a>
                             <label style="float:right;font-size: 13px">{{item.createTime.substring(0,10)}}</label>
                         </td>

@@ -218,7 +218,7 @@
                 FROM
                     tb_product_protection_notice
                 WHERE
-                    product_id = '87'
+                    product_id = #{productId}
             ) ppn
         WHERE
             ppn.protection_notice_id = pn.id
