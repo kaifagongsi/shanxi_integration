@@ -26,6 +26,7 @@ firstwebApp.controller('uploadFileController',function ($scope,$location,$window
         $scope.pData.content = CKEDITOR.instances.TextArea1.getData();
         $scope.pData.title = $("#title").val();
         $scope.pData.type = $('#fileType option:selected').val();//选中的值
+        /*$scope.pData.type = '展示';*/
         console.log($scope.pData);
         uploadFileService.upload( $scope.pData ).success(
             function(response3){
