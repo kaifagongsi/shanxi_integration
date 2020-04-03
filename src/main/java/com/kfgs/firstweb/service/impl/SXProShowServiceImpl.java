@@ -51,9 +51,9 @@ public class SXProShowServiceImpl implements SXProShowService {
         List listId = new ArrayList();
         List nameList = new ArrayList();
         //返回页面结果集
-        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map = new TreeMap<>();
         //按照类别提供数据集
-        Map<String,List<TbClassification>> typeMap = new HashMap<String,List<TbClassification>>();
+        Map<String,List<TbClassification>> typeMap = new TreeMap<String,List<TbClassification>>();
 
         List<TbClassification> list = tbClassificationMapper.selectProductIdAndAllTbClassification();
        //List<TbClassification> list = tbClassificationMapper.selectByExample(null);
@@ -79,7 +79,7 @@ public class SXProShowServiceImpl implements SXProShowService {
             }
         }
         //新建map
-        Map<String,List<TbClassification>> newtypeMap = new HashMap<String,List<TbClassification>>();
+        Map<String,List<TbClassification>> newtypeMap = new TreeMap<String,List<TbClassification>>();
         Iterator it = typeMap.keySet().iterator();
         while (it.hasNext()){
             //取出key
