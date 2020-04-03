@@ -52,7 +52,7 @@ public class UploadController {
     @ResponseBody
     public String save(@RequestBody Map pData) {
         String returnBack = "";
-        //System.out.println(pData.get("type").toString());
+        /*System.out.println(pData.get("type").toString());*/
         /*if(StringUtils.equals(pData.get("type").toString(), "公告")){
             int returnStr = uploadService.updateByExampleSelective(pData);
         }else  if(StringUtils.equals(pData.get("type").toString(), "政策")){
