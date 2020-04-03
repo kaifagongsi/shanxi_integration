@@ -1,5 +1,7 @@
 package com.kfgs.proclamation.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -97,18 +99,33 @@ public class ImgUploadUtil {
     public static void ckeditor(HttpServletRequest request, HttpServletResponse response, String DirectoryName)
             throws IOException {
         String fileName = upload(request, DirectoryName);
+        System.out.println("filename===========" + fileName);
         // 结合ckeditor功能
         // imageContextPath为图片在服务器地址，如upload/123.jpg,非绝对路径
         String imageContextPath = request.getContextPath() + "/" + DirectoryName + "/" + fileName;
+
+        String filePath = request.getContextPath() + "/" + DirectoryName + "/";
         System.out.println("imageContextPath=========" + imageContextPath);
         response.setContentType("text/html;charset=UTF-8");
-        String callback = request.getParameter("CKEditorFuncNum");
+        /*String callback = request.getParameter("CKEditorFuncNum");
 //        request.getParameter(CKEditorFuncNum)
         System.out.println("callback=========" + callback);
         PrintWriter out = response.getWriter();
         out.println("<script type=\"text/javascript\">");
         out.println("window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + new String(imageContextPath.getBytes(),"utf-8") + "',''" + ")");
         out.println("</script>");
+        out.flush();
+        out.close();*/
+
+        PrintWriter out = response.getWriter();
+        Map<String,Object> map = new HashMap<>();
+        //JSONObject obj = new JSONObject();
+        map.put("uploaded", 1);
+        map.put("fileName", fileName);
+        map.put("url", filePath + fileName);
+        String result = JSONArray.toJSONString(map);
+        out.write(result);
+
         out.flush();
         out.close();
     }
