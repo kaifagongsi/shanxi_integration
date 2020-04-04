@@ -448,13 +448,14 @@
             </otherwise>
         </choose>
         FROM
-        tb_enterprise
-        where  is_first_submission = '未变更'
+        tb_enterprise enn LEFT JOIN
+        tb_product  tpp on enn.product_id = tpp.id
+        where  enn.is_first_submission = '未变更'
         <if test="year != null and year != '' and year!='全部'">
-            and  approval_year = #{year}
+            and  enn.approval_year = #{year}
         </if>
         <if test="classification != null and classification != '' and classification !='0000' ">
-            and   classification_id IN (
+            and   tpp.classificationId IN (
             SELECT
             classificationId
             FROM
@@ -541,12 +542,13 @@
 
     <select id="selectLineChartByYearEnt" resultType="java.util.Map">
         SELECT
-        approval_year as years,COUNT(1)
+         enn.approval_year as years,COUNT(1)
         FROM
-        tb_enterprise
-        WHERE  is_first_submission = '未变更'
+        tb_enterprise  enn LEFT JOIN
+        tb_product  tpp on enn.product_id = tpp.id
+        WHERE  enn.is_first_submission = '未变更'
         <if test="classification != null and classification != '' and classification!='0000' ">
-            and   classification_id   in (select classificationId from tb_classification where parentId = #{classification})
+            and   tpp.classificationId   in (select classificationId from tb_classification where parentId = #{classification})
         </if>
         <if test="parentId !=null and parentId !='' and  parentId != '610000' ">
             <choose>
@@ -559,9 +561,9 @@
             </choose>
         </if>
         GROUP BY
-        approval_year
+           enn.approval_year
         ORDER BY
-        approval_year
+           enn.approval_year
     </select>
 
     <select id="selectEnterpriseByProductId" resultType="com.kfgs.domain.ext.TbEnterpriseExt">
