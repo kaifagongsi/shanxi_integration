@@ -27,10 +27,8 @@ function showPieChart(data) {
             formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
         legend: {
-            orient: 'vertical',
-            x: 'right',
-            align:'left',
-            y: 'center',
+            x : 'center',
+            y : 'bottom',
             padding:[20,100,20,20],
             data:['省级','地市级','区县级']
 

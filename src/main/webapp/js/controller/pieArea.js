@@ -29,10 +29,8 @@ function showPieArea(xdata,ydata) {
         },
         legend: {
             padding:[40,50,0,0],
-            x : 'left',
-            orient: 'vertical',
-           // y : 'left',
-            //type: "scroll",
+            x : 'center',
+            y : 'bottom',
             data:xdata
         },
         toolbox: {
