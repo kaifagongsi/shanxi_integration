@@ -64,7 +64,7 @@
             <div class="msbzl">
                 <div style="background: #fff;width: 900px;">
                     <a id="firstAnchor"></a>
-                    <img id="imgcnt" alt="" src="/img/guidebook/dlbzcpshbz.png">
+                    <img id="imgcnt" alt="" src="/img/guidebook/dlbzcpshbz_new.jpg">
                     <div style="height: 10px"></div>
                 </div>
             </div>
@@ -83,14 +83,14 @@
         var rli;
         if(oli.id=="znone"){
             rli=document.getElementById("zntwo");
-            document.getElementById("imgcnt").src="/img/guidebook/dlbzcpshbz.png";
+            document.getElementById("imgcnt").src="/img/guidebook/dlbzcpshbz_new.jpg";
         }else if(oli.id=="zntwo"){
             rli=document.getElementById("znone");
-            document.getElementById("imgcnt").src="/img/guidebook/dlbzcpzyshbz.png";
+            document.getElementById("imgcnt").src="/img/guidebook/dlbzcpzyshbz_new.jpg";
         }
         $(rli).removeClass("current");
         $(".msbzl").scrollY=0;
-        location.href = "#firstAnchor";
+        // location.href = "#firstAnchor";
     }
     $(document).ready(function(){
         cobj=$(".msbzl");
