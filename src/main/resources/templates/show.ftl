@@ -64,7 +64,6 @@
         <div class="home_ad">
             <div class="picScroll-left">
                 <div class="bd">
-
                     <ul class="picList da-thumbs">
                         <#if tongji??>
                             <#list  tongji?keys as k >
