@@ -55,6 +55,12 @@ CKEDITOR.editorConfig = function( config ) {
     // config.filebrowserImageUploadUrl = '/imgUpload/ckeditorUpload.do?command=QuickUpload&type=Images';
     config.filebrowserImageUploadUrl = '/imgUpload/upload.do?';
 
+    /*config.uploadUrl = '../../imgUpload/ckeditorUpload.do?command=QuickUpload&type=Files&responseType=json';
+    /!*开启工具栏“附件”中文件上传功能，后面的url为图片上传要指向的的action或servlet*!/
+    config.filebrowserUploadUrl = '../../imgUpload/ckeditorUpload.do?command=QuickUpload&type=Files';
+    /!*开启工具栏“图像”中文件上传功能，后面的url为图片上传要指向的的action或servlet*!/
+    config.filebrowserImageUploadUrl = '../../imgUpload/ckeditorUpload.do?command=QuickUpload&type=Images';*/
+
 
 
 
