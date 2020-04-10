@@ -76,7 +76,7 @@
                                             <p>
                                                 <#list tongji[k] as list>
                                                 <#--${list.classificationid}-->
-                                                    <a href="../page/detail.do#?idVal=${list.id}&titleVal=${list.name}" title="${list.name}" target="_blank">${list.name}</a>
+                                                    <a href="../page/detailAbout.do#?idVal=${list.id}&titleVal=${list.name}" title="${list.name}" target="_blank">${list.name}</a>
                                                 </#list>
                                             </p>
                                         </div>
@@ -94,7 +94,7 @@
                                             <p>
                                                 <#list tongjiguonei[k] as list>
                                                 <#--${list.classificationid}-->
-                                                    <a href="../page/detail.do#?idVal=${list.id}&titleVal=${list.name}" title="${list.name}" target="_blank">${list.name}</a>
+                                                    <a href="../page/detailAbout.do#?idVal=${list.id}&titleVal=${list.name}" title="${list.name}" target="_blank">${list.name}</a>
                                                 </#list>
                                             </p>
                                         </div>
