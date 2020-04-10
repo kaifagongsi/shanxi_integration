@@ -30,7 +30,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.removeButtons = 'About,Language,Source,Save,NewPage,Print,Templates,PasteFromWord,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,Blockquote,BidiLtr,BidiRtl,Iframe,Flash,Anchor';
 
     //增加字体
-    config.font_names='宋体/SimSun;新宋体/NSimSun;仿宋_GB2312/FangSong_GB2312;楷体_GB2312/KaiTi_GB2312;黑体/SimHei;'+ config.font_names;
+    config.font_names='思源宋体/思源宋体;宋体/SimSun;新宋体/NSimSun;仿宋_GB2312/FangSong_GB2312;楷体_GB2312/KaiTi_GB2312;黑体/SimHei;'+ config.font_names;
 
     /*将编辑器的语言设置为中文*/
     config.language = 'zh-cn';
