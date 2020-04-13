@@ -34,4 +34,9 @@
         <property name="prefix" value="/WEB-INF/pages/" />
         <property name="suffix" value=".html"></property>
     </bean>
+
+    <!--  密码加密/解密  -->
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <!-- 自定义的UserDetailsService -->
+    <bean id="customUserDetailsService"  class="com.kfgs.common.service.CustomUserDetailsService"/>
 </beans>
