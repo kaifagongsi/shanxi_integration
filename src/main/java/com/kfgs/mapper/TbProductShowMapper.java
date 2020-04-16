@@ -24,4 +24,6 @@ public interface TbProductShowMapper {
     int updateByExampleWithBLOBs(@Param("record") TbProductShow record, @Param("example") TbProductShowExample example);
 
     int updateByExample(@Param("record") TbProductShow record, @Param("example") TbProductShowExample example);
+
+    int insertList(List<TbProductShow> tbProductShowList);
 }

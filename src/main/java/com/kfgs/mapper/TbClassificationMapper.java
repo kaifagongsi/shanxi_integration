@@ -30,4 +30,8 @@ public interface TbClassificationMapper {
     int updateByPrimaryKey(TbClassification record);
 
     List<TbClassification> selectProductIdAndAllTbClassification();
+
+    TbClassification selectMaxClassificationIdMaxLevelAndParentIdByName(String name);
+
+    int insertList(List<TbClassification> tbClassificationList);
 }

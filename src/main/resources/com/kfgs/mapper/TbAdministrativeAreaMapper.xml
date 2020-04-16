@@ -255,4 +255,9 @@
     where id = #{id,jdbcType=INTEGER}
       and city_id = #{cityId,jdbcType=VARCHAR}
   </update>
+
+    <!--  自己 新增-->
+    <select id="selectCityIdByCityName" resultType="java.lang.String">
+        select city_id from tb_administrative_area where name = #{name}
+    </select>
 </mapper>

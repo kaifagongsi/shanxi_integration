@@ -305,4 +305,32 @@
             tb_classification c
         LEFT JOIN tb_product p ON c.name = p.name
   </select>
+    <select id="selectMaxClassificationIdMaxLevelAndParentIdByName"
+            resultType="com.kfgs.domain.TbClassification">
+        SELECT
+            max(classificationId) + 1  as classificationId,
+            max(LEVEL) + 1 as level,
+            parentId
+        FROM
+            tb_classification
+        WHERE
+            parentId = (
+                SELECT
+                    classificationId
+                FROM
+                    tb_classification
+                WHERE
+                    NAME = #{name}
+            )
+    </select>
+
+    <insert id="insertList">
+       insert into tb_classification(name,rootId,classificationId,parentId,create_time,isdelete,LEVEL)
+       values
+       <foreach collection="list" item="item">
+           (
+            #{item.name},#{item.rootid},#{item.classificationid},#{item.parentid},#{item.createTime},#{item.isdelete},#{item.level}
+           )
+       </foreach>
+    </insert>
 </mapper>

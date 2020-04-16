@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+
+    <!-- 导入js  -->
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <!-- 导入controller  -->
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="../js/adminBase.js"></script>
+    <script type="text/javascript" src="../js/controller/adminController.js"></script>
+    <script type="text/javascript" src="../js/service/adminService.js"></script>
+</head>
+<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminController">
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col-md-2 title">文件上传</div>
+                    <div class="col-md-4 data">
+                        <a href="javascript:;" class="a-upload">
+                            <input type="file" accept=".xlsx,.xls" name="" id="file">
+                        </a>
+                    </div>
+                    <div class="col-md-1 title">上传类型</div>
+                    <div class="col-md-2 data">
+                        <select class="form-control" ng-model="dataBasesType">
+                            <option value="1">产品</option>
+                            <option value="2">公告</option>
+                            <option value="3">政策文件</option>
+                            <option value="4">用标企业</option>
+                        </select>
+                    </div>
+                    <div ng-if="dataBasesType == 1">
+                        <div class="col-md-1 title">产品类型</div>
+                        <div class="col-md-2 data" >
+                            <select class="form-control" ng-model="productType">
+                                <option value="1">陕西省内</option>
+                                <option value="2">陕西省外</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2 ">
+                        <button type="button" class="btn bg-maroon" ng-click="saveExcel()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

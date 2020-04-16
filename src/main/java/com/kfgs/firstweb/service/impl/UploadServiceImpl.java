@@ -39,7 +39,7 @@ public class UploadServiceImpl implements UploadService {
         //1.查询产品的内容
         TbProductShowExample tbProductShowExample = new TbProductShowExample();
         String productId = pData.get("id").toString();
-        tbProductShowExample.createCriteria().andIdEqualTo(Integer.parseInt(productId)).andTitleEqualTo(pData.get("title").toString());
+        tbProductShowExample.createCriteria().andTitleEqualTo(pData.get("title").toString());
         List<TbProductShow> model = tbProductShowMapper.selectByExampleWithBLOBs(tbProductShowExample);
         if (model !=null && model.size()== 1) {
             for (TbProductShow xx : model) {
@@ -54,7 +54,6 @@ public class UploadServiceImpl implements UploadService {
             map.put("content","参数错误");
         }
         //2查询相关网站、相关
-
         TbRelatedWebsitesExample example = new TbRelatedWebsitesExample();
         example.createCriteria().andProductIdEqualTo(productId).andTypeEqualTo("相关网站");
         List<TbRelatedWebsites> websites = tbRelatedWebsitesMapper.selectByExample(example);

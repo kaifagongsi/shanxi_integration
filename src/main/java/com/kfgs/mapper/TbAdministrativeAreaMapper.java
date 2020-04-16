@@ -29,4 +29,6 @@ public interface TbAdministrativeAreaMapper {
     int updateByPrimaryKeySelective(TbAdministrativeArea record);
 
     int updateByPrimaryKey(TbAdministrativeArea record);
+
+    String selectCityIdByCityName(String name);
 }

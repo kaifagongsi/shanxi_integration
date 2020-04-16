@@ -58,4 +58,7 @@ public interface TbProductMapper {
 
     //产品列表
     List<TbProductExt> getList(TbProductExample example);
+
+    //批量新增
+    int insertList( List<TbProduct> list);
 }

@@ -265,6 +265,18 @@
             <version>1.16.10</version>
             <scope>provided</scope>
         </dependency>
+        <!--  poi  处理Excel2003 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!--  poi  处理Excel2007 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
     </dependencies>
 
     <repositories>
