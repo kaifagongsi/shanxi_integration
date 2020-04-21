@@ -301,4 +301,14 @@
       notice_time = #{noticeTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <insert id="insertList" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_protection_notice(title,create_time,isdelete,typeVal,notice_time)
+        values
+        <foreach collection="list" item="item"   separator=",">
+            (
+              #{item.title},#{item.createTime},#{item.isdelete},#{item.typeval},#{item.noticeTime}
+            )
+        </foreach>
+    </insert>
 </mapper>

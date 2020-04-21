@@ -2,6 +2,7 @@ package com.kfgs.mapper;
 
 import com.kfgs.domain.TbProduct;
 import com.kfgs.domain.TbProductExample;
+import com.kfgs.domain.ext.TbProductExcel;
 import com.kfgs.domain.ext.TbProductExt;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
@@ -60,5 +61,5 @@ public interface TbProductMapper {
     List<TbProductExt> getList(TbProductExample example);
 
     //批量新增
-    int insertList( List<TbProduct> list);
+    int insertList( List<TbProductExcel> list);
 }

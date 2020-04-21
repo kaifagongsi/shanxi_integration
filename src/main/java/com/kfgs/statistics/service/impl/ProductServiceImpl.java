@@ -128,8 +128,13 @@ public class ProductServiceImpl implements ProductService {
         //核准公告为1对1 所有不用处理
         //受理公告可能为1对多，需要处理
         String gongGaoTitleAndTime = getShouLiGongGaoByProductId(productId);
-        tbProductExt.setProtectionNoticeTitle(gongGaoTitleAndTime.split("--")[0]);
-        tbProductExt.setNoticeTime(gongGaoTitleAndTime.split("--")[1]);
+        if("--".equals(gongGaoTitleAndTime)){
+            tbProductExt.setProtectionNoticeTitle("");
+            tbProductExt.setNoticeTime("");
+        }else{
+            tbProductExt.setProtectionNoticeTitle(gongGaoTitleAndTime.split("--")[0]);
+            tbProductExt.setNoticeTime(gongGaoTitleAndTime.split("--")[1]);
+        }
         resultMap.put("state","200");
         resultMap.put("data",tbProductExt);
         //处理核准公告

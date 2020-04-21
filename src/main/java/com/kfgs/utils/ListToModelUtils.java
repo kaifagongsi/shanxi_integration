@@ -27,13 +27,6 @@ public class ListToModelUtils {
             Method method = null;
             Class<?> clazz = t.getClass();
             try {
-                /*if("id".equals(fieldName) || "isdelete".equals(fieldName) ){
-                    method = clazz.getMethod(setMethodName, new Class[] { Integer.class });
-                }else if( "createTime".equals(fieldName)){
-                    method = clazz.getMethod(setMethodName, new Class[] { Date.class });
-                }else {
-                    method = clazz.getMethod(setMethodName, new Class[] { list.get(k).getClass() });
-                }*/
                 method = clazz.getMethod(setMethodName, new Class[] { list.get(k).getClass() });
                 System.out.println("list.get("+k+").getClass():"+list.get(k).getClass());
             } catch (SecurityException e1) {
@@ -55,13 +48,7 @@ public class ListToModelUtils {
             if (method == null) {
                 return;
             }
-           /* if("id".equals(fieldName) || "isdelete".equals(fieldName) ){
-                method.invoke(t, new Integer[] {Integer.getInteger( list.get(k).toString() )}   );
-            }else if( "createTime".equals(fieldName)){
-                method.invoke(t, new Date[] { new Date(  list.get(k).toString() ) });
-            }else {
-                method.invoke(t, new Object[] { list.get(k) });
-            }*/
+
             method.invoke(t, new Object[] { list.get(k) });
         }
     }

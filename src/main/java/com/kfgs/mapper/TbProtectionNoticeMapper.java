@@ -36,4 +36,6 @@ public interface TbProtectionNoticeMapper {
     int updateByPrimaryKey(TbProtectionNotice record);
 
     public List<TbProtectionNotice> selectAll();
+
+    int insertList(List<TbProtectionNotice> tbProtectionNotices);
 }

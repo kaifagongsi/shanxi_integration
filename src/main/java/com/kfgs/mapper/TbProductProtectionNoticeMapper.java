@@ -31,4 +31,6 @@ public interface TbProductProtectionNoticeMapper {
     int updateByPrimaryKey(TbProductProtectionNotice record);
 
     List<TbProtectionNotice> selectGongGaoTitleByProducrId(@Param("productId") String productId);
+
+    int insertList(List<TbProductProtectionNotice> tbProductProtectionNoticeList);
 }

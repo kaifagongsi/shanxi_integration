@@ -135,7 +135,8 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kfgs.domain.TbProductProtectionNoticeExample" resultType="java.lang.Integer" >
+
+    <select id="countByExample" parameterType="com.kfgs.domain.TbProductProtectionNoticeExample" resultType="java.lang.Integer" >
     select count(*) from tb_product_protection_notice
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -223,4 +224,15 @@
         WHERE
             ppn.protection_notice_id = pn.id
     </select>
+
+
+    <insert id="insertList">
+        insert into tb_product_protection_notice(product_id,protection_notice_id,create_time)
+         values
+         <foreach collection="list" item="item" separator=",">
+             (
+                #{item.productId},#{item.protectionNoticeId},#{item.createTime}
+             )
+         </foreach>
+    </insert>
 </mapper>

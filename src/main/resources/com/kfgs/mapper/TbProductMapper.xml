@@ -682,13 +682,13 @@
 
 
 
-    <insert id="insertList" parameterType="java.util.List">
-        insert into tb_product(name,classificationId,administrative_area,create_time,isdelete,approval_year,approval_authority_product,
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_product(create_time,name,classificationId,administrative_area,isdelete,approval_year,approval_authority_product,
           approval_announcement_no_product,approval_announcement_no_product_all,province_name,city_name,preliminary_examination_body,
           applicant_organization,protection_scope,document_defining_the_scope_of_protection,technical_specifications,use_of_special_signs)
         values
         <foreach collection="list" item="item"  index="index" separator="," close=")" open="(" >
-            #{item.name},#{item.classificationid},#{item.administrativeArea},#{item.createTime}, #{item.isdelete},#{item.approvalYear},#{item.approvalAuthorityProduct},
+            #{item.createDate}, #{item.name},#{item.classificationid},#{item.administrativeArea}, #{item.isdelete},#{item.approvalYear},#{item.approvalAuthorityProduct},
             #{item.approvalAnnouncementNoProduct},#{item.approvalAnnouncementNoProductAll}, #{item.provinceName},#{item.cityName},#{item.preliminaryExaminationBody},
             #{item.applicantOrganization},#{item.protectionScope}, #{item.documentDefiningTheScopeOfProtection},#{item.technicalSpecifications},#{item.useOfSpecialSigns}
         </foreach>
