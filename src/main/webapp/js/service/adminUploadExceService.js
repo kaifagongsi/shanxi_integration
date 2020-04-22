@@ -1,8 +1,7 @@
-//统计service层
-adminApp.service('adminService',function ($http) {
+//admin的上传excel的service
+adminApp.service('adminUploadExcelService',function ($http) {
 
     this.saveUploadExcel = function (dataBasesType,productType) {
-        console.log("adminService")
         /*
         * H5的类：FormData
         * */

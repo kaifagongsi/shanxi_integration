@@ -91,6 +91,10 @@ public class UploadExcelServiceImpl implements UploadExcelService {
      * @date : 2020/4/22 9:28
      */
     private void uploadEnterprise(List<List<Object>> dataList) {
+        //设置tbproductMap
+        Map<String,String> productIdAndNameMap = getProductIdAndNameMap();
+        //设置行政区间Map
+        Map<String,String> areaMap = getAdminAreaMap();
         List<TbEnterpriseExcel> enterpriseList = new ArrayList<>();
         List<TbProtectionNotice> noticesList = new ArrayList<>();
         Date date = new Date();
@@ -109,11 +113,9 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 }
                 //1.1设置产品ID
                 String productName = tbEnterpriseExcel.getProductName();
-                String productId = String.valueOf(tbProductMapper.selectByName(productName));
-                tbEnterpriseExcel.setProductName(productId);
+                tbEnterpriseExcel.setProductName(productIdAndNameMap.get(productName));
                 //1.2设置行政区间
-                String area = tbAdministrativeAreaMapper.selectCityIdByCityName(tbEnterpriseExcel.getAdministrativeId());
-                tbEnterpriseExcel.setAdministrativeId(area);
+                tbEnterpriseExcel.setAdministrativeId(areaMap.get(tbEnterpriseExcel.getAdministrativeId()));
                 enterpriseList.add(tbEnterpriseExcel);
                 //1.3设置核准年度
                 String approvalYear = tbEnterpriseExcel.getApprovalYear();
@@ -128,11 +130,13 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 noticesList.add(tbProtectionNotice);
             }
         }
-
         int inserEnterprise = tbEnterpriseMapper.insertList(enterpriseList);
         int tbProductProtectionNoticeNum = tbProtectionNoticeMapper.insertList(noticesList);
-
         System.out.println(inserEnterprise + tbProductProtectionNoticeNum);
+    }
+
+    private Map<String, String> getProductIdAndNameMap() {
+        return  listToMap(tbProductMapper.selectProductIdAndName());
     }
 
     /**
@@ -362,9 +366,9 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 String value = null;
                 for(Map.Entry<String, String> entry : map1.entrySet()){
                     if ("key".equals(entry.getKey())) {
-                        key =   entry.getValue();
+                        key =  String.valueOf(entry.getValue());
                     } else if ("value".equals(entry.getKey())) {
-                        value =  entry.getValue();
+                        value = String.valueOf(entry.getValue());
                     }
                 }
                 map.put(key, value);

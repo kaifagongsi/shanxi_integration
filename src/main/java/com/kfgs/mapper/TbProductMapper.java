@@ -7,6 +7,7 @@ import com.kfgs.domain.ext.TbProductExt;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,4 +65,8 @@ public interface TbProductMapper {
     int insertList( List<TbProductExcel> list);
 
     int selectByName(String productName);
+
+    List<HashMap<String, String>> selectProductIdAndName();
+
+    List<TbProduct> selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice();
 }

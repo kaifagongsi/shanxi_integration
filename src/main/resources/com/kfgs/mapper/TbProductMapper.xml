@@ -702,4 +702,11 @@
     <select id="selectByName" resultType="java.lang.Integer">
         select id from tb_product where name = #{productName}
     </select>
+    <select id="selectProductIdAndName" resultType="java.util.HashMap">
+        select name as 'key', id as 'value' from tb_product
+    </select>
+
+    <select id="selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice">
+
+    </select>
 </mapper>
