@@ -133,10 +133,10 @@
         and approval_announcement_no_enterprise = #{approvalAnnouncementNoEnterprise,jdbcType=VARCHAR}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="com.kfgs.domain.TbEnterpriseKey" >
-    delete from tb_enterprise
-    where product_id = #{productId,jdbcType=INTEGER}
-      and enterprise_name = #{enterpriseName,jdbcType=VARCHAR}
-      and approval_announcement_no_enterprise = #{approvalAnnouncementNoEnterprise,jdbcType=VARCHAR}
+        delete from tb_enterprise
+        where product_id = #{productId,jdbcType=INTEGER}
+          and enterprise_name = #{enterpriseName,jdbcType=VARCHAR}
+          and approval_announcement_no_enterprise = #{approvalAnnouncementNoEnterprise,jdbcType=VARCHAR}
   </delete>
     <delete id="deleteByExample" parameterType="com.kfgs.domain.TbEnterpriseExample" >
         delete from tb_enterprise
@@ -145,18 +145,18 @@
         </if>
     </delete>
     <insert id="insert" parameterType="com.kfgs.domain.TbEnterprise" >
-    insert into tb_enterprise (product_id, enterprise_name, approval_announcement_no_enterprise,
-      id, enterprise_address, administrative_id,
-      create_time, isdelete, brand,
-      corporate_representative, approval_announcement_no_enterprise_all,
-      uniform_social_credit_code, approval_authority_enterprise,
-      approval_year, is_first_submission)
-    values (#{productId,jdbcType=INTEGER}, #{enterpriseName,jdbcType=VARCHAR}, #{approvalAnnouncementNoEnterprise,jdbcType=VARCHAR},
-      #{id,jdbcType=INTEGER}, #{enterpriseAddress,jdbcType=VARCHAR}, #{administrativeId,jdbcType=VARCHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{isdelete,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR},
-      #{corporateRepresentative,jdbcType=VARCHAR}, #{approvalAnnouncementNoEnterpriseAll,jdbcType=VARCHAR},
-      #{uniformSocialCreditCode,jdbcType=VARCHAR}, #{approvalAuthorityEnterprise,jdbcType=VARCHAR},
-      #{approvalYear,jdbcType=VARCHAR}, #{isFirstSubmission,jdbcType=VARCHAR})
+        insert into tb_enterprise (product_id, enterprise_name, approval_announcement_no_enterprise,
+          id, enterprise_address, administrative_id,
+          create_time, isdelete, brand,
+          corporate_representative, approval_announcement_no_enterprise_all,
+          uniform_social_credit_code, approval_authority_enterprise,
+          approval_year, is_first_submission)
+        values (#{productId,jdbcType=INTEGER}, #{enterpriseName,jdbcType=VARCHAR}, #{approvalAnnouncementNoEnterprise,jdbcType=VARCHAR},
+          #{id,jdbcType=INTEGER}, #{enterpriseAddress,jdbcType=VARCHAR}, #{administrativeId,jdbcType=VARCHAR},
+          #{createTime,jdbcType=TIMESTAMP}, #{isdelete,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR},
+          #{corporateRepresentative,jdbcType=VARCHAR}, #{approvalAnnouncementNoEnterpriseAll,jdbcType=VARCHAR},
+          #{uniformSocialCreditCode,jdbcType=VARCHAR}, #{approvalAuthorityEnterprise,jdbcType=VARCHAR},
+          #{approvalYear,jdbcType=VARCHAR}, #{isFirstSubmission,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.kfgs.domain.TbEnterprise" >
         insert into tb_enterprise
@@ -255,6 +255,7 @@
             </if>
         </trim>
     </insert>
+
     <select id="countByExample" parameterType="com.kfgs.domain.TbEnterpriseExample" resultType="java.lang.Integer" >
         select count(*) from tb_enterprise
         <if test="_parameter != null" >
@@ -604,4 +605,19 @@
 
 
     </select>
+
+
+    <insert id="insertList" >
+        insert into tb_enterprise(enterprise_name,enterprise_address,administrative_id,product_id,create_time,isdelete,
+                  corporate_representative,approval_announcement_no_enterprise,approval_announcement_no_enterprise_all,
+                  uniform_social_credit_code,approval_authority_enterprise,approval_year,is_first_submission)
+        values
+        <foreach collection="list" separator="," item="item">
+            (
+              #{item.enterpriseName},#{item.enterpriseAddress},#{item.administrativeId},#{item.productName},#{item.createTime},#{item.isdelete},
+              #{item.corporateRepresentative},#{item.approvalAnnouncementNoEnterprise},#{item.approvalAnnouncementNoEnterpriseAll},
+              #{item.uniformSocialCreditCode},#{item.approvalAuthorityEnterprise},#{item.approvalYear},#{item.isFirstSubmission}
+            )
+        </foreach>
+    </insert>
 </mapper>

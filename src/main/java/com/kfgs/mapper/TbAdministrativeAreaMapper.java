@@ -5,7 +5,9 @@ import com.kfgs.domain.TbAdministrativeAreaExample;
 import com.kfgs.domain.TbAdministrativeAreaKey;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface TbAdministrativeAreaMapper {
     int countByExample(TbAdministrativeAreaExample example);
@@ -31,4 +33,6 @@ public interface TbAdministrativeAreaMapper {
     int updateByPrimaryKey(TbAdministrativeArea record);
 
     String selectCityIdByCityName(String name);
+
+    List<HashMap<String,String>> selectCityIdAndNameReturnMap();
 }

@@ -3,6 +3,7 @@ package com.kfgs.admin.service.impl;
 import com.kfgs.admin.service.UploadExcelService;
 import com.kfgs.domain.*;
 import com.kfgs.domain.ext.ExcelSheetPO;
+import com.kfgs.domain.ext.TbEnterpriseExcel;
 import com.kfgs.domain.ext.TbProductExcel;
 import com.kfgs.mapper.*;
 import com.kfgs.utils.DatabasePropertiesUtils;
@@ -51,17 +52,24 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     @Autowired
     TbProductProtectionNoticeMapper tbProductProtectionNoticeMapper;
 
+
+    @Autowired
+    TbEnterpriseMapper tbEnterpriseMapper;
+
     @Override
     public void upload(MultipartFile file,String dataBasesType,String productType) {
         String originalFilename = file.getOriginalFilename();
         String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         try {
-            // 设置excel读取15列数据
-            List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 17);
-            if("产品.xls".equals(originalFilename)){
-                uploadProduct(list.get(0).getDataList());
-            }else if("用标企业.xls".equals(originalFilename)){
 
+            if("1".equals(dataBasesType)){
+                // 设置excel读取15列数据
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 17);
+                uploadProduct(list.get(0).getDataList());
+            }else if("2".equals(dataBasesType)){
+                // 设置excel读取15列数据
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 11);
+                uploadEnterprise(list.get(0).getDataList());
             }else if("公告.xls".equals(originalFilename)){
 
             }else if("政策文件.xls".equals(originalFilename)){
@@ -70,6 +78,61 @@ public class UploadExcelServiceImpl implements UploadExcelService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 功能描述:
+     * 〈〉
+     * 1.将企业插入到tb_enterprise
+     * 2.将核准公告插入到tb_protection_notice中
+     * @param dataList 1
+     * @return : void
+     * @author : lxl
+     * @date : 2020/4/22 9:28
+     */
+    private void uploadEnterprise(List<List<Object>> dataList) {
+        List<TbEnterpriseExcel> enterpriseList = new ArrayList<>();
+        List<TbProtectionNotice> noticesList = new ArrayList<>();
+        Date date = new Date();
+        for(int i = 1; i < dataList.size(); i++){
+            List<Object> item = dataList.get(i);
+            String name = item.get(0).toString();
+            if(name !=null && !"".equals(name)){
+                //1.设置企业名称
+                TbEnterpriseExcel tbEnterpriseExcel = new TbEnterpriseExcel();
+                item.add(0,date);
+                item.add(1,0);
+                try {
+                    ListToModelUtils.listToModel(item,tbEnterpriseExcel);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //1.1设置产品ID
+                String productName = tbEnterpriseExcel.getProductName();
+                String productId = String.valueOf(tbProductMapper.selectByName(productName));
+                tbEnterpriseExcel.setProductName(productId);
+                //1.2设置行政区间
+                String area = tbAdministrativeAreaMapper.selectCityIdByCityName(tbEnterpriseExcel.getAdministrativeId());
+                tbEnterpriseExcel.setAdministrativeId(area);
+                enterpriseList.add(tbEnterpriseExcel);
+                //1.3设置核准年度
+                String approvalYear = tbEnterpriseExcel.getApprovalYear();
+                tbEnterpriseExcel.setApprovalYear(approvalYear.substring(0,4) + "年");
+                //2.1设置核准公告
+                TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
+                tbProtectionNotice.setTitle(tbEnterpriseExcel.getApprovalAnnouncementNoEnterpriseAll());
+                tbProtectionNotice.setNoticeTime(approvalYear.substring(0,10));
+                tbProtectionNotice.setCreateTime(date);
+                tbProtectionNotice.setIsdelete(0);
+                tbProtectionNotice.setTypeval("核准公告");
+                noticesList.add(tbProtectionNotice);
+            }
+        }
+
+        int inserEnterprise = tbEnterpriseMapper.insertList(enterpriseList);
+        int tbProductProtectionNoticeNum = tbProtectionNoticeMapper.insertList(noticesList);
+
+        System.out.println(inserEnterprise + tbProductProtectionNoticeNum);
     }
 
     /**
@@ -85,6 +148,27 @@ public class UploadExcelServiceImpl implements UploadExcelService {
      * @date : 2020/4/16 14:40
      */
     private void uploadProduct(List<List<Object>> dataList) {
+        //判断文件是否只有标题
+        if(dataList.size() == 1){
+            return;
+        }
+        //初始化行政区间map
+        Map<String,String> areaMap = getAdminAreaMap();
+
+        /**
+         * 初始化获取当前最大类别的产品id
+         */
+        Map<String,String> classificationAreaMap = getClassificationMap(1,1);
+
+        /**
+         * 初始化获取当前层级id
+         */
+        Map<String,String> classificationLevelMap = getClassificationMap(2,1);
+        /**
+         * 初始化获取当前一级类的id
+         */
+        Map<String,String> classificationParentIdMap = getClassificationMap(3,1);
+
         List<TbProductExcel> productList = new ArrayList<>();
         List<TbClassification> tbClassificationList = new ArrayList<>();
         List<TbProductShow> tbProductShowList = new ArrayList<>();
@@ -92,6 +176,7 @@ public class UploadExcelServiceImpl implements UploadExcelService {
         List<TbProductProtectionNotice> tbProductProtectionNoticeList = new ArrayList<>();
         //每行
         Date date = new Date();
+        //第0行是标题列表
         for(int i = 1; i < dataList.size(); i++){
             List<Object> item = dataList.get(i);
             String name = item.get(0).toString();
@@ -108,19 +193,21 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 }
                 //放入产品表中
                 //1.1设置产品的分类id
-                TbClassification temp = tbClassificationMapper.selectMaxClassificationIdMaxLevelAndParentIdByName(productExcel.getClassificationid());
-                productExcel.setClassificationid(String.format("%04d",Integer.parseInt(temp.getClassificationid())));
+                String classificationName = productExcel.getClassificationid();
+                String areaName = productExcel.getAdministrativeArea();
+                //TbClassification temp = tbClassificationMapper.selectMaxClassificationIdMaxLevelAndParentIdByName(productExcel.getClassificationid());
+                productExcel.setClassificationid(String.format("%04d",Integer.parseInt(classificationAreaMap.get(classificationName) ) + i ));
                 //1.2设置产品的行政区间id
-                String area = tbAdministrativeAreaMapper.selectCityIdByCityName(productExcel.getAdministrativeArea());
-                productExcel.setAdministrativeArea(area);
+               // String area = tbAdministrativeAreaMapper.selectCityIdByCityName(productExcel.getAdministrativeArea());
+                productExcel.setAdministrativeArea(areaMap.get(areaName));
                 //1.3设置受理年度
                 String acceptanceYearInit = productExcel.getAcceptanceYear().substring(0,10);
-                String acceptanceYear = productExcel.getAcceptanceYear().substring(0,4) + "年";
+                String acceptanceYear = acceptanceYearInit.substring(0,4) + "年";
                 productExcel.setAcceptanceYear(acceptanceYear);
                 //1.4设置批准年度
                 //获取批准年度，后面会用到
                 String approvalYearInit = productExcel.getApprovalYear().substring(0,10);
-                String approvalYear = productExcel.getApprovalYear().substring(0,4) + "年";
+                String approvalYear = approvalYearInit.substring(0,4) + "年";
                 productExcel.setApprovalYear(approvalYear);
                 productList.add(productExcel);
 
@@ -129,11 +216,11 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 classification.setName(name);
                 classification.setRootid("2");
                 //设置分类
-                classification.setClassificationid(String.format("%04d",Integer.parseInt(temp.getClassificationid())));
-                classification.setParentid(temp.getParentid());
+                classification.setClassificationid(String.format("%04d",Integer.parseInt(classificationAreaMap.get(classificationName) ) + i ));
+                classification.setParentid(  classificationParentIdMap.get(classificationName)   );
                 classification.setCreateTime(date);
                 classification.setIsdelete(0);
-                classification.setLevel(String.valueOf(Integer.parseInt(temp.getLevel()) + 1));
+                classification.setLevel(String.valueOf(Integer.parseInt(  classificationLevelMap.get(classificationName)) + 1));
                 if(tbClassificationList.contains(classification)){
                     return;
                 }else{
@@ -151,8 +238,6 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 }else{
                     tbProductShowList.add(show);
                 }
-
-
                 //4.将受理公告插入到tb_protection_notice中
                 TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
                 tbProtectionNotice.setTitle(productExcel.getAcceptanceAnnouncement());
@@ -218,6 +303,74 @@ public class UploadExcelServiceImpl implements UploadExcelService {
         int tbProductProtectionNoticeNum = tbProductProtectionNoticeMapper.insertList(tbProductProtectionNoticeList);
 
         System.out.println(insertProductNum + " " + insertTbClassificationNum+ " " + insertTbProductShowNum + " " + insertTbProtectionNotice + "" + tbProductProtectionNoticeNum);
+    }
+    /**
+     * 功能描述:
+     * 〈〉
+     *
+     * @param field 1 name为key，最大分类id为value， 2 表示 name 为key ，最大层级level为value，3 表示 name为key 分类id为value（）
+     * @param county 1 表示为 陕西省内，2表示为国内陕省外
+     * @return : java.util.Map<java.lang.String,java.lang.String>
+     * @author : lxl
+     * @date : 2020/4/22 15:12
+     */
+    private Map<String, String> getClassificationMap(int field, int county) {
+        // 陕西省内
+        if(1 == county){
+            if(1 == field){
+                List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndClassificationIdReturnMap("tb_classification");
+                return listToMap(mapList);
+            }else if(2 == field){
+                List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndLevelReturnMap("tb_classification");
+                return listToMap(mapList);
+            }else if(3 == field){
+                List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndParentIdReturnMap("tb_classification");
+                return listToMap(mapList);
+            }else{
+                return null;
+            }
+        }else {
+            // 国内陕西省外
+            if(1 == field){
+                List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndClassificationIdReturnMap("tb_classfication_country");
+                return listToMap(mapList);
+            }else if(2 == field){
+                List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndLevelReturnMap("tb_classfication_country");
+                return listToMap(mapList);
+            }else if(3 == field){
+                List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndParentIdReturnMap("tb_classfication_country");
+                return listToMap(mapList);
+            }else{
+                return null;
+            }
+        }
+    }
+
+    /**
+     *  初始化行政区间map对象
+     */
+    public Map<String, String> getAdminAreaMap() {
+        List<HashMap<String,String>> list = tbAdministrativeAreaMapper.selectCityIdAndNameReturnMap();
+        return  listToMap(list);
+    }
+
+    public Map<String, String> listToMap(List<HashMap<String,String>> list){
+        Map<String, String> map = new HashMap<>();
+        if(list != null && !list.isEmpty()){
+            for(HashMap<String, String> map1 : list){
+                String key = null;
+                String value = null;
+                for(Map.Entry<String, String> entry : map1.entrySet()){
+                    if ("key".equals(entry.getKey())) {
+                        key =   entry.getValue();
+                    } else if ("value".equals(entry.getKey())) {
+                        value =  entry.getValue();
+                    }
+                }
+                map.put(key, value);
+            }
+        }
+        return  map;
     }
 
     /**

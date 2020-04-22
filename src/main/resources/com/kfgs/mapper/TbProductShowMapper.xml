@@ -223,7 +223,7 @@
     <insert id="insertList">
         insert into tb_product_show(title,create_time,isdelete,type)
         values
-        <foreach collection="list" item="item">
+        <foreach collection="list" item="item" separator=",">
             (
              #{item.title},#{item.createTime},#{item.isdelete},#{item.type}
             )

@@ -324,13 +324,60 @@
             )
     </select>
 
+
     <insert id="insertList">
        insert into tb_classification(name,rootId,classificationId,parentId,create_time,isdelete,LEVEL)
        values
-       <foreach collection="list" item="item">
+       <foreach collection="list" item="item" separator=",">
            (
             #{item.name},#{item.rootid},#{item.classificationid},#{item.parentid},#{item.createTime},#{item.isdelete},#{item.level}
            )
        </foreach>
     </insert>
+
+    <select id="selectNameAndClassificationIdReturnMap" resultType="java.util.HashMap"   >
+       SELECT
+            NAME AS 'key',
+            (
+                SELECT
+                    max(classificationId)
+                FROM
+                    ${tableName} b
+                WHERE
+                    b.parentId = a.classificationId
+            ) AS 'value'
+        FROM
+            ${tableName} a
+        WHERE
+            rootId = '1'
+    </select>
+
+    <select id="selectNameAndLevelReturnMap" resultType="java.util.HashMap"   >
+        SELECT
+            NAME AS 'key',
+            (
+                SELECT
+                    max(level)
+                FROM
+                    ${tableName} b
+                WHERE
+                    b.parentId = a.classificationId
+            ) AS 'value'
+        FROM
+            ${tableName} a
+        WHERE
+            rootId = '1'
+    </select>
+
+    <select id="selectNameAndParentIdReturnMap" resultType="java.util.HashMap"   >
+        SELECT
+            NAME AS 'key',
+            classificationId AS 'value'
+        FROM
+            ${tableName} a
+        WHERE
+            rootId = '1'
+    </select>
+
+
 </mapper>

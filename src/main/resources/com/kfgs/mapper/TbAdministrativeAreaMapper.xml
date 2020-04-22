@@ -260,4 +260,7 @@
     <select id="selectCityIdByCityName" resultType="java.lang.String">
         select city_id from tb_administrative_area where name = #{name}
     </select>
+    <select id="selectCityIdAndNameReturnMap" resultType="java.util.HashMap" >
+        select name as 'key', city_id as 'value' from tb_administrative_area
+    </select>
 </mapper>

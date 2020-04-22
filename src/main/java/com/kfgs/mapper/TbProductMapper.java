@@ -62,4 +62,6 @@ public interface TbProductMapper {
 
     //批量新增
     int insertList( List<TbProductExcel> list);
+
+    int selectByName(String productName);
 }

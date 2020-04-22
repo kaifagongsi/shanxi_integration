@@ -4,6 +4,7 @@ import com.kfgs.domain.TbClassification;
 import com.kfgs.domain.TbClassificationExample;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface TbClassificationMapper {
@@ -34,4 +35,10 @@ public interface TbClassificationMapper {
     TbClassification selectMaxClassificationIdMaxLevelAndParentIdByName(String name);
 
     int insertList(List<TbClassification> tbClassificationList);
+
+    List<HashMap<String,String>> selectNameAndClassificationIdReturnMap(@Param("tableName") String tableName);
+
+    List<HashMap<String, String>> selectNameAndLevelReturnMap(@Param("tableName") String tableName);
+
+    List<HashMap<String, String>> selectNameAndParentIdReturnMap(@Param("tableName") String tableName);
 }

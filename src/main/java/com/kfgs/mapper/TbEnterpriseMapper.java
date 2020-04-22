@@ -2,6 +2,7 @@ package com.kfgs.mapper;
 
 import com.kfgs.domain.TbEnterprise;
 import com.kfgs.domain.TbEnterpriseExample;
+import com.kfgs.domain.ext.TbEnterpriseExcel;
 import com.kfgs.domain.ext.TbEnterpriseExt;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
@@ -64,4 +65,6 @@ public interface TbEnterpriseMapper {
 
 
     List<TbEnterpriseExt> selectByExampleReturnTBEXT( TbEnterpriseExample example);
+
+    int insertList(List<TbEnterpriseExcel> enterpriseList);
 }
