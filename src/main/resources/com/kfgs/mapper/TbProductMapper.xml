@@ -707,6 +707,7 @@
     </select>
 
     <select id="selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice">
-
+        select pro.id,pro.name,pro.administrative_area,pro.classificationId, pro.approval_announcement_no_product, ppn.protection_notice_id
+ from tb_product pro , tb_product_protection_notice  ppn where   pro.id = ppn.product_id
     </select>
 </mapper>

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("admin/productController")
-public class productController {
+public class AdminProductController {
 
 
 }
