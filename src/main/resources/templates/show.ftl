@@ -117,9 +117,15 @@
     </div>
 
     <!--footer-->
-    <div class="footer">
-        <span style="margin-top: 2px;display: block;"></span>
-    </div>		<!--/footer-->
+    <div class="footer" style="height: 80px;">
+        <span style="margin-top: 2px;display: block;">
+            中国杨凌农业知识产权信息网 版权所有 Copyright © 2014www.ylagrin.com. All Rights Reserved<br>
+            地址：陕西省西安市雁塔区丈八一路3号旺都D座11层 邮政编码：710086<br>
+            电话：029-81101903 传真：029-81101903 信箱：service@fvce.com<br>
+            陕ICP备20070059
+        </span>
+    </div>
+    <!--/footer-->
 </div>
 
 <script type="text/javascript">
