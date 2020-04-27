@@ -25,6 +25,9 @@ public class ImgUploadUtil {
         fileTypes.add(".png");
         fileTypes.add(".doc");
         fileTypes.add(".docx");
+        fileTypes.add(".pdf");
+        fileTypes.add(".xls");
+        fileTypes.add(".xlsx");
     }
 
     /**
