@@ -247,7 +247,7 @@ img {
 .ctnindex {
 	width: 100%;
 	min-width: 1200px;
-	min-height: 727px;
+	min-height: 800px;
 	background: #fff;
 	filter: alpha(Opacity = 95);
 	background: rgba(255, 255, 255, 0.95) !important;
