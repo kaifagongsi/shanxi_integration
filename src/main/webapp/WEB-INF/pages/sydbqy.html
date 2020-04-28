@@ -60,57 +60,49 @@
 	<div class="ctnindex">
 		<div class="qycnt">
 
-			<div class="query" style="float:left;height:45px;padding-top:8px;margin-right: 15px; width: 100% ">
+			<div class="query" style="float:left;height:45px;padding-top:8px;margin-right: 15px; ">
 
-                <form class="form-horizontal">
-                    <div class="form-group ">
-                        <label class="col-sm-1 control-label">请选择</label>
-                        <select  class="col-sm-2" style="margin-top: 5px;" ng-model="searchMap.selectType">
-                            <option></option>
-                            <option>产品名称</option>
-                            <option>企业名称</option>
-                            <option>统一信用代码</option>
-                            <option>核准使用公告号</option>
-                            <option>核准时间</option>
-                            <option>核准单位</option>
-                        </select>
-                        <div class="col-sm-5" style="margin-top: 5px;">
-                            <input class="col-sm-3" type="text" ng-model="searchMap.keywords">
-                            <input class="button col-sm-2" type="submit" ng-click="load()" value="查询" style="margin-left: 6px;">
-                        </div>
-                    </div>
+				<div class="col-md-2" style="width: 25%;padding-left: 1px;" id="typeVal">
+					<select id="classificationSelect" class="form-control"   ng-model="searchMap.searchType" >
+						<option value="" >请选择</option>
+						<option>产品名称</option>
+						<option>企业名称</option>
+						<option>统一信用代码</option>
+						<option>核准使用公告号</option>
+						<option>核准时间</option>
+						<option>核准单位</option>
+					</select>
+				</div>
 
-                    <!--<div class="form-group has-success has-feedback">
-                        <label class="control-label col-sm-3" for="inputSuccess3">Input with success</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="inputSuccess3" aria-describedby="inputSuccess3Status">
-                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                            <span id="inputSuccess3Status" class="sr-only">(success)</span>
-                        </div>
-                    </div>
-                    <div class="form-group has-success has-feedback">
-                        <label class="control-label col-sm-3" for="inputGroupSuccess2">Input group with success</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <span class="input-group-addon">@</span>
-                                <input type="text" class="form-control" id="inputGroupSuccess2" aria-describedby="inputGroupSuccess2Status">
-                            </div>
-                            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                            <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
-                        </div>
-                    </div>-->
-                </form>
-
-
-
-				<!--<form id="docQform" action="/dbcp/sydbqy/query.jsp"  method="post" onsubmit="return checkvalqy();">
-
-
-					<input type="text" name="qv" value="请输入产品名称或企业名称"
-                    onfocus="if(this.value=='请输入产品名称或企业名称')this.value=''" onblur="if(this.value=='')this.value='请输入产品名称或企业名称'" autocomplete="off">
-					<input class="button" type="submit" value="查询">
-				</form>-->
+				<input type="text" name="searchMap.searchVal" value="请输入待查询信息" style="min-height: 34px;"
+					   onfocus="if(this.value=='请输入待查询信息')this.value=''" onblur="if(this.value=='')this.value='请输入待查询信息'" autocomplete="off">
+				<button style="height: 34px;width: 55px;"  class="button"  ng-click="load()" >确定</button>
 			</div>
+
+<!--			<div class="query" style="float:left;height:45px;padding-top:8px;margin-right: 15px; width: 100% ">
+
+				<form class="form-horizontal">
+					<div class="form-group ">
+						<label class="col-sm-1 control-label">请选择</label>
+						<select  class="col-sm-2" style="margin-top: 5px;" ng-model="searchMap.selectType">
+							<option>请选择</option>
+							<option>产品名称</option>
+							<option>企业名称</option>
+							<option>统一信用代码</option>
+							<option>核准使用公告号</option>
+							<option>核准时间</option>
+							<option>核准单位</option>
+						</select>
+
+						<div class="col-sm-5" style="margin-top: 5px;">
+							<input class="col-sm-3" type="text" ng-model="searchMap.keywords">
+							<input class="button col-sm-2" type="submit" ng-click="load()" value="查询" style="margin-left: 6px;">
+						</div>
+					</div>
+
+				</form>
+
+			</div>-->
 
 			<div class="listth">
 				<table cellspacing="0" cellpadding="0">

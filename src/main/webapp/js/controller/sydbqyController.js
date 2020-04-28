@@ -1,9 +1,25 @@
 //统计控制层
 firstwebApp.controller('sydbqyController',function ($scope,$location,sydbqyService) {
-    $scope.searchMap = {'pageNo':1,'pageSize':20,'keywords':'','selectType':''};
+    $scope.searchMap = {'pageNo':1,'pageSize':20,'keywords':'','searchType':'','searchVal':''};
     $scope.resultMap= {"totalPages":"0"};
     //页面加载
     $scope.load=function() {
+
+        //获取查询关键字
+        if($("#classificationSelect") != undefined && $("#classificationSelect").val() != null && $("#classificationSelect").val() != ''){
+            $scope.searchMap.searchType = $("#classificationSelect").val();
+        }else{
+            $scope.searchMap.searchType = '';
+            $scope.searchMap.searchVal = '';
+        }
+        //获取查询数值
+        if($("input[name='searchMap.searchVal']") != undefined && $("input[name='searchMap.searchVal']").val() != null  && $("input[name='searchMap.searchVal']").val() != ''
+            && $("input[name='searchMap.searchVal']").val() != '请输入待查询信息' ){
+            $scope.searchMap.searchVal = $("input[name='searchMap.searchVal']").val();
+        }else{
+            $scope.searchMap.searchVal = '';
+            $scope.searchMap.searchType = '';
+        }
 
         sydbqyService.load($scope.searchMap).success(
             function (response) {

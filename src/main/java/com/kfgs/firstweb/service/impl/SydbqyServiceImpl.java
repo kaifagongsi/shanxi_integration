@@ -251,8 +251,9 @@ public class SydbqyServiceImpl implements SydbqyService {
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
         TbEnterpriseExample tbEnterpriseExample = new TbEnterpriseExample();
-        String type = searchMap.get("selectType").toString();
-        String keywords = searchMap.get("keywords").toString();
+        String type = searchMap.get("searchType").toString();
+        /*System.out.println("***************" + type);*/
+        String keywords = searchMap.get("searchVal").toString();
         if("产品名称".equals(type)){
             TbProductExample productExample = new TbProductExample();
             productExample.createCriteria().andNameLike("%" + keywords + "%" );
