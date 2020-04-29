@@ -706,8 +706,28 @@
         select name as 'key', id as 'value' from tb_product
     </select>
 
-    <select id="selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice">
+    <select id="selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice" resultType="com.kfgs.domain.TbProduct">
         select pro.id,pro.name,pro.administrative_area,pro.classificationId, pro.approval_announcement_no_product, ppn.protection_notice_id
  from tb_product pro , tb_product_protection_notice  ppn where   pro.id = ppn.product_id
+
+    </select>
+
+    <select id="selectAdminProductList" resultType="com.kfgs.domain.ext.TbProductExt">
+        SELECT
+            pro.NAME as name,
+            pro.classificationId as classificationid,
+            pro.province_name as provinceName,
+            pro.city_name as cityName,
+            pro.approval_year as approvalYear,
+            pro.approval_announcement_no_product as approvalAnnouncementNoProduct,
+            pro.protection_scope as protectionScope
+        FROM
+            tb_product pro,
+            tb_product_protection_notice ppn,
+            tb_protection_notice pn
+        WHERE
+            pn.typeVal = '批准公告'
+        AND ppn.product_id = pro.id
+        AND ppn.protection_notice_id = pn.id
     </select>
 </mapper>

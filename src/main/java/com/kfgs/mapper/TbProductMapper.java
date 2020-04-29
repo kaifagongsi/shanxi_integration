@@ -69,4 +69,6 @@ public interface TbProductMapper {
     List<HashMap<String, String>> selectProductIdAndName();
 
     List<TbProduct> selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice();
+
+    List<TbProductExt> selectAdminProductList();
 }

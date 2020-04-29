@@ -378,6 +378,12 @@
         WHERE
             rootId = '1'
     </select>
+    <select id="selectClassificationIdAndNameReturnMap" resultType="java.util.HashMap">
+        select  classificationId as 'key' ,name as 'value' from tb_classification
+    </select>
+    <select id="selectRootIdEqulesOne" resultType="com.kfgs.domain.TbClassification">
+        select  *   from tb_classification where rootId = '1'
+    </select>
 
 
 </mapper>

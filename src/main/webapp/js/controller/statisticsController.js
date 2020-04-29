@@ -117,7 +117,7 @@ tongjiApp.controller('statisticsController',function ($scope,statisticsService) 
                     //初始化年度
                     $scope.approvalYear = response.queryResult.map.approvalYear;
                     //初始化产品分类
-                    $scope.classification = response.queryResult.map.classifications
+                    $scope.classification = response.queryResult.map.classifications;
                 }
             ).then(
                 $scope.secondTableSearchController()
@@ -133,7 +133,7 @@ tongjiApp.controller('statisticsController',function ($scope,statisticsService) 
                     //初始化年度
                     $scope.approvalYearEnt = response.queryResult.map.approvalYear;
                     //初始化产品分类
-                    $scope.classificationEnt = response.queryResult.map.classifications
+                    $scope.classificationEnt = response.queryResult.map.classifications;
                 }
             ).then(
                 $scope.thridTableSearchController()

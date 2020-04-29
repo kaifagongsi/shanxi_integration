@@ -263,4 +263,7 @@
     <select id="selectCityIdAndNameReturnMap" resultType="java.util.HashMap" >
         select name as 'key', city_id as 'value' from tb_administrative_area
     </select>
+    <select id="selectNameAndCityIdReturnMap" resultType="java.util.HashMap">
+         select city_id as 'key', name as 'value' from tb_administrative_area
+    </select>
 </mapper>

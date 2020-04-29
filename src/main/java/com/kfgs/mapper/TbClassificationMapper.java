@@ -41,4 +41,8 @@ public interface TbClassificationMapper {
     List<HashMap<String, String>> selectNameAndLevelReturnMap(@Param("tableName") String tableName);
 
     List<HashMap<String, String>> selectNameAndParentIdReturnMap(@Param("tableName") String tableName);
+
+    List<HashMap<String, String>> selectClassificationIdAndNameReturnMap();
+
+    List<TbClassification> selectRootIdEqulesOne();
 }

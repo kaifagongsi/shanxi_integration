@@ -3,7 +3,9 @@ package com.kfgs.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Date: 2020-04-15-17-30
@@ -13,6 +15,27 @@ import java.util.List;
  * @author:
  */
 public class ListToModelUtils {
+
+    public  static Map<String, String> listToMap(List<HashMap<String,String>> list){
+        Map<String, String> map = new HashMap<>();
+        if(list != null && !list.isEmpty()){
+            for(HashMap<String, String> map1 : list){
+                String key = null;
+                String value = null;
+                for(Map.Entry<String, String> entry : map1.entrySet()){
+                    if ("key".equals(entry.getKey())) {
+                        key =  String.valueOf(entry.getValue());
+                    } else if ("value".equals(entry.getKey())) {
+                        value = String.valueOf(entry.getValue());
+                    }
+                }
+                map.put(key, value);
+            }
+        }
+        return  map;
+    }
+
+
     //把list内容逐个取出来放进User实体类中
     public static <T> void listToModel(List<Object> list, T t) throws Exception {
         Field[] fields = t.getClass().getDeclaredFields();

@@ -34,5 +34,15 @@ public interface TbAdministrativeAreaMapper {
 
     String selectCityIdByCityName(String name);
 
+    /**
+     *  Name 为key
+     *  CityId 为value
+     */
     List<HashMap<String,String>> selectCityIdAndNameReturnMap();
+
+    /**
+     *  CityId 为key
+     *  Name 为value
+     */
+    List<HashMap<String,String>> selectNameAndCityIdReturnMap();
 }

@@ -11,7 +11,6 @@ import com.kfgs.utils.ExportExcelUtil;
 import com.kfgs.utils.ImportExcelSheetUtil;
 import com.kfgs.utils.ListToModelUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,7 +135,7 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     }
 
     private Map<String, String> getProductIdAndNameMap() {
-        return  listToMap(tbProductMapper.selectProductIdAndName());
+        return  ListToModelUtils.listToMap(tbProductMapper.selectProductIdAndName());
     }
 
     /**
@@ -323,13 +322,13 @@ public class UploadExcelServiceImpl implements UploadExcelService {
         if(1 == county){
             if(1 == field){
                 List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndClassificationIdReturnMap("tb_classification");
-                return listToMap(mapList);
+                return ListToModelUtils.listToMap(mapList);
             }else if(2 == field){
                 List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndLevelReturnMap("tb_classification");
-                return listToMap(mapList);
+                return ListToModelUtils.listToMap(mapList);
             }else if(3 == field){
                 List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndParentIdReturnMap("tb_classification");
-                return listToMap(mapList);
+                return ListToModelUtils.listToMap(mapList);
             }else{
                 return null;
             }
@@ -337,13 +336,13 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             // 国内陕西省外
             if(1 == field){
                 List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndClassificationIdReturnMap("tb_classfication_country");
-                return listToMap(mapList);
+                return ListToModelUtils.listToMap(mapList);
             }else if(2 == field){
                 List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndLevelReturnMap("tb_classfication_country");
-                return listToMap(mapList);
+                return ListToModelUtils.listToMap(mapList);
             }else if(3 == field){
                 List<HashMap<String, String>> mapList = tbClassificationMapper.selectNameAndParentIdReturnMap("tb_classfication_country");
-                return listToMap(mapList);
+                return ListToModelUtils.listToMap(mapList);
             }else{
                 return null;
             }
@@ -353,29 +352,12 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     /**
      *  初始化行政区间map对象
      */
+    @Override
     public Map<String, String> getAdminAreaMap() {
         List<HashMap<String,String>> list = tbAdministrativeAreaMapper.selectCityIdAndNameReturnMap();
-        return  listToMap(list);
+        return  ListToModelUtils.listToMap(list);
     }
 
-    public Map<String, String> listToMap(List<HashMap<String,String>> list){
-        Map<String, String> map = new HashMap<>();
-        if(list != null && !list.isEmpty()){
-            for(HashMap<String, String> map1 : list){
-                String key = null;
-                String value = null;
-                for(Map.Entry<String, String> entry : map1.entrySet()){
-                    if ("key".equals(entry.getKey())) {
-                        key =  String.valueOf(entry.getValue());
-                    } else if ("value".equals(entry.getKey())) {
-                        value = String.valueOf(entry.getValue());
-                    }
-                }
-                map.put(key, value);
-            }
-        }
-        return  map;
-    }
 
     /**
      *  不使用当前方式下载excel
