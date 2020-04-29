@@ -80,7 +80,7 @@
                         <div class="pull-left">
                             <div class="form-group form-inline">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default" title="展示" onclick='confirm("你确认要展示吗？")'><i class="fa fa-check"></i> 展示</button>
+                                    <button type="button" class="btn btn-default" title="展示" ng-click="showHandling()"><i class="fa fa-check"></i> 展示</button>
                                     <button type="button" class="btn btn-default" title="删除" title="删除" ng-click="deleteAll()"><i class="fa fa-trash-o"></i> 删除</button>
                                 </div>
                             </div>
@@ -107,6 +107,7 @@
                                 <th class="text-center sorting">涉诉金额</th>
                                 <th class="text-center sorting">投诉详情</th>
                                 <th class="text-center sorting">处理情况</th>
+                                <th class="text-center sorting">展示情况</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
@@ -122,6 +123,7 @@
                                 <td align="center" >{{x.amountOfComplaint}}</td>
                                 <td align="center" title="{{x.detailsOfComplaints}}">{{x.detailsOfComplaints}}</td>
                                 <td align="center" title="{{x.handlingSituation}}">{{x.handlingSituation}}</td>
+                                <td align="center" title="{{x.state}}">{{x.state}}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" data-id="edit">处理</button>
                                     <!--<button type="button" class="btn bg-olive btn-xs" ng-click="deleteHandling()">删除</button>-->

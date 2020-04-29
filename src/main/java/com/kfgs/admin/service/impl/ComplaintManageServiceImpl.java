@@ -30,7 +30,7 @@ public class ComplaintManageServiceImpl implements ComplaintManageService {
 
         Map mapResult = new HashMap();
         TbComplaintsAboutRightsProtectionExample slectExample = new TbComplaintsAboutRightsProtectionExample();
-        slectExample.createCriteria().andStateEqualTo("2");
+        slectExample.createCriteria().andStateNotEqualTo("0");
         slectExample.setOrderByClause("  create_time desc  ");
         Page<TbComplaintsAboutRightsProtection> page = (Page<TbComplaintsAboutRightsProtection>) tbComplaintsAboutRightsProtectionMapper.selectByExample(slectExample);
         System.out.println(page.getTotal());
@@ -81,8 +81,24 @@ public class ComplaintManageServiceImpl implements ComplaintManageService {
         complaintsAboutRightsProtectionExample.createCriteria().andIdEqualTo(id);
         //complaintsAboutRightsProtectionExample.createCriteria().andDetailsOfComplaintsEqualTo(detail);
         tbComplaintsAboutRightsProtection.setHandlingSituation(pData.get("handlingInfo").toString());
-        tbComplaintsAboutRightsProtection.setState("2");
+        tbComplaintsAboutRightsProtection.setState("1");
         int returnResult = tbComplaintsAboutRightsProtectionMapper.updateByExampleSelective(tbComplaintsAboutRightsProtection,complaintsAboutRightsProtectionExample);
+        return returnResult;
+    }
+
+    //展示处理后维权信息
+    @Override
+    public int showByExample(List showidList){
+        TbComplaintsAboutRightsProtection tbComplaintsAboutRightsProtection = new TbComplaintsAboutRightsProtection();
+        TbComplaintsAboutRightsProtectionExample complaintsAboutRightsProtectionExample = new TbComplaintsAboutRightsProtectionExample();
+        tbComplaintsAboutRightsProtection.setState("2");
+        int len = showidList.size();
+        int returnResult = 0;
+        for (int i=0;i<len;i++){
+            String id = showidList.get(i).toString();
+            complaintsAboutRightsProtectionExample.createCriteria().andIdEqualTo(Integer.parseInt(id));
+            returnResult = tbComplaintsAboutRightsProtectionMapper.updateByExampleSelective(tbComplaintsAboutRightsProtection,complaintsAboutRightsProtectionExample);
+        }
         return returnResult;
     }
 

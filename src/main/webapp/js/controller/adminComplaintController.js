@@ -42,8 +42,36 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         $scope.pData.handlingInfo = $("#handlingSituation").val();
         adminComplaintService.updateHandling($scope.pData).success(function (response) {
             alert("更新成功！");
+            //location.reload();
             console.log(response);
         })
+    }
+
+    //展示维权
+    $scope.showHandling = function(){
+        var checkboxs = document.getElementsByName('mychk');
+        var num = checkboxs.length;
+        //alert(num);
+        var len = 0;
+        for (var i=0;i<num;i++){
+            if (checkboxs[i].checked){
+                $scope.idList.push(checkboxs[i].value);
+                len++;
+            }
+        }
+        //alert($scope.idList.length);
+        if(len<1){
+            alert("请至少选择一条记录！");
+            return;
+        }
+        if(confirm("选中的记录将对公众展示，请确认")){
+
+            adminComplaintService.showHandling($scope.idList).success(function (response) {
+                alert("操作成功！");
+                location.reload();
+                console.log(response);
+            })
+        }
     }
 
     //删除维权
@@ -71,7 +99,6 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
                 console.log(response);
             })
         }
-        //获取选中的维权信息
 
     }
 

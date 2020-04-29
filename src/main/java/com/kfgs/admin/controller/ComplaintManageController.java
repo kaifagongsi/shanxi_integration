@@ -44,6 +44,15 @@ public class ComplaintManageController {
         return  returnBack;
     }
 
+    //展示维权信息
+    @PostMapping(value = "showHandling",produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String showHandling(@RequestBody List<String> showIdList){
+        String returnBack = "";
+        int returnstr = complaintManageService.showByExample(showIdList);
+        return returnBack;
+    }
+
     //批量删除维权信息
     @PostMapping(value = "deleteAll", produces = "text/plain;charset=UTF-8")
     @ResponseBody

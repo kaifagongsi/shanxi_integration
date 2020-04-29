@@ -19,6 +19,10 @@ adminApp.service('adminComplaintService',function ($http) {
         return $http.post('../../admin/insertHandling.do',pData);
     }
 
+    //展示维权信息
+    this.showHandling = function (showIdList) {
+        return $http.post('../../admin/showHandling.do',showIdList);
+    }
     //批量删除维权
     this.deleteAll = function (idList) {
         return $http.post('../../admin/deleteAll.do',idList);

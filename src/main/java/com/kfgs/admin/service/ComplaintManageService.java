@@ -10,4 +10,5 @@ public interface ComplaintManageService {
     public int updateByExample(Map pData);
     public int insertByExample(Map pData);
     public int deleteByExample(List idList);
+    public int showByExample(List showIdList);
 }
