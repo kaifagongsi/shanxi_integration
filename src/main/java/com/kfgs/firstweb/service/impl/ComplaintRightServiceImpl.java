@@ -51,7 +51,7 @@ public class ComplaintRightServiceImpl implements ComplaintRightService {
         Date time= new java.sql.Date(new Date().getTime());
         tbComplaintsAboutRightsProtection.setCreateTime(time);
         TbComplaintsAboutRightsProtectionExample complaintsAboutRightsProtectionExample = new TbComplaintsAboutRightsProtectionExample();
-        int returnResult = tbComplaintsAboutRightsProtectionMapper.insertComplain(tbComplaintsAboutRightsProtection);
+        int returnResult = tbComplaintsAboutRightsProtectionMapper.insertSelective(tbComplaintsAboutRightsProtection);
         return returnResult;
     }
 }
