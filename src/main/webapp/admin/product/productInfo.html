@@ -55,7 +55,7 @@
 
         <!-- 内容头部 -->
         <section class="content-header">
-            <h1>product.classification
+            <h1>
                 产品详细
                 <small>产品详细</small>
             </h1>
@@ -99,7 +99,7 @@
 
                                 <div class="col-md-2 title">类别</div>
                                 <div class="col-md-4 data"  >
-                                    <select class="form-control" ng-model="product.classification"  ng-options = "c.id as c.name for c in adminArea">
+                                    <select class="form-control" ng-model="product.classificationid"  ng-options = "c.classificationid as c.name for c in adminArea">
                                     </select>
                                 </div>
 
@@ -156,7 +156,7 @@
 
                                 <div class="col-md-2 title">批准公告</div>
                                 <div class="col-md-10 data">
-                                    <select class="form-control" ng-model="product.approvalAnnouncementNoProductAll"   ng-options = "c.id as c.title for c in noticePiZhunList">
+                                    <select class="form-control" ng-model="product.approvalAnnouncementNoProductAll"    ng-options = "c.id as c.title for c in noticePiZhunList">
                                     </select>
                                 </div>
 
@@ -179,7 +179,7 @@
 
                                 <div class="col-md-2 title"></div>
                                 <div class="col-md-10 data text-center">
-                                    <button type="button" class="btn bg-maroon" ng-click="saveProduct()">保存</button>
+                                    <button type="button" class="btn bg-maroon" ng-click="saveProduct()">保存基本信息</button>
                                     <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>
                                 </div>
 
@@ -190,7 +190,7 @@
                         <!--产品详细-->
                         <div class="tab-pane" id="tab-productContent">
                                 <span><p>产品名称：&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input id="title" style="width:800px;height:32px;" type="text" value="" ng-model="title" name="title" /></p>
+                                    <input id="title" style="width:800px;height:32px;" type="text" value=""   ng-model="product.name" name="title" /></p>
                                 </span>
                                 <div align="center" style="padding-top: 7px;">
                                     <textarea id="TextArea1" ng-model="content" name="content" cols="20" rows="2" class="ckeditor" ></textarea>

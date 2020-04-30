@@ -699,6 +699,7 @@
         </foreach>
     </insert>
 
+
     <select id="selectByName" resultType="java.lang.Integer">
         select id from tb_product where name = #{productName}
     </select>
@@ -714,6 +715,7 @@
 
     <select id="selectAdminProductList" resultType="com.kfgs.domain.ext.TbProductExt">
         SELECT
+            pro.id as id,
             pro.NAME as name,
             pro.classificationId as classificationid,
             pro.province_name as provinceName,
@@ -729,5 +731,80 @@
             pn.typeVal = '批准公告'
         AND ppn.product_id = pro.id
         AND ppn.protection_notice_id = pn.id
+    </select>
+
+
+    <insert id="insertProduct" parameterType="com.kfgs.domain.TbProduct" useGeneratedKeys="true" keyProperty="product.id">
+        INSERT INTO tb_product (
+                name,
+                classificationId,
+                administrative_area,
+                create_time,
+                isdelete,
+                approval_year,
+                approval_authority_product,
+                approval_announcement_no_product,
+                approval_announcement_no_product_all,
+                province_name,
+                city_name,
+                preliminary_examination_body,
+                applicant_organization,
+                protection_scope,
+                document_defining_the_scope_of_protection,
+                technical_specifications,
+                use_of_special_signs
+            )
+            VALUE
+                (
+                    #{product.name},
+                    #{product.classificationid},
+                    #{product.administrativeArea},
+                    #{product.createTime},
+                    #{product.isdelete},
+                    #{product.approvalYear},
+                    #{product.approvalAuthorityProduct},
+                    #{product.approvalAnnouncementNoProduct},
+                    #{product.approvalAnnouncementNoProductAll},
+                    #{product.provinceName},
+                    #{product.cityName},
+                    #{product.preliminaryExaminationBody},
+                    #{product.applicantOrganization},
+                    #{product.protectionScope},
+                    #{product.documentDefiningTheScopeOfProtection},
+                    #{product.technicalSpecifications},
+                    #{product.useOfSpecialSigns}
+                )
+    </insert>
+
+
+    <select id="selectByProductIdReturnProductExt" resultType="com.kfgs.domain.ext.TbProductExt" >
+      SELECT
+            pro.id as id,
+            name as name,
+            classificationId as classificationid,
+            administrative_area as administrativeArea,
+            approval_year as approvalYear,
+            approval_authority_product as approvalAuthorityProduct,
+            approval_announcement_no_product as approvalAnnouncementNoProduct,
+            approval_announcement_no_product_all as  approvalAnnouncementNoProductAll,
+            province_name as provinceName,
+            city_name as cityName,
+            preliminary_examination_body as preliminaryExaminationBody,
+            applicant_organization as applicantOrganization,
+            protection_scope as protectionScope,
+            document_defining_the_scope_of_protection as documentDefiningTheScopeOfProtection,
+            technical_specifications as 	technicalSpecifications,
+            use_of_special_signs as useOfSpecialSigns,
+            pn.id as protectionNoticeTitle,
+            pn.typeVal   as  area
+        FROM
+            tb_product pro,
+          tb_product_protection_notice ppn,
+          tb_protection_notice pn
+        where
+         ppn.product_id = pro.id  and
+         ppn.protection_notice_id = pn.id  and
+         pro.id = #{id}
+
     </select>
 </mapper>

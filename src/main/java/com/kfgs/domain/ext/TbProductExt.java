@@ -21,11 +21,13 @@ public class TbProductExt extends TbProduct implements Serializable {
     private String  area;
     private String  protectionNoticeTitle;
     private String  noticeTime;
+    private String administrativeAreaProv;
 
     public TbProductExt(){}
 
-    public TbProductExt(String noticeTime, String protectionNoticeTitle, String area, String administrativeAreaName, String classificationName, TbProduct tbProduct) {
+    public TbProductExt(String administrativeAreaProv,String noticeTime, String protectionNoticeTitle, String area, String administrativeAreaName, String classificationName, TbProduct tbProduct) {
         super(tbProduct);
+        this.administrativeAreaProv = administrativeAreaProv;
         this.administrativeAreaName = administrativeAreaName;
         this.classificationName = classificationName;
         this.area = area;

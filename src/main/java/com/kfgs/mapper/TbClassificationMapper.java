@@ -45,4 +45,8 @@ public interface TbClassificationMapper {
     List<HashMap<String, String>> selectClassificationIdAndNameReturnMap();
 
     List<TbClassification> selectRootIdEqulesOne();
+
+    int selectMaxClassificationIdByParentId(String administrativeArea);
+
+    TbClassification selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(String tbProductExtAdministrativeArea);
 }

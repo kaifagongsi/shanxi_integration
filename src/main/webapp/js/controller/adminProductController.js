@@ -7,7 +7,7 @@ adminApp.controller('adminProductController',function ($scope,adminProductServic
     //产品详细信息的报错
     $scope.pData = {'content':'','title':'','id':'1','type':'展示','time':''};
     //产品自己的信息
-    $scope.product = {"id":"","name":"","classification":"","applicantOrganization":"","preliminaryExaminationBody":"","provinceName":"","cityName":"","protectionScope":"",
+    $scope.product = {"id":0,"name":"","classificationid":"","applicantOrganization":"","preliminaryExaminationBody":"","provinceName":"","cityName":"","protectionScope":"",
                         "documentDefiningTheScopeOfProtection":"","technicalSpecifications":"","useOfSpecialSigns":"","approvalAuthorityProduct":"",
                     "approvalAnnouncementNoProduct":"","approvalAnnouncementNoProductAll":"","protectionNoticeTitle":"","administrativeArea":""};
 
@@ -16,8 +16,18 @@ adminApp.controller('adminProductController',function ($scope,adminProductServic
     $scope.noticeShouLiList = null;
     $scope.areasCityList = null;
     $scope.areasCountyList = null;
-
+    $scope.content = null;
     /*******************************产品功能**********************************/
+
+    /*
+    * 监听市级别发生变化，进行重新获取县级别的区间
+    * */
+    $scope.$watch('product.administrativeAreaProv',function (newValue,oldValue) {
+        console.log(newValue,oldValue);
+        adminProductService.getAreasCountyList(newValue).success(function (response) {
+            $scope.areasCountyList = response.queryResult.list;
+        });
+    });
 
     function initSelect() {
         adminProductService.initSelect().success(function (response) {
@@ -26,9 +36,9 @@ adminApp.controller('adminProductController',function ($scope,adminProductServic
             $scope.noticePiZhunList = response.queryResult.map.noticePiZhunList;
             $scope.noticeShouLiList = response.queryResult.map.noticeShouLiList;
             $scope.areasCityList = response.queryResult.map.areasCityList;
-            $scope.areasCountyList = response.queryResult.map.areasCountyList;
+           // $scope.areasCountyList = response.queryResult.map.areasCountyList;
         });
-    }
+    };
 
 
     $scope.initProduct = function(){
@@ -37,16 +47,31 @@ adminApp.controller('adminProductController',function ($scope,adminProductServic
         initSelect();
         if ($location.$$search.id) {
             $scope.product.id = $location.$$search['id'];
+
             //查询产品相关信息
+            adminProductService.getProductByProductId($scope.product.id).success(function (response) {
+                $scope.product = response.queryResult.map.item;
+                $scope.product.approvalAnnouncementNoProductAll = parseInt($scope.product.approvalAnnouncementNoProductAll);
+                $scope.product.protectionNoticeTitle = parseInt($scope.product.protectionNoticeTitle);
+            });
+            //查询产品详细信息
+            adminProductService.getProductInfoByProductId($scope.product.id).success(function (response) {
+                console.log(response)
+            });
         }else{
             //什么都不做
         }
-
     };
 
     $scope.saveProduct = function(){
+        console.log($scope.product);
         adminProductService.saveProduct($scope.product).success(function (response) {
            console.log(response)
+            if(response.code == "10000"){
+                alert("保存产品基本信息成功");
+            }else{
+                alert("发送异常请稍候再试");
+            }
         });
     };
 
@@ -67,7 +92,7 @@ adminApp.controller('adminProductController',function ($scope,adminProductServic
 
 
 
-
+    /*******************************产品列表**********************************/
 
     $scope.load = function () {
         adminProductService.load($scope.searchMap).success(function (response) {

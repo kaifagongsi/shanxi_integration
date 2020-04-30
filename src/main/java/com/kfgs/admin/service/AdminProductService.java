@@ -11,4 +11,8 @@ public interface AdminProductService {
     public QueryResponseResult addProduct(TbProductExt tbProductExt);
 
     QueryResponseResult getSelectMap();
+
+    QueryResponseResult getProductByProductId(String id);
+
+    QueryResponseResult getProductContentByProductId(String id);
 }

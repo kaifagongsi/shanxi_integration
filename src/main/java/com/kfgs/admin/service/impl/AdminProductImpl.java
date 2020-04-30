@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Date: 2020-04-22-21-36
@@ -43,6 +41,76 @@ public class AdminProductImpl implements AdminProductService {
     @Autowired
     TbProtectionNoticeMapper  tbProtectionNoticeMapper;
 
+    @Autowired
+    TbProductShowMapper tbProductShowMapper;
+
+    @Autowired
+    TbProductProtectionNoticeMapper tbProductProtectionNoticeMapper;
+
+    @Override
+    public QueryResponseResult getProductContentByProductId(String id) {
+        return null;
+    }
+
+
+    @Override
+    public QueryResponseResult getProductByProductId(String id) {
+        TbProductExt ext = new TbProductExt();
+        TbProductExt shouli = new TbProductExt();
+        TbProductExt pizhun = new TbProductExt();
+        List<TbProductExt> tbProductExts = tbProductMapper.selectByProductIdReturnProductExt(id);
+
+        for(TbProductExt e : tbProductExts){
+            if("受理公告".equals(e.getArea())){
+                shouli = e;
+            }else{
+                pizhun = e;
+            }
+        }
+        //设置id
+        ext.setId(Integer.parseInt(id));
+        ext.setName(shouli.getName());
+        //设置类别
+        ext.setClassificationid( shouli.getClassificationid().substring(0,2) + "00");
+        //申请机构
+        ext.setApplicantOrganization(shouli.getApplicantOrganization());
+        //初审机构
+        ext.setPreliminaryExaminationBody(shouli.getPreliminaryExaminationBody());
+        //省份名称
+        ext.setProvinceName(shouli.getProvinceName());
+        //地市县区名称
+        ext.setCityName(shouli.getCityName());
+        //保护范围
+        ext.setProtectionScope(shouli.getProtectionScope());
+        //界定保护范围文件
+        ext.setDocumentDefiningTheScopeOfProtection(shouli.getDocumentDefiningTheScopeOfProtection());
+        //技术规范
+        ext.setTechnicalSpecifications(shouli.getTechnicalSpecifications());
+        //专用标志使用
+        ext.setUseOfSpecialSigns(shouli.getUseOfSpecialSigns());
+        //批准机构
+        ext.setApprovalAuthorityProduct(shouli.getApprovalAuthorityProduct());
+        //批准公告简称
+        ext.setApprovalAnnouncementNoProduct(shouli.getApprovalAnnouncementNoProduct());
+        //批准公告全称（用于下啦框）
+        ext.setApprovalAnnouncementNoProductAll(pizhun.getProtectionNoticeTitle());
+        //受理公告 （用于下啦框）
+        ext.setProtectionNoticeTitle(shouli.getProtectionNoticeTitle());
+        //行政区间 市级别
+        ext.setAdministrativeAreaProv(shouli.getAdministrativeArea().substring(0,4)+"00");
+        //行政区间 县级别
+        ext.setAdministrativeArea(shouli.getAdministrativeArea());
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("item",ext);
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+        return queryResponseResult;
+    }
+
+
+
+
     @Override
     public QueryResponseResult adminProductListLoad(Map map) {
         //0.初始化map  不使用sql方式查询是因为太慢了
@@ -66,8 +134,66 @@ public class AdminProductImpl implements AdminProductService {
 
     @Override
     public QueryResponseResult addProduct(TbProductExt tbProductExt) {
+        TbProduct product1 = tbProductMapper.selectByPrimaryKey(tbProductExt.getId());
+        if(product1 != null){
+            //存在，直接删除
+            tbProductMapper.deleteByPrimaryKey(tbProductExt.getId());
+        }else{
+            //不存在，直接插入
+        }
+        Date currentDate = new Date();
+        //1.向tbproduct表中插入数据
         System.out.println(tbProductExt);
-        return null;
+        tbProductExt.setCreateTime(currentDate);
+        tbProductExt.setIsdelete(0);
+        //获取最大产品类别
+        String classificationid = tbProductExt.getClassificationid();
+        TbClassification classification = tbClassificationMapper.selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(classificationid);
+        tbProductExt.setClassificationid(String.format("%04d",Integer.parseInt(classification.getClassificationid())));
+        tbProductExt.setAdministrativeArea(tbProductExt.getAdministrativeArea());
+        //设置批准年度啊
+        TbProtectionNotice e = tbProtectionNoticeMapper.selectByPrimaryKey(Integer.parseInt(tbProductExt.getApprovalAnnouncementNoProductAll()));
+        tbProductExt.setApprovalYear(e.getNoticeTime().substring(0,4) + "年");
+        tbProductExt.setApprovalAnnouncementNoProductAll(e.getTitle());
+        //1.向product表插入数据
+        TbProduct product = new TbProductExt(null,null,null,null,null,null,tbProductExt);
+        int insertProduct  = tbProductMapper.insertProduct(product);
+        //2.向tbProductShwo插入数据
+        TbProductShow tbProductShow  = new TbProductShow();
+        tbProductShow.setTitle(tbProductExt.getName());
+        tbProductShow.setType("展示");
+        tbProductShow.setCreateTime(currentDate);
+        tbProductShow.setIsdelete(0);
+        List productShwoList = new ArrayList();
+        productShwoList.add(tbProductShow);
+        int insertList = tbProductShowMapper.insertList(productShwoList);
+        //3.向tb_classification表中插入数据
+        TbClassification tbClassification = new TbClassification();
+        tbClassification.setName(tbProductExt.getName());
+        tbClassification.setIsdelete(0);
+        tbClassification.setCreateTime(currentDate);
+        tbClassification.setRootid("2");
+        tbClassification.setParentid(classification.getParentid());
+        tbClassification.setClassificationid(String.format("%04d",Integer.parseInt(tbProductExt.getClassificationid())));
+        tbClassification.setLevel(classification.getLevel());
+        int insertClassification = tbClassificationMapper.insert(tbClassification);
+        //4.向tb_product_protection_notice 插入关联数据 批准公告
+        TbProductProtectionNotice ppn = new TbProductProtectionNotice();
+        ppn.setCreateTime(currentDate);
+        ppn.setProductId(String.valueOf(product.getId()));
+        ppn.setProtectionNoticeId(String.valueOf(e.getId()));
+        int insertPPN = tbProductProtectionNoticeMapper.insert(ppn);
+        //4.1向tb_product_protection_notice 插入关联数据 受理公告
+        TbProductProtectionNotice ppn1 = new TbProductProtectionNotice();
+        ppn1.setCreateTime(currentDate);
+        ppn1.setProductId(String.valueOf(product.getId()));
+        ppn1.setProtectionNoticeId(tbProductExt.getProtectionNoticeTitle());
+        int insertPPN2 = tbProductProtectionNoticeMapper.insert(ppn1);
+        if( 1 == insertPPN && 1 == insertClassification && 1 == insertList && 1 == insertProduct && 1 == insertPPN2){
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else{
+            return new QueryResponseResult(CommonCode.FAIL,null);
+        }
     }
 
     @Override
@@ -101,6 +227,8 @@ public class AdminProductImpl implements AdminProductService {
         queryResult.setMap(resultMap);
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
+
+
 
     public Map<String, String> getClassificationMap() {
         List<HashMap<String,String>> list = tbClassificationMapper.selectClassificationIdAndNameReturnMap();

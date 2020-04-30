@@ -37,4 +37,16 @@ public class AdminProductController {
     public QueryResponseResult getSelectMap(){
         return adminProductService.getSelectMap();
     }
+
+    @GetMapping("/getProductByProductId")
+    public QueryResponseResult getProductByProductId(String id ){
+        return adminProductService.getProductByProductId(id);
+    }
+
+    @GetMapping("/getProductContentByProductId")
+    public QueryResponseResult getProductContentByProductId(String id){
+        return adminProductService.getProductContentByProductId(id);
+    }
+
+
 }

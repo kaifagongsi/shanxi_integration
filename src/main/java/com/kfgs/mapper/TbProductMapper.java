@@ -71,4 +71,8 @@ public interface TbProductMapper {
     List<TbProduct> selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice();
 
     List<TbProductExt> selectAdminProductList();
+
+    int insertProduct(@Param("product") TbProduct product);
+
+    List<TbProductExt> selectByProductIdReturnProductExt(String id);
 }

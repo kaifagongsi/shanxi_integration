@@ -384,6 +384,21 @@
     <select id="selectRootIdEqulesOne" resultType="com.kfgs.domain.TbClassification">
         select  *   from tb_classification where rootId = '1'
     </select>
+    <select id="selectMaxClassificationIdByParentId" resultType="java.lang.Integer">
+
+        select max(classificationId) from tb_classification where parentId = #{administrativeArea}
+    </select>
+    <select id="selectMaxClassificationIdMaxLevelAndParentIdByClassificationId"
+            resultType="com.kfgs.domain.TbClassification">
+        SELECT
+            max(classificationId) + 1  as classificationId,
+            max(LEVEL) + 1 as level,
+            parentId
+        FROM
+            tb_classification
+        WHERE
+            parentId =  #{tbProductExtAdministrativeArea}
+    </select>
 
 
 </mapper>

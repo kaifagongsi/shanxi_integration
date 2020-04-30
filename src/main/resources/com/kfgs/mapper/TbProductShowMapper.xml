@@ -220,7 +220,7 @@
 
 
     <!--   自己添加的内容  -->
-    <insert id="insertList">
+    <insert id="insertList"  useGeneratedKeys="true" keyProperty="id">
         insert into tb_product_show(title,create_time,isdelete,type)
         values
         <foreach collection="list" item="item" separator=",">
