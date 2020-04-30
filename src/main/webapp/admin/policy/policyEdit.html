@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>政策维护页面</title>
+    <meta name="description" content="政策维护页面">
+    <meta name="keywords" content="政策维护页面">
+
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+    <!-- 页面meta /-->
+    <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../plugins/datepicker/css/datepicker3.css">
+    <link rel="stylesheet" href="../../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../../plugins/jQueryUI/jquery-ui.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../plugins/adminLTE/js/app.min.js"></script>
+    <script src="../../plugins/datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="../../plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="../../plugins/ckeditor/config.js"></script>
+
+    <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="../../js/adminBase.js"></script>
+    <script type="text/javascript" src="../../js/service/adminPolicyService.js"></script>
+    <script type="text/javascript" src="../../js/controller/adminPolicyController.js"></script>
+</head>
+
+<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminPolicyController" ng-init="initById()">
+
+    <div class="wrapper">
+
+        <!-- 内容区域 -->
+        <div class="content-wrapper" style="margin-left: 0;">
+            <!-- 内容头部 -->
+            <section class="content-header">
+                <h1>
+                    政策管理
+                    <small>政策表单</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li><a href="all-order-manage-list.html">政策管理</a></li>
+                    <li class="active">政策表单</li>
+                </ol>
+            </section>
+            <!-- 内容头部 /-->
+
+            <!-- 正文区域 -->
+            <section class="content">
+
+                <!--订单信息-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">政策信息</div>
+                    <div class="row data-type">
+
+                        <div class="col-md-2 title">政策名称</div>
+                        <div class="col-md-10 data">
+                            <input type="text" ng-model="contentMap.title" id="title" class="form-control" placeholder="政策名称" value="">
+                        </div>
+
+                        <div class="col-md-2 title">创建时间</div>
+                        <div class="col-md-4 data">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" ng-model="contentMap.createTime" id="createTime" class="form-control pull-right" id="datepicker-a3">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2 title ">政策类型</div>
+                        <div class="col-md-4 data">
+                            <select class="form-control select2" ng-model="contentMap.typeVal" id="typeVal"  style="width: 100%;">
+                        <option value="国家政策" selected="selected">国家政策</option>
+                        <option value="陕西省地方政策">陕西省地方政策</option>
+                    </select>
+                        </div>
+
+                        
+                        <div class="col-md-2 title rowHeight2x">政策信息</div>
+                        <div class="col-md-10 data rowHeight2x">
+                            <textarea id="TextArea1" ng-model="contentMap.content" name="content"  rows="3" class="ckeditor form-control" placeholder="政策信息"></textarea>
+                        </div>
+
+                        <input type="text" style="display: none" ng-model="contentMap.id"  id="policyId"  />
+
+                    </div>
+                </div>
+                <!--订单信息/-->
+
+                <!--工具栏-->
+                <div class="box-tools text-center">
+                    <button type="button" class="btn bg-maroon" ng-click="saveOrupdate()">保存</button>
+                    <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>
+                </div>
+                <!--工具栏/-->
+
+            </section>
+            <!-- 正文区域 /-->
+
+        </div>
+        <!-- 内容区域 /-->
+
+        <!-- 底部导航 -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+            </div>
+        </footer>
+        <!-- 底部导航 /-->
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // 选择框
+            $('#datepicker-a3').datepicker({
+                autoclose: true,
+                language: 'zh-CN'
+            });
+
+        });
+
+
+    </script>
+</body>
+
+</html>

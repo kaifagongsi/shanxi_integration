@@ -55,4 +55,20 @@ public class ProclamationController {
         return proclamationService.selectByPrimaryKey(pData);
     }
 
+    //新增或编辑
+    @PostMapping(value = "saveOrupdate", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String saveOrupdate(@RequestBody Map contentMap) {
+        int returnStr = proclamationService.saveOrupdate(contentMap);
+        return "success";
+    }
+
+    //批量删除维权信息
+    @PostMapping(value = "deleteAll", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public  String deleteAll(@RequestBody List<String> idList){
+        String returnBack = "success";
+        int returnStr = proclamationService.deleteByExample(idList);
+        return  returnBack;
+    }
 }

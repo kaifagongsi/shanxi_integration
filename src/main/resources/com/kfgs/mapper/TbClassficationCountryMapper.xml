@@ -95,6 +95,10 @@
     from tb_classfication_country
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <delete id="deleteByClassificationId" parameterType="java.lang.String">
+    delete from tb_classfication_country
+    where classificationId=#{classificationId,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from tb_classfication_country
     where id = #{id,jdbcType=INTEGER}

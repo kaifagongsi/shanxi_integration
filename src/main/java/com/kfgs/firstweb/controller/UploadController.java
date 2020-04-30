@@ -35,7 +35,7 @@ public class UploadController {
         }
         try {
             file.transferTo(dest); //保存文件
-            String savepath = "http://localhost:9101/upload/"+fileName;
+            String savepath = "http://localhost:9103/upload/"+fileName;
             System.out.println("*************************"+savepath);
             return savepath;
             //return "{\"file_path\":\"http://localhost:9101/upload/"+fileName+"\"}";
