@@ -8,6 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface TbClassificationMapper {
+
+    List<String> selectParentId();
+
+    int deleteByClassificationId(String id);
+
     int countByExample(TbClassificationExample example);
 
     int deleteByExample(TbClassificationExample example);

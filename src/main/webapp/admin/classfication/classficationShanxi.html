@@ -37,11 +37,11 @@
     <!-- 导入controller  -->
     <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="../../js/adminBase.js"></script>
-    <script type="text/javascript" src="../../js/service/adminComplaintService.js"></script>
-    <script type="text/javascript" src="../../js/controller/adminComplaintController.js"></script>
+    <script type="text/javascript" src="../../js/service/adminClassficationService.js"></script>
+    <script type="text/javascript" src="../../js/controller/adminClassficationController.js"></script>
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminComplaintController" ng-init="loadTodo()">
+<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminClassficationController" ng-init="loadShanxi()">
 
 <div class="wrapper">
 
@@ -75,6 +75,15 @@
                     <!-- 数据表格 -->
                     <div class="table-box">
 
+                        <div class="pull-left">
+                            <div class="form-group form-inline">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addClassModal" data-id="addClass"><i class="fa fa-file-o"></i> 新建</button>
+                                    <button type="button" class="btn btn-default" title="删除" title="删除" ng-click="deleteShanxiClass()"><i class="fa fa-trash-o"></i> 删除</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!--工具栏-->
                         <div class="box-tools pull-right">
                             <div class="has-feedback">
@@ -88,40 +97,59 @@
                         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                             <tr>
+                                <th><input type="checkbox" id="all" name="all" onclick="chk()"/></th>
                                 <th class="text-center sorting_asc">序号</th>
-                                <th class="text-center sorting">投诉对象</th>
-                                <th class="text-center sorting">投诉人</th>
-                                <th class="text-center sorting">联系方式</th>
-                                <th class="text-center sorting">投诉时间</th>
-                                <th class="text-center sorting">涉诉金额</th>
-                                <th class="text-center sorting">投诉详情</th>
-                                <th class="text-center sorting">处理情况</th>
-                                <th class="text-center">操作</th>
+                                <th class="text-center sorting">类别</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat="x in resultMap.rows">
+                                <td><input type="checkbox" id="mychk" name="mychk" value="{{x.classificationid}}"/></td>
                                 <td align="center" >{{$index+1}}</td>
-                                <td align="center" >{{x.objectOfComplaint}}</td>
-                                <td align="center" >{{x.complainant}}</td>
-                                <td align="center" >{{x.contact}}</td>
-                                <td align="center" >{{x.createTime.substring(0,10)}}</td>
-                                <td align="center" >{{x.amountOfComplaint}}</td>
-                                <td align="center" title="{{x.detailsOfComplaints}}">{{x.detailsOfComplaints}}</td>
-                                <td align="center" title="{{x.handlingSituation}}">{{x.handlingSituation}}</td>
-                                <td class="text-center">
-                                    <!--<button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>查看</button>
-                                    <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>详情</button>-->
-                                    <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>处理投诉</button>
-                                </td>
+                                <td align="center" >{{x.name}}</td>
                             </tr>
-
+                            <input type="text" style="display:none;" name="maxId" id="maxId" value="{{resultMap.rows.length}}"/>
+                            <input type="text" style="display:none;" name="rootids" id="rootids" value="{{resultMap.parentId}}"/>
                             </tbody>
                         </table>
                         <!--数据列表/-->
                     </div>
                     <!-- 数据表格 /-->
+                    <!--模态框-->
+                    <div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">新增分类</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- /.box-header -->
+                                    <!-- form start -->
+                                    <form role="form">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label for="className">类名</label>
+                                                <input type="email" class="form-control" id="className" placeholder="请输入类名">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="classPic">类别图片</label>
+                                                <input type="file" id="classPic">
 
+                                                <!--<p class="help-block">Example block-level help text here.</p>-->
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- /.box-body -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="loadTodo()">关闭</button>
+                                    <button type="button" class="btn btn-primary" ng-click="addCountryClass()">保存</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                    <!--模态框-->
 
                 </div>
                 <!-- /.box-body -->
@@ -172,77 +200,34 @@
 
     </div>
 
-    <script>
-        $(document).ready(function() {
-
-            // 激活导航位置
-            setSidebarActive("order-manage");
-
-            // 列表按钮
-            $("#dataList td input[type='checkbox']").iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                increaseArea: '20%'
-            });
-            // 全选操作
-            $("#selall").click(function() {
-                var clicks = $(this).is(':checked');
-                if (!clicks) {
-                    $("#dataList td input[type='checkbox']").iCheck("uncheck");
-                } else {
-                    $("#dataList td input[type='checkbox']").iCheck("check");
-                }
-                $(this).data("clicks", !clicks);
-            });
-        });
-    </script>
-
 </div>
+<script type="text/javascript">
+    function chk(){
+        var all = document.getElementById("all");
+        var mychk = document.getElementsByName("mychk");
+        //alert("mychk长度=="+mychk.length);
+        if(all.checked==true){
+            //alert("all.checked==true全选");
+            if(mychk.length){
+                for(var i=0;i<mychk.length;i++){
+                    mychk[i].checked = true;
+                }
 
+            }
+            mychk.chcked=true;
+        }else{
+            //alert("all.checked==false全不选");
+            if(mychk.length){
+                for(var i=0;i<mychk.length;i++){
+                    mychk[i].checked = false;
+                }
 
-<script>
-    $(document).ready(function() {
-        // 选择框
-        $(".select2").select2();
-
-        // WYSIHTML5编辑器
-        $(".textarea").wysihtml5({
-            locale: 'zh-CN'
-        });
-    });
-
-
-    // 设置激活菜单
-    function setSidebarActive(tagUri) {
-        var liObj = $("#" + tagUri);
-        if (liObj.length > 0) {
-            liObj.parent().parent().addClass("active");
-            liObj.addClass("active");
+            }
         }
+
     }
-
-
-    $(document).ready(function() {
-
-        // 激活导航位置
-        setSidebarActive("order-manage");
-
-        /*        // 列表按钮
-                $("#dataList td input[type='checkbox']").iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    increaseArea: '20%'
-                });
-                // 全选操作
-                $("#selall").click(function() {
-                    var clicks = $(this).is(':checked');
-                    if (!clicks) {
-                        $("#dataList td input[type='checkbox']").iCheck("uncheck");
-                    } else {
-                        $("#dataList td input[type='checkbox']").iCheck("check");
-                    }
-                    $(this).data("clicks", !clicks);
-                });*/
-    });
 </script>
+
 </body>
 
 </html>

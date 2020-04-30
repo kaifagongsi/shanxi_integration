@@ -13,6 +13,7 @@
     <result column="level" property="level" jdbcType="VARCHAR" />
     <result column="reserve" property="reserve" jdbcType="VARCHAR" />
   </resultMap>
+
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -95,6 +96,13 @@
     from tb_classification
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectParentId" resultType="java.lang.String">
+    select distinct parentId from tb_classification
+  </select>
+  <delete id="deleteByClassificationId" parameterType="java.lang.String">
+    delete from tb_classification
+    where classificationId=#{classificationId,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from tb_classification
     where id = #{id,jdbcType=INTEGER}

@@ -9,6 +9,8 @@ import java.util.List;
 public interface TbClassficationCountryMapper {
     int countByExample(TbClassficationCountryExample example);
 
+    int deleteByClassificationId(String id);
+
     int deleteByExample(TbClassficationCountryExample example);
 
     int deleteByPrimaryKey(Integer id);
