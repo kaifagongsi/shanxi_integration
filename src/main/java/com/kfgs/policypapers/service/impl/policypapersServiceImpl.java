@@ -6,9 +6,13 @@ import com.kfgs.domain.TbPolicyDocument;
 import com.kfgs.domain.TbPolicyDocumentExample;
 import com.kfgs.mapper.TbPolicyDocumentMapper;
 import com.kfgs.policypapers.service.policypapersService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,10 +55,13 @@ public class policypapersServiceImpl implements policypapersService {
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
         TbPolicyDocumentExample slectExample = new TbPolicyDocumentExample();
-        slectExample.createCriteria().andIsdeleteEqualTo(0).andTypevalEqualTo(searchMap.get("type").toString());
+        if(searchMap.get("type") != null){
+            slectExample.createCriteria().andIsdeleteEqualTo(0).andTypevalEqualTo(searchMap.get("type").toString());
+        }else{
+            slectExample.createCriteria().andIsdeleteEqualTo(0);
+        }
         slectExample.setOrderByClause(" create_time desc");
         Page<TbPolicyDocument> page = (Page<TbPolicyDocument>) tbPolicyDocumentMapper.selectByExample(slectExample);
-
         map.put("rows",page.getResult());
         map.put("totalPages", page.getPages());
         map.put("total",page.getTotal());
@@ -75,14 +82,58 @@ public class policypapersServiceImpl implements policypapersService {
     @Override
     public Map<String,Object> selectByPrimaryKey(Map pData){
         Map<String,Object> map = new HashMap<>();
-        TbPolicyDocument model = tbPolicyDocumentMapper.selectByPrimaryKey(Integer.parseInt(pData.get("id").toString()));
-        if(model != null){
-            if(model.getContent() != null){
-//                System.out.println("=============" +  new String(model.getContent()));
-                map.put("content",new String(model.getContent()));
+        if(pData.get("id") != "undefined" && pData.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(pData.get("id"), ""))  ){
+            TbPolicyDocument model = tbPolicyDocumentMapper.selectByPrimaryKey(Integer.parseInt(pData.get("id").toString()));
+            if(model != null){
+                if(model.getContent() != null){
+                    map.put("content",new String(model.getContent()));
+                }
             }
+            map.put("createTime", model.getCreateTime());
+            map.put("typeVal",model.getTypeval());
+            map.put("title",model.getTitle());
+            map.put("id",model.getId());
         }
         return map;
     }
 
+    @Override
+    public int saveOrupdate(Map contentMap){
+        int returnResult = 0;
+       TbPolicyDocument record = new TbPolicyDocument();
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd hh:mm:ss");
+        try {
+            if(contentMap.get("id") != "undefined" && contentMap.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(contentMap.get("id"), ""))  ){
+                record.setCreateTime(sdf.parse(contentMap.get("createTime").toString()));
+                record.setContent(contentMap.get("content").toString().getBytes());
+                record.setId(Integer.parseInt(contentMap.get("id").toString()));
+                record.setIsdelete(0);
+                record.setTitle(contentMap.get("title").toString());
+                record.setTypeval(contentMap.get("typeVal").toString());
+                returnResult = tbPolicyDocumentMapper.updateByPrimaryKeySelective(record);
+            }else{
+                record.setCreateTime(sdf.parse(contentMap.get("createTime").toString()));
+                record.setContent(contentMap.get("content").toString().getBytes());
+                record.setIsdelete(0);
+                record.setTitle(contentMap.get("title").toString());
+                record.setTypeval(contentMap.get("typeVal").toString());
+                returnResult = tbPolicyDocumentMapper.insertSelective(record);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return returnResult;
+    }
+
+    //批量删除
+    @Override
+    public int deleteByExample(List idList){
+        int len = idList.size();
+        int returnResult = 0;
+        for(int i=0;i<len;i++){
+            String id = idList.get(i).toString();
+            returnResult = tbPolicyDocumentMapper.deleteByPrimaryKey(Integer.parseInt(id));
+        }
+        return returnResult;
+    }
 }

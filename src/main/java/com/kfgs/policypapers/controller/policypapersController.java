@@ -19,7 +19,6 @@ public class policypapersController {
 
     @GetMapping("/search")
     public Map<String,List<TbPolicyDocument>> text(){
-        System.out.println("--------------------------");
         return policypapersService.getList();
     }
 
@@ -45,4 +44,25 @@ public class policypapersController {
     public Map<String,Object> getContent(@RequestBody Map pData){
         return policypapersService.selectByPrimaryKey(pData);
     }
+
+    //新增或编辑
+    @PostMapping(value = "saveOrupdate", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String saveOrupdate(@RequestBody Map contentMap) {
+        int returnStr = policypapersService.saveOrupdate(contentMap);
+        JSONObject ja = new JSONObject();
+        ja.put("isSuccess", returnStr);
+        ja.put("loadType", "受理公告");
+        return "success";
+    }
+
+    //批量删除维权信息
+    @PostMapping(value = "deleteAll", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public  String deleteAll(@RequestBody List<String> idList){
+        String returnBack = "success";
+        int returnStr = policypapersService.deleteByExample(idList);
+        return  returnBack;
+    }
+
 }

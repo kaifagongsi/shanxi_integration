@@ -86,11 +86,11 @@
 /* 表格双倍高度 */
 .data-type .title.rowHeight2x,
 .data-type .data.rowHeight2x {
-	height:84px;
+	height:350px;
 }
 .data-type .title.rowHeight2x ,
 .data-type .data.rowHeight2x.text {
-	line-height:78px;
+	line-height:400px;
 }
 /*.data-type .data.rowHeight2x > label {
 	line-height:78px;
