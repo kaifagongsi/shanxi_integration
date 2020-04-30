@@ -22,4 +22,7 @@ public interface ProclamtionService {
     Map<String,Object>  selectByPrimaryKey(Map pData);
 
 
+    public int saveOrupdate(Map contentMap);
+
+    public int deleteByExample(List idList);
 }

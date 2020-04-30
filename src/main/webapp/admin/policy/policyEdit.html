@@ -6,9 +6,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>公告维护页面</title>
-    <meta name="description" content="公告维护页面">
-    <meta name="keywords" content="公告维护页面">
+    <title>政策维护页面</title>
+    <meta name="description" content="政策维护页面">
+    <meta name="keywords" content="政策维护页面">
 
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <!--[if lt IE 9]>
@@ -34,11 +34,11 @@
 
     <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="../../js/adminBase.js"></script>
-    <script type="text/javascript" src="../../js/service/adminProclamationService.js"></script>
-    <script type="text/javascript" src="../../js/controller/adminProclamationController.js"></script>
+    <script type="text/javascript" src="../../js/service/adminPolicyService.js"></script>
+    <script type="text/javascript" src="../../js/controller/adminPolicyController.js"></script>
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminProclamationController" ng-init="initById()">
+<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminPolicyController" ng-init="initById()">
 
     <div class="wrapper">
 
@@ -47,13 +47,13 @@
             <!-- 内容头部 -->
             <section class="content-header">
                 <h1>
-                    公告管理
-                    <small>公告表单</small>
+                    政策管理
+                    <small>政策表单</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                    <li><a href="proclamationList.html">公告管理</a></li>
-                    <li class="active">公告管理</li>
+                    <li><a href="all-order-manage-list.html">政策管理</a></li>
+                    <li class="active">政策表单</li>
                 </ol>
             </section>
             <!-- 内容头部 /-->
@@ -63,40 +63,39 @@
 
                 <!--订单信息-->
                 <div class="panel panel-default">
-                    <div class="panel-heading">公告信息</div>
+                    <div class="panel-heading">政策信息</div>
                     <div class="row data-type">
 
-                        <div class="col-md-2 title">公告名称</div>
+                        <div class="col-md-2 title">政策名称</div>
                         <div class="col-md-10 data">
-                            <input type="text" ng-model="contentMap.title" id="title" class="form-control" placeholder="公告名称" value="">
+                            <input type="text" ng-model="contentMap.title" id="title" class="form-control" placeholder="政策名称" value="">
                         </div>
 
-                        <div class="col-md-2 title">公告时间</div>
+                        <div class="col-md-2 title">创建时间</div>
                         <div class="col-md-4 data">
                             <div class="input-group date">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" ng-model="contentMap.noticeTime" id="noticeTime" class="form-control pull-right" id="datepicker-a3">
+                                <input type="text" ng-model="contentMap.createTime" id="createTime" class="form-control pull-right" id="datepicker-a3">
                             </div>
                         </div>
                         
-                        <div class="col-md-2 title ">公告类型</div>
+                        <div class="col-md-2 title ">政策类型</div>
                         <div class="col-md-4 data">
                             <select class="form-control select2" ng-model="contentMap.typeVal" id="typeVal"  style="width: 100%;">
-                        <option value="受理公告" selected="selected">受理公告</option>
-                        <option value="批准公告">批准公告</option>
-                        <option value="核准公告">核准公告</option>
+                        <option value="国家政策" selected="selected">国家政策</option>
+                        <option value="陕西省地方政策">陕西省地方政策</option>
                     </select>
                         </div>
 
                         
-                        <div class="col-md-2 title rowHeight2x">公告信息</div>
+                        <div class="col-md-2 title rowHeight2x">政策信息</div>
                         <div class="col-md-10 data rowHeight2x">
                             <textarea id="TextArea1" ng-model="contentMap.content" name="content"  rows="3" class="ckeditor form-control" placeholder="政策信息"></textarea>
                         </div>
 
-                        <input type="text" style="display: none" ng-model="contentMap.id"  id="proclamationId"  />
+                        <input type="text" style="display: none" ng-model="contentMap.id"  id="policyId"  />
 
                     </div>
                 </div>

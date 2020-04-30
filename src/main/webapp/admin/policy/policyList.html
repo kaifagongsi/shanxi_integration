@@ -9,9 +9,9 @@
 
 
 
-    <title>公告列表页</title>
-    <meta name="description" content="公告列表页">
-    <meta name="keywords" content="公告列表页">
+    <title>政策列表页</title>
+    <meta name="description" content="政策列表页">
+    <meta name="keywords" content="政策列表页">
 
 
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -36,12 +36,12 @@
     <!-- 导入controller  -->
     <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="../../js/adminBase.js"></script>
-    <script type="text/javascript" src="../../js/service/adminProclamationService.js"></script>
-    <script type="text/javascript" src="../../js/controller/adminProclamationController.js"></script>
+    <script type="text/javascript" src="../../js/service/adminPolicyService.js"></script>
+    <script type="text/javascript" src="../../js/controller/adminPolicyController.js"></script>
 
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminProclamationController" ng-init="load()">
+<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminPolicyController" ng-init="load()">
 
 <div class="wrapper">
 
@@ -50,12 +50,12 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                公告管理
+                政策管理
                 <small>列表</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a href="proclamationList.html">公告管理</a></li>
+                <li><a href="policyList.html">政策管理</a></li>
                 <li class="active">列表</li>
             </ol>
         </section>
@@ -79,7 +79,7 @@
                         <div class="pull-left">
                             <div class="form-group form-inline">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default" title="新建" onclick='location.href="proclamationEdit.html"'><i class="fa fa-file-o"></i> 新建</button>
+                                    <button type="button" class="btn btn-default" title="新建" onclick='location.href="policyEdit.html"'><i class="fa fa-file-o"></i> 新建</button>
                                     <button type="button" class="btn btn-default" title="删除" ng-click="deleteAll()"><i class="fa fa-trash-o"></i> 删除</button>
                                     <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                 </div>
@@ -99,9 +99,9 @@
                             <tr>
                                 <th><input type="checkbox" id="all" name="all" onclick="chk()" /></th>
                                 <th class="sorting_asc">序号</th>
-                                <th class="sorting">公告名称</th>
-                                <th class="sorting">公告类别</th>
-                                <th class="sorting">公告时间</th>
+                                <th class="sorting">政策名称</th>
+                                <th class="sorting">政策类别</th>
+                                <th class="sorting">创建时间</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
@@ -111,10 +111,10 @@
                                 <td>{{$index+1}}</td>
                                 <td>{{item.title}}</td>
                                 <td>{{item.typeval}}</td>
-                                <td>{{item.noticeTime}}</td>
+                                <td>{{item.createTime.substring(0,10)}}</td>
                                 <td class="text-center">
-                                    <a href="proclamationEdit.html#?idVal={{item.id}}"  style="text-decoration: none" class="btn bg-olive btn-xs"  > 详情 </a>
-                                    <a href="proclamationEdit.html#?idVal={{item.id}}"  style="text-decoration: none" class="btn bg-olive btn-xs"  > 编辑 </a>
+                                    <a href="policyEdit.html#?idVal={{item.id}}"  style="text-decoration: none" class="btn bg-olive btn-xs"  > 详情 </a>
+                                    <a href="policyEdit.html#?idVal={{item.id}}"  style="text-decoration: none" class="btn bg-olive btn-xs"  >编辑</a>
                                 </td>
                             </tr>
 

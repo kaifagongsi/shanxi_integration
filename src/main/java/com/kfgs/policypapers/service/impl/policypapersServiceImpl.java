@@ -55,12 +55,12 @@ public class policypapersServiceImpl implements policypapersService {
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
         TbPolicyDocumentExample slectExample = new TbPolicyDocumentExample();
-        if(searchMap.get("type") != null){
+        if(StringUtils.isNotBlank(ObjectUtils.toString(searchMap.get("type"), ""))){
             slectExample.createCriteria().andIsdeleteEqualTo(0).andTypevalEqualTo(searchMap.get("type").toString());
         }else{
             slectExample.createCriteria().andIsdeleteEqualTo(0);
         }
-        slectExample.setOrderByClause(" create_time desc");
+        slectExample.setOrderByClause(" create_time desc, typeVal asc");
         Page<TbPolicyDocument> page = (Page<TbPolicyDocument>) tbPolicyDocumentMapper.selectByExample(slectExample);
         map.put("rows",page.getResult());
         map.put("totalPages", page.getPages());

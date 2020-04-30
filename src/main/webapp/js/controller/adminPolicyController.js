@@ -1,14 +1,14 @@
-adminApp.controller('adminProclamationController',function ($scope,$location,adminProclamationService) {
+adminApp.controller('adminPolicyController',function ($scope,$location,adminPolicyService) {
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':15};
     $scope.searchData = {'content':'','title':'','id':''};
-    $scope.contentMap= {"content":"",'title':'','id':'','noticeTime':'','typeVal':''};
+    $scope.contentMap= {"content":"",'title':'','id':'','createTime':'','typeVal':''};
     $scope.resultMap= {"totalPages":"0"};
     $scope.idList = new Array();
 
 
     //列表页加载
     $scope.load=function(){
-        adminProclamationService.load( $scope.searchMap ).success(
+        adminPolicyService.load( $scope.searchMap ).success(
             function(response1){
                 $scope.resultMap = response1;//搜索返回的结果
                 buildPageLabel();
@@ -17,7 +17,7 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
     };
 
     $scope.search=function(){
-        adminProclamationService.load( $scope.searchMap ).success(
+        adminPolicyService.load( $scope.searchMap ).success(
             function(response1){
                 $scope.resultMap = response1;//搜索返回的结果
                 buildPageLabel();
@@ -32,7 +32,7 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
         if ($location.$$search.idVal) {
             $scope.searchData.id = $location.$$search['idVal'];
         }
-        adminProclamationService.initById( $scope.searchData ).success(
+        adminPolicyService.initById( $scope.searchData ).success(
             function(response2){
                 console.log(response2);
                 $scope.contentMap=response2;//搜索返回的结果
@@ -43,12 +43,12 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
     //新增编辑政策
     $scope.saveOrupdate= function(){
         $scope.contentMap.content = CKEDITOR.instances.TextArea1.getData();
-        $scope.contentMap.id = $("#proclamationId").val();
+        $scope.contentMap.id = $("#policyId").val();
         $scope.contentMap.title = $("#title").val();
         $scope.contentMap.typeVal = $("#typeVal").val();
-        $scope.contentMap.noticeTime = $("#noticeTime").val();
+        $scope.contentMap.createTime = $("#createTime").val();
 
-        adminProclamationService.saveOrupdate( $scope.contentMap ).success(
+        adminPolicyService.saveOrupdate( $scope.contentMap ).success(
             function(response2){
                 alert("保存成功！");
             }
@@ -71,7 +71,7 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
             return;
         }
         if(confirm("请确认是否删除？该操作不可恢复。")){
-            adminProclamationService.deleteAll($scope.idList).success(function (response) {
+            adminPolicyService.deleteAll($scope.idList).success(function (response) {
                 alert("删除成功！");
                 location.reload();
             })

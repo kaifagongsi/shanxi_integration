@@ -2,14 +2,18 @@ package com.kfgs.proclamation.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.kfgs.domain.TbPolicyDocument;
 import com.kfgs.domain.TbProtectionNotice;
 import com.kfgs.domain.TbProtectionNoticeExample;
 import com.kfgs.mapper.TbProtectionNoticeMapper;
 import com.kfgs.proclamation.service.ProclamtionService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,8 +97,12 @@ public class ProclamationServiceImpl implements ProclamtionService {
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
         TbProtectionNoticeExample slectExample = new TbProtectionNoticeExample();
-        slectExample.createCriteria().andIsdeleteEqualTo(0).andTypevalEqualTo(searchMap.get("type").toString());
-        slectExample.setOrderByClause(" create_time desc");
+        if(StringUtils.isNotBlank(ObjectUtils.toString(searchMap.get("type"), ""))){
+            slectExample.createCriteria().andIsdeleteEqualTo(0).andTypevalEqualTo(searchMap.get("type").toString());
+        }else{
+            slectExample.createCriteria().andIsdeleteEqualTo(0);
+        }
+        slectExample.setOrderByClause(" create_time desc, typeVal asc");
         Page<TbProtectionNotice> page = (Page<TbProtectionNotice>) tbProtectionNoticeMapper.selectByExample(slectExample);
 
         map.put("rows",page.getResult());
@@ -116,17 +124,59 @@ public class ProclamationServiceImpl implements ProclamtionService {
     @Override
     public Map<String,Object> selectByPrimaryKey(Map pData){
         Map<String,Object> map = new HashMap<>();
-        TbProtectionNotice model = tbProtectionNoticeMapper.selectByPrimaryKey(Integer.parseInt(pData.get("id").toString()));
-        //System.out.println("=============" +  new String(model.getContent()));
-        if(model != null && model.getContent() == null){
-            map.put("content",new String("暂无数据"));
-        }else if(StringUtils.isNotBlank(model.getContent().toString())){
-            map.put("content",new String(model.getContent()));
-        }else{
-            map.put("content",new String("暂无数据"));
+        if(pData.get("id") != "undefined" && pData.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(pData.get("id"), ""))  ){
+            TbProtectionNotice model = tbProtectionNoticeMapper.selectByPrimaryKey(Integer.parseInt(pData.get("id").toString()));
+            if(model != null && model.getContent() == null){
+                map.put("content",new String("暂无数据"));
+            }else if(StringUtils.isNotBlank(model.getContent().toString())){
+                map.put("content",new String(model.getContent()));
+                map.put("createTime", model.getNoticeTime());
+                map.put("typeVal",model.getTypeval());
+                map.put("title",model.getTitle());
+                map.put("id",model.getId());
+            }else{
+                map.put("content",new String("暂无数据"));
+            }
         }
-
         return map;
     }
+
+
+    @Override
+    public int saveOrupdate(Map contentMap){
+        int returnResult = 0;
+        TbProtectionNotice record = new TbProtectionNotice();
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+        if(contentMap.get("id") != "undefined" && contentMap.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(contentMap.get("id"), ""))  ){
+            record.setNoticeTime(contentMap.get("noticeTime").toString());
+            record.setContent(contentMap.get("content").toString().getBytes());
+            record.setId(Integer.parseInt(contentMap.get("id").toString()));
+            record.setIsdelete(0);
+            record.setTitle(contentMap.get("title").toString());
+            record.setTypeval(contentMap.get("typeVal").toString());
+            returnResult = tbProtectionNoticeMapper.updateByPrimaryKeySelective(record);
+        }else{
+            record.setNoticeTime(contentMap.get("noticeTime").toString());
+            record.setContent(contentMap.get("content").toString().getBytes());
+            record.setIsdelete(0);
+            record.setTitle(contentMap.get("title").toString());
+            record.setTypeval(contentMap.get("typeVal").toString());
+            returnResult = tbProtectionNoticeMapper.insertSelective(record);
+        }
+        return returnResult;
+    }
+
+    //批量删除
+    @Override
+    public int deleteByExample(List idList){
+        int len = idList.size();
+        int returnResult = 0;
+        for(int i=0;i<len;i++){
+            String id = idList.get(i).toString();
+            returnResult = tbProtectionNoticeMapper.deleteByPrimaryKey(Integer.parseInt(id));
+        }
+        return returnResult;
+    }
+
 
 }
