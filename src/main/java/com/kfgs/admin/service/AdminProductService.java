@@ -15,4 +15,6 @@ public interface AdminProductService {
     QueryResponseResult getProductByProductId(String id);
 
     QueryResponseResult getProductContentByProductId(String id);
+
+    QueryResponseResult deleteProduct(String id);
 }

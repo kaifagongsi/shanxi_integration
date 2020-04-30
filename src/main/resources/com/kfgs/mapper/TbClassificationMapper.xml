@@ -113,7 +113,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kfgs.domain.TbClassification" >
+
+    <insert id="insert" parameterType="com.kfgs.domain.TbClassification" >
     insert into tb_classification (id, name, rootId, 
       classificationId, parentId, content, 
       create_time, isdelete, level, 
@@ -408,5 +409,9 @@
             parentId =  #{tbProductExtAdministrativeArea}
     </select>
 
+
+    <delete id="deleteByName">
+        delete from tb_classification where name = (select name from tb_product where id = #{productId})
+    </delete>
 
 </mapper>

@@ -19,6 +19,13 @@ adminApp.controller('adminProductController',function ($scope,adminProductServic
     $scope.content = null;
     /*******************************产品功能**********************************/
 
+    $scope.deleteProduct = function(productId){
+        alert("------------");
+        adminProductService.deleteProduct(productId).success(function (response) {
+            console.log(response);
+        });
+    }
+
     /*
     * 监听市级别发生变化，进行重新获取县级别的区间
     * */
@@ -50,12 +57,17 @@ adminApp.controller('adminProductController',function ($scope,adminProductServic
 
             //查询产品相关信息
             adminProductService.getProductByProductId($scope.product.id).success(function (response) {
-                $scope.product = response.queryResult.map.item;
-                $scope.product.approvalAnnouncementNoProductAll = parseInt($scope.product.approvalAnnouncementNoProductAll);
-                $scope.product.protectionNoticeTitle = parseInt($scope.product.protectionNoticeTitle);
+                if("11111" ==response.code ){
+                    alert("操作失败，查询异常");
+                }else{
+                    $scope.product = response.queryResult.map.item;
+                    $scope.product.approvalAnnouncementNoProductAll = parseInt($scope.product.approvalAnnouncementNoProductAll);
+                    $scope.product.protectionNoticeTitle = parseInt($scope.product.protectionNoticeTitle);
+                }
             });
             //查询产品详细信息
             adminProductService.getProductInfoByProductId($scope.product.id).success(function (response) {
+                CKEDITOR.instances.TextArea1.setData(response.queryResult.map.content);
                 console.log(response)
             });
         }else{

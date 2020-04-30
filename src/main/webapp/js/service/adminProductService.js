@@ -27,4 +27,8 @@ adminApp.service('adminProductService',function ($http) {
     this.getProductInfoByProductId = function (productId) {
         return $http.get('../../admin/productController/getProductContentByProductId.do?id='+productId);
     }
+
+    this.deleteProduct = function (productId) {
+        return $http.delete('../../admin/productController/deleteProduct.do?id='+productId);
+    }
 });

@@ -48,5 +48,10 @@ public class AdminProductController {
         return adminProductService.getProductContentByProductId(id);
     }
 
+    @DeleteMapping("/deleteProduct")
+    public QueryResponseResult deleteProduct(String id){
+        return adminProductService.deleteProduct(id);
+    }
+
 
 }

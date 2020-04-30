@@ -33,4 +33,6 @@ public interface TbProductProtectionNoticeMapper {
     List<TbProtectionNotice> selectGongGaoTitleByProducrId(@Param("productId") String productId);
 
     int insertList(List<TbProductProtectionNotice> tbProductProtectionNoticeList);
+
+    int deleteByProductId(String id);
 }

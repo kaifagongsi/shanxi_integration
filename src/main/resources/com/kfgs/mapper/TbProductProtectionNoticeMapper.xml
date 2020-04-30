@@ -98,7 +98,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kfgs.domain.TbProductProtectionNotice" >
+
+    <insert id="insert" parameterType="com.kfgs.domain.TbProductProtectionNotice" >
     insert into tb_product_protection_notice (id, product_id, protection_notice_id, 
       create_time)
     values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR}, #{protectionNoticeId,jdbcType=VARCHAR}, 
@@ -235,4 +236,8 @@
              )
          </foreach>
     </insert>
+
+    <delete id="deleteByProductId">
+        delete from tb_product_protection_notice where  product_id = #{id}
+    </delete>
 </mapper>

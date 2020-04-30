@@ -111,7 +111,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kfgs.domain.TbProductShow" >
+    <delete id="deleteByTitle">
+       delete from tb_product_show where title = (select name from tb_product where id = '218' )
+    </delete>
+    <insert id="insert" parameterType="com.kfgs.domain.TbProductShow" >
     insert into tb_product_show (id, title, create_time, 
       isdelete, type, content
       )
@@ -168,7 +171,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+
+    <update id="updateByExampleSelective" parameterType="map" >
     update tb_product_show
     <set >
       <if test="record.id != null" >
@@ -229,4 +233,8 @@
             )
         </foreach>
     </insert>
+
+    <select id="selectContentByProductId" resultType="com.kfgs.domain.TbProductShow">
+        select * from tb_product_show where title = (select name from tb_product where id = #{id} )
+    </select>
 </mapper>

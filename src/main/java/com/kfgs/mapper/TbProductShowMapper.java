@@ -26,4 +26,8 @@ public interface TbProductShowMapper {
     int updateByExample(@Param("record") TbProductShow record, @Param("example") TbProductShowExample example);
 
     int insertList(List<TbProductShow> tbProductShowList);
+
+    List<TbProductShow> selectContentByProductId(String id);
+
+    int deleteByTitle(int productId);
 }

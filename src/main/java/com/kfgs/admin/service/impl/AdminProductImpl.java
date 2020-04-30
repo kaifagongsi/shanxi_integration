@@ -49,7 +49,42 @@ public class AdminProductImpl implements AdminProductService {
 
     @Override
     public QueryResponseResult getProductContentByProductId(String id) {
-        return null;
+        Map<String,Object> resultMap = new HashMap<>();
+        List<TbProductShow>  model = tbProductShowMapper.selectContentByProductId(id);
+        if (model !=null && model.size()== 1) {
+            for (TbProductShow xx : model) {
+                if(xx.getContent() == null){
+                    resultMap.put("content","");
+
+                }else {
+                    resultMap.put("content", new String(xx.getContent()));
+                }
+            }
+        }else if(model == null){
+            resultMap.put("content","参数错误");
+        }
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+        return queryResponseResult;
+    }
+
+    @Override
+    public QueryResponseResult deleteProduct(String id) {
+        //删除关联表
+        int productProtectionNoticeNum = tbProductProtectionNoticeMapper.deleteByProductId(id);
+        //删除产品分类表
+        int tbClassificationNum  = tbClassificationMapper.deleteByName(Integer.parseInt(id));
+        //删除产品展示表
+        int tbProductShowNum =  tbProductShowMapper.deleteByTitle(Integer.parseInt(id));
+        //删除产品表
+        int productDeleteNm =  tbProductMapper.deleteByPrimaryKey(Integer.parseInt(id));
+
+        if(1 == productDeleteNm && 1 == tbProductShowNum && 1 == tbClassificationNum && productProtectionNoticeNum == 1){
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else{
+            return new QueryResponseResult(CommonCode.FAIL,null);
+        }
     }
 
 
@@ -59,7 +94,9 @@ public class AdminProductImpl implements AdminProductService {
         TbProductExt shouli = new TbProductExt();
         TbProductExt pizhun = new TbProductExt();
         List<TbProductExt> tbProductExts = tbProductMapper.selectByProductIdReturnProductExt(id);
-
+        if(tbProductExts == null || tbProductExts.size() == 0){
+            return new QueryResponseResult(CommonCode.FAIL,null);
+        }
         for(TbProductExt e : tbProductExts){
             if("受理公告".equals(e.getArea())){
                 shouli = e;

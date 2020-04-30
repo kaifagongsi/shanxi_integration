@@ -110,9 +110,8 @@
                                     <td>{{item.approvalAnnouncementNoProduct}}</td>
                                     <td title="{{item.protectionScope }}">{{item.protectionScope| textLengthSet:true:20:'...'}}</td>
                                     <td class="text-center">
-                                        <a type="button" class="btn bg-olive btn-xs" href="productInfo.html#?id={{item.id}}">详情</a>
-                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>编辑</button>
-                                        <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>删除</button>
+                                        <a type="button" class="btn bg-olive btn-xs" href="productInfo.html#?id={{item.id}}">编辑</a>
+                                        <button type="button" class="btn bg-olive btn-xs" ng-click='deleteProduct(item.id)'>删除</button>
                                     </td>
                                 </tr>
 

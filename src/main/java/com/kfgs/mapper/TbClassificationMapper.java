@@ -54,4 +54,6 @@ public interface TbClassificationMapper {
     int selectMaxClassificationIdByParentId(String administrativeArea);
 
     TbClassification selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(String tbProductExtAdministrativeArea);
+
+    int deleteByName(int productId);
 }
