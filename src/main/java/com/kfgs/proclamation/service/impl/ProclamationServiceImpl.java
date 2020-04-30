@@ -102,7 +102,7 @@ public class ProclamationServiceImpl implements ProclamtionService {
         }else{
             slectExample.createCriteria().andIsdeleteEqualTo(0);
         }
-        slectExample.setOrderByClause(" create_time desc, typeVal asc");
+        slectExample.setOrderByClause(" notice_time desc, typeVal asc");
         Page<TbProtectionNotice> page = (Page<TbProtectionNotice>) tbProtectionNoticeMapper.selectByExample(slectExample);
 
         map.put("rows",page.getResult());
@@ -130,7 +130,7 @@ public class ProclamationServiceImpl implements ProclamtionService {
                 map.put("content",new String("暂无数据"));
             }else if(StringUtils.isNotBlank(model.getContent().toString())){
                 map.put("content",new String(model.getContent()));
-                map.put("createTime", model.getNoticeTime());
+                map.put("noticeTime", model.getNoticeTime());
                 map.put("typeVal",model.getTypeval());
                 map.put("title",model.getTitle());
                 map.put("id",model.getId());
