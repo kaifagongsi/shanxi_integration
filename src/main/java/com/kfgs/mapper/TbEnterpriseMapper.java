@@ -67,4 +67,6 @@ public interface TbEnterpriseMapper {
     List<TbEnterpriseExt> selectByExampleReturnTBEXT( TbEnterpriseExample example);
 
     int insertList(List<TbEnterpriseExcel> enterpriseList);
+
+    List<TbEnterpriseExt> selectAdminEnterpriseList();
 }

@@ -19,6 +19,7 @@
         <result column="is_first_submission" property="isFirstSubmission" jdbcType="VARCHAR" />
     </resultMap>
 
+
     <sql id="Example_Where_Clause_Product" >
             <foreach collection="oredCriteria" item="criteria" separator="or" >
                 <if test="criteria.valid" >
@@ -620,4 +621,20 @@
             )
         </foreach>
     </insert>
+
+    <select id="selectAdminEnterpriseList"  resultType="com.kfgs.domain.ext.TbEnterpriseExt">
+        SELECT
+            pro.name as productName ,
+            en.id as id,
+            en.enterprise_name as enterpriseName,
+            en.approval_year as approvalYear,
+            en.approval_announcement_no_enterprise as approvalAnnouncementNoEnterprise,
+            en.is_first_submission as isFirstSubmission
+        FROM
+            tb_enterprise en,
+            tb_product pro
+        WHERE
+            en.product_id = pro.id
+    </select>
+
 </mapper>

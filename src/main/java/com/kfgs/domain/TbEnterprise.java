@@ -28,6 +28,24 @@ public class TbEnterprise extends TbEnterpriseKey implements Serializable {
 
     private String isFirstSubmission;
 
+    public TbEnterprise() { }
+    public TbEnterprise(TbEnterprise tbEnterprise) {
+        this.id = tbEnterprise.getId();
+        this.enterpriseAddress = tbEnterprise.getEnterpriseAddress();
+        this.administrativeId = tbEnterprise.getAdministrativeId();
+        this.createTime  = tbEnterprise.getCreateTime();
+        this.isdelete = tbEnterprise.getIsdelete();
+        this.brand = tbEnterprise.getBrand();
+        this.corporateRepresentative = tbEnterprise.getCorporateRepresentative();
+        this.approvalAnnouncementNoEnterpriseAll = tbEnterprise.getApprovalAnnouncementNoEnterpriseAll();
+        this.uniformSocialCreditCode = tbEnterprise.getUniformSocialCreditCode();
+        this.approvalAuthorityEnterprise = tbEnterprise.getApprovalAuthorityEnterprise();
+        this.approvalYear = tbEnterprise.getApprovalYear();
+        this.isFirstSubmission = tbEnterprise.getIsFirstSubmission();
+    }
+
+
+
     public Integer getId() {
         return id;
     }

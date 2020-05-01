@@ -9,9 +9,9 @@
 
 
 
-    <title>产品列表页</title>
-    <meta name="description" content="产品列表页">
-    <meta name="keywords" content="产品列表页">
+    <title>用标企业管理</title>
+    <meta name="description" content="用标企业列表页">
+    <meta name="keywords" content="用标企业列表页">
 
 
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -41,7 +41,7 @@
     <script type="text/javascript" src="../../js/controller/adminProductAndEnterpriseController.js"></script>
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminProductAndEnterpriseController" ng-init="load()">
+<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminProductAndEnterpriseController"  ng-init="loadEnterprise()" >
 
 <div class="wrapper">
 
@@ -50,12 +50,12 @@
         <!-- 内容头部 -->
         <section class="content-header">
             <h1>
-                产品管理
+                用标企业管理
                 <small>列表</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li><a href="all-order-manage-list.html">产品管理</a></li>
+                <li><a href="all-order-manage-list.html">用标企业管理</a></li>
                 <li class="active">列表</li>
             </ol>
         </section>
@@ -79,7 +79,7 @@
                         <div class="pull-left">
                             <div class="form-group form-inline">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-default" title="新建" onclick='location.href="productInfo.html"'><i class="fa fa-file-o"></i> 新建</button>
+                                    <button type="button" class="btn btn-default" title="新建" onclick='location.href="enterpriseInfo.html"'><i class="fa fa-file-o"></i> 新建</button>
                                     <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                 </div>
                             </div>
@@ -92,36 +92,31 @@
                             <tr>
                                 <th class="sorting_asc">序号</th>
                                 <th class="sorting">产品名称</th>
-                                <th class="sorting">分类</th>
-                                <th class="sorting">省&地市&区县</th>
-                                <th class="sorting">批准年份</th>
-                                <th class="sorting">批准公告</th>
-                                <th class="sorting" style=" width: 300px; ">保护范围</th>
+                                <th class="sorting">企业名称</th>
+                                <th class="sorting">核准年份</th>
+                                <th class="sorting">核准公告</th>
+                                <th class="sorting">是否为变更</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat=" item in pageDate.list">
-                                    <td> {{$index + 1}}      </td>
-                                    <td>{{item.name}}</td>
-                                    <td>{{item.classificationName}}</td>
-                                    <td>{{item.provinceName + item.cityName}}</td>
+                                <tr ng-repeat=" item in enterpriseList.list">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.productName}}</td>
+                                    <td>{{item.enterpriseName}}</td>
                                     <td>{{item.approvalYear}}</td>
-                                    <td>{{item.approvalAnnouncementNoProduct}}</td>
-                                    <td title="{{item.protectionScope }}">{{item.protectionScope| textLengthSet:true:20:'...'}}</td>
+                                    <td>{{item.approvalAnnouncementNoEnterprise}}</td>
+                                    <td>{{item.isFirstSubmission}}</td>
                                     <td class="text-center">
                                         <a type="button" class="btn bg-olive btn-xs" href="productInfo.html#?id={{item.id}}">编辑</a>
                                         <button type="button" class="btn bg-olive btn-xs" ng-click='deleteProduct(item.id)'>删除</button>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                         <!--数据列表/-->
                     </div>
                     <!-- 数据表格 /-->
-
-
                 </div>
                 <!-- /.box-body -->
 
@@ -136,27 +131,25 @@
                     <div class="box-tools pull-right">
                         <ul class="pagination" style="margin:  0;">
                             <li>
-                                <a href="#" aria-label="Previous" ng-click="queryByPage(1,1)">首页</a>
+                                <a href="#" aria-label="Previous" ng-click="queryByPage(1,2)">首页</a>
                             </li>
                             <li class="prev {{isTopPage()?'disabled':''}}">
-                                <a href="#" ng-click="queryByPage(currPageNo - 1,1)">上一页</a>
+                                <a href="#" ng-click="queryByPage(currPageNo - 1,2)">上一页</a>
                             </li>
                             <li class="dotted" ng-if="firstDot == true"><span>...</span></li>
-                            <li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryByPage(p,1)">{{p}}</a></li>
+                            <li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryByPage(p,2)">{{p}}</a></li>
                             <li class="dotted" ng-if="lastDot == true"><span>...</span></li>
                             <li class="next {{isEndPage()?'disabled':''}}">
-                                <a href="#"  ng-click="queryByPage(currPageNo + 1,1)">下一页</a>
+                                <a href="#"  ng-click="queryByPage(currPageNo + 1,2)">下一页</a>
                             </li>
                             <li>
-                                <a href="#" aria-label="Next"  ng-click="queryByPage(pageDate.queryResult.map.totalPages,1)">尾页</a>
+                                <a href="#" aria-label="Next"  ng-click="queryByPage(pageDate.queryResult.map.totalPages,2)">尾页</a>
                             </li>
                         </ul>
                     </div>
 
                 </div>
                 <!-- .box-footer-->
-
-
             </div>
 
         </section>

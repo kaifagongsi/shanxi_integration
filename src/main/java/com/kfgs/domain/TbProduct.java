@@ -58,7 +58,6 @@ public class TbProduct implements Serializable {
         this.approvalAnnouncementNoProductAll = tbProduct.getApprovalAnnouncementNoProductAll();
         this.provinceName = tbProduct.getProvinceName();
         this.cityName = tbProduct.getCityName();
-
         this.preliminaryExaminationBody = tbProduct.getPreliminaryExaminationBody();
         this.applicantOrganization = tbProduct.getApplicantOrganization();
         this.protectionScope = tbProduct.getProtectionScope();

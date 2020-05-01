@@ -10,14 +10,13 @@ import java.io.Serializable;
 @ToString
 public class TbEnterpriseExt extends TbEnterprise implements Serializable {
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
     private String productName;
 
+    public TbEnterpriseExt() {
+    }
+
+    public TbEnterpriseExt(String productName, TbEnterprise tbEnterprise){
+        super(tbEnterprise);
+        this.productName = productName;
+    }
 }
