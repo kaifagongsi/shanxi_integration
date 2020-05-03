@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <title>区域管理</title>
+    <meta name="description" content="区域管理详情页">
+    <meta name="keywords" content="区域管理详情页">
+
+
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../../plugins/jQueryUI/jquery-ui.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../plugins/adminLTE/js/app.min.js"></script>
+
+    <!--  angularjs -->
+    <!-- 导入controller  -->
+    <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="../../js/adminBase.js"></script>
+    <script type="text/javascript" src="../../js/service/adminAreaService.js"></script>
+    <script type="text/javascript" src="../../js/controller/adminAreaController.js"></script>
+</head>
+
+<body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminAreaController" ng-init="load()">
+
+<div class="wrapper">
+
+    <div class="content-wrapper" style="margin-left: 0px">
+
+        <!-- 内容头部 -->
+        <!--<section class="content-header">
+            <h1>
+                行政区间
+                <small>行政区域</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li><a href="all-order-manage-list.html">区间管理</a></li>
+                <li class="active">列表</li>
+            </ol>
+        </section>-->
+        <!-- 内容头部 /-->
+
+        <!-- 正文区域 -->
+        <section class="content">
+
+            <!-- .box-body -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">行政区间</h3>
+                </div>
+
+                <div class="box-body">
+
+                    <!-- 数据表格 -->
+                    <!--<div class="table-box">
+
+                        &lt;!&ndash;工具栏&ndash;&gt;
+                        <div class="pull-left">
+                            <div class="form-group form-inline">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default" title="新建" onclick='location.href="all-order-manage-edit.html"'><i class="fa fa-file-o"></i> 新建</button>
+                                    <button type="button" class="btn btn-default" title="删除" onclick='confirm("你确认要删除吗？")'><i class="fa fa-trash-o"></i> 删除</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-tools pull-right">
+                            <div class="has-feedback">
+                                <input type="text" class="form-control input-sm" placeholder="搜索">
+                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            </div>
+                        </div>
+                        &lt;!&ndash;工具栏/&ndash;&gt;
+
+
+                    </div>-->
+                    <!-- 数据表格 /-->
+
+
+                </div>
+                <!-- /.box-body -->
+                <div class=" page-content clearfix">
+                    <div class="t_Record" style="width:90%">
+                        <div class="tree-ads" id="tree-ads">
+                            <div id="treeDemo" class="ztree"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+        <!-- 正文区域 /-->
+
+    </div>
+
+</div>
+<link rel="stylesheet" href="../../plugins/zTree/css/demo.css" type="text/css">
+<link rel="stylesheet" href="../../plugins/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="../../plugins/zTree/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="../../plugins/zTree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="../../plugins/zTree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="../../plugins/zTree/js/jquery.ztree.exedit.js"></script>
+<SCRIPT type="text/javascript">
+
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true
+            }
+        }
+    };
+
+    $(document).ready(function(){
+        //var zNodes=eval('nodes');
+        $.ajax({
+            cache:true,
+            type:"post",
+            url:"../../admin/findTree.do",
+            async:true,
+            success:function (data) {
+                var zNodes = eval(data);
+                /*alert(data);*/
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                //alert("成功");
+            },
+            error:function (data) {
+                alert("error");
+            }
+        });
+        //$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    });
+</SCRIPT>
+<style type="text/css">
+    .ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+</style>
+
+</body>
+
+</html>
