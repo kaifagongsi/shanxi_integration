@@ -38,4 +38,6 @@ public interface TbProtectionNoticeMapper {
     public List<TbProtectionNotice> selectAll();
 
     int insertList(List<TbProtectionNotice> tbProtectionNotices);
+
+    TbProtectionNotice selectById(String approvalAnnouncementNoEnterpriseAll);
 }

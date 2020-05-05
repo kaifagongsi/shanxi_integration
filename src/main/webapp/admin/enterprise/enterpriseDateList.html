@@ -38,6 +38,7 @@
     <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="../../js/adminBase.js"></script>
     <script type="text/javascript" src="../../js/service/adminProductService.js"></script>
+    <script type="text/javascript" src="../../js/service/adminEnterpriseService.js"></script>
     <script type="text/javascript" src="../../js/controller/adminProductAndEnterpriseController.js"></script>
 </head>
 
@@ -108,8 +109,8 @@
                                     <td>{{item.approvalAnnouncementNoEnterprise}}</td>
                                     <td>{{item.isFirstSubmission}}</td>
                                     <td class="text-center">
-                                        <a type="button" class="btn bg-olive btn-xs" href="productInfo.html#?id={{item.id}}">编辑</a>
-                                        <button type="button" class="btn bg-olive btn-xs" ng-click='deleteProduct(item.id)'>删除</button>
+                                        <a type="button" class="btn bg-olive btn-xs" href="enterpriseInfo.html#?id={{item.id}}">编辑</a>
+                                        <button type="button" class="btn bg-olive btn-xs" ng-click='(item.id)'>删除</button>
                                     </td>
                                 </tr>
                             </tbody>

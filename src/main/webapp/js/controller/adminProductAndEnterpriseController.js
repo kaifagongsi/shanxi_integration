@@ -1,4 +1,4 @@
-adminApp.controller('adminProductAndEnterpriseController',function ($scope,adminProductService,$location) {
+adminApp.controller('adminProductAndEnterpriseController',function ($scope,adminProductService,$location,adminEnterpriseService) {
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':10};
     $scope.pageDate={ 'list' : '','totalPages':''};
     $scope.currPageNo = 1;
@@ -15,15 +15,61 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.noticePiZhunList = null;
     $scope.noticeShouLiList = null;
     $scope.areasCityList = null;
+
     $scope.areasCountyList = null;
+
     $scope.content = null;
 
+    //构造用标企业信息
+    $scope.enterprise = {'id':0,'enterpriseName':'','enterpriseAddress':'','administrativeId':'','productId':'','corporateRepresentative':'','uniformSocialCreditCode':'',
+                         'approvalAnnouncementNoEnterpriseAll':'','approvalAnnouncementNoEnterprise':'','approvalAuthorityEnterprise':'',
+                        'isFirstSubmission':''};
+
+    //用标列表展示list
     $scope.enterpriseList= {'list':''};
+    //用标企业详细所用的三个下拉框
+    $scope.entAreasCityList = null;
+    $scope.entAreasCountyList = null;
+    $scope.productList = null;
+    $scope.hezhunList = null;
 
+    //用标企业实体
+    /*******************************用标企业新增/更新**********************************/
+    $scope.initEnterprise = function (){
+        initSelectEnterprise();
+    };
 
-    /*******************************用表企业**********************************/
+    $scope.addEnterprise = function () {
+        adminEnterpriseService.addEnterprise($scope.enterprise).success(function (response) {
+            if('10000' == response.code){
+                alert(response.message);
+            }else{
+                alert('插入失败，请检查数据是否正常');
+            }
+        });
+    };
+
+    function initSelectEnterprise(){
+        adminEnterpriseService.initSelectEnterprise().success(function (responose) {
+            $scope.entAreasCityList = responose.queryResult.map.entAreasCityList;
+            $scope.productList = responose.queryResult.map.productList;
+            $scope.hezhunList = responose.queryResult.map.protectionNoticesList;
+            console.log(responose);
+        });
+    }
+    /*
+    * 监听市级别发生变化，进行重新获取县级别的区间
+    * */
+    $scope.$watch('enterprise.city',function (newValue,oldValue) {
+        console.log(newValue,oldValue);
+        adminProductService.getAreasCountyList(newValue).success(function (response) {
+            $scope.entAreasCountyList = response.queryResult.list;
+        });
+    });
+
+    /*******************************用标企业列表**********************************/
     $scope.loadEnterprise = function(){
-        adminProductService.loadEnterprise($scope.searchMap).success(function (response) {
+        adminEnterpriseService.loadEnterprise($scope.searchMap).success(function (response) {
             $scope.enterpriseList.list = response.queryResult.map.enterpriseList;
            console.log(response);
             $scope.pageDate = response;

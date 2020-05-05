@@ -75,4 +75,10 @@ public interface TbProductMapper {
     int insertProduct(@Param("product") TbProduct product);
 
     List<TbProductExt> selectByProductIdReturnProductExt(String id);
+
+    List<TbProduct> selectByIdAndNameReturnList();
+
+    String selectById(String productId);
+
+
 }

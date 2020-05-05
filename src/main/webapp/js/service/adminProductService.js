@@ -32,7 +32,5 @@ adminApp.service('adminProductService',function ($http) {
         return $http.delete('../../admin/productController/deleteProduct.do?id='+productId);
     };
 
-    this.loadEnterprise = function (map) {
-        return $http.post('../../admin/enterpriseController/getEnterpriseList.do',map);
-    };
+
 });

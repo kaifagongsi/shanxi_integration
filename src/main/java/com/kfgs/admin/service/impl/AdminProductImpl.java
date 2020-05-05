@@ -91,8 +91,8 @@ public class AdminProductImpl implements AdminProductService {
     @Override
     public QueryResponseResult getProductByProductId(String id) {
         TbProductExt ext = new TbProductExt();
-        TbProductExt shouli = new TbProductExt();
-        TbProductExt pizhun = new TbProductExt();
+        TbProductExt shouli = null;
+        TbProductExt pizhun = null;
         List<TbProductExt> tbProductExts = tbProductMapper.selectByProductIdReturnProductExt(id);
         if(tbProductExts == null || tbProductExts.size() == 0){
             return new QueryResponseResult(CommonCode.FAIL,null);
@@ -105,38 +105,108 @@ public class AdminProductImpl implements AdminProductService {
             }
         }
         //设置id
-        ext.setId(Integer.parseInt(id));
-        ext.setName(shouli.getName());
-        //设置类别
-        ext.setClassificationid( shouli.getClassificationid().substring(0,2) + "00");
-        //申请机构
-        ext.setApplicantOrganization(shouli.getApplicantOrganization());
-        //初审机构
-        ext.setPreliminaryExaminationBody(shouli.getPreliminaryExaminationBody());
-        //省份名称
-        ext.setProvinceName(shouli.getProvinceName());
-        //地市县区名称
-        ext.setCityName(shouli.getCityName());
-        //保护范围
-        ext.setProtectionScope(shouli.getProtectionScope());
-        //界定保护范围文件
-        ext.setDocumentDefiningTheScopeOfProtection(shouli.getDocumentDefiningTheScopeOfProtection());
-        //技术规范
-        ext.setTechnicalSpecifications(shouli.getTechnicalSpecifications());
-        //专用标志使用
-        ext.setUseOfSpecialSigns(shouli.getUseOfSpecialSigns());
-        //批准机构
-        ext.setApprovalAuthorityProduct(shouli.getApprovalAuthorityProduct());
-        //批准公告简称
-        ext.setApprovalAnnouncementNoProduct(shouli.getApprovalAnnouncementNoProduct());
-        //批准公告全称（用于下啦框）
-        ext.setApprovalAnnouncementNoProductAll(pizhun.getProtectionNoticeTitle());
-        //受理公告 （用于下啦框）
-        ext.setProtectionNoticeTitle(shouli.getProtectionNoticeTitle());
-        //行政区间 市级别
-        ext.setAdministrativeAreaProv(shouli.getAdministrativeArea().substring(0,4)+"00");
-        //行政区间 县级别
-        ext.setAdministrativeArea(shouli.getAdministrativeArea());
+        //可能没有受理公告或者批准公告（原因是数据不全）
+        if(shouli == null){
+            ext.setId(Integer.parseInt(id));
+            ext.setName(pizhun.getName());
+            //设置类别
+            ext.setClassificationid( pizhun.getClassificationid().substring(0,2) + "00");
+            //申请机构
+            ext.setApplicantOrganization(pizhun.getApplicantOrganization());
+            //初审机构
+            ext.setPreliminaryExaminationBody(pizhun.getPreliminaryExaminationBody());
+            //省份名称
+            ext.setProvinceName(pizhun.getProvinceName());
+            //地市县区名称
+            ext.setCityName(pizhun.getCityName());
+            //保护范围
+            ext.setProtectionScope(pizhun.getProtectionScope());
+            //界定保护范围文件
+            ext.setDocumentDefiningTheScopeOfProtection(pizhun.getDocumentDefiningTheScopeOfProtection());
+            //技术规范
+            ext.setTechnicalSpecifications(pizhun.getTechnicalSpecifications());
+            //专用标志使用
+            ext.setUseOfSpecialSigns(pizhun.getUseOfSpecialSigns());
+            //批准机构
+            ext.setApprovalAuthorityProduct(pizhun.getApprovalAuthorityProduct());
+            //批准公告简称
+            ext.setApprovalAnnouncementNoProduct(pizhun.getApprovalAnnouncementNoProduct());
+            //批准公告全称（用于下啦框）
+            ext.setApprovalAnnouncementNoProductAll(pizhun.getProtectionNoticeTitle());
+            //受理公告 （用于下啦框）
+            ext.setProtectionNoticeTitle(null);
+            //行政区间 市级别
+            ext.setAdministrativeAreaProv(pizhun.getAdministrativeArea().substring(0,4)+"00");
+            //行政区间 县级别
+            ext.setAdministrativeArea(pizhun.getAdministrativeArea());
+        }else if(pizhun == null){
+            ext.setId(Integer.parseInt(id));
+            ext.setName(shouli.getName());
+            //设置类别
+            ext.setClassificationid( shouli.getClassificationid().substring(0,2) + "00");
+            //申请机构
+            ext.setApplicantOrganization(shouli.getApplicantOrganization());
+            //初审机构
+            ext.setPreliminaryExaminationBody(shouli.getPreliminaryExaminationBody());
+            //省份名称
+            ext.setProvinceName(shouli.getProvinceName());
+            //地市县区名称
+            ext.setCityName(shouli.getCityName());
+            //保护范围
+            ext.setProtectionScope(shouli.getProtectionScope());
+            //界定保护范围文件
+            ext.setDocumentDefiningTheScopeOfProtection(shouli.getDocumentDefiningTheScopeOfProtection());
+            //技术规范
+            ext.setTechnicalSpecifications(shouli.getTechnicalSpecifications());
+            //专用标志使用
+            ext.setUseOfSpecialSigns(shouli.getUseOfSpecialSigns());
+            //批准机构
+            ext.setApprovalAuthorityProduct(shouli.getApprovalAuthorityProduct());
+            //批准公告简称
+            ext.setApprovalAnnouncementNoProduct(shouli.getApprovalAnnouncementNoProduct());
+            //批准公告全称（用于下啦框）
+            ext.setApprovalAnnouncementNoProductAll(null);
+            //受理公告 （用于下啦框）
+            ext.setProtectionNoticeTitle(shouli.getProtectionNoticeTitle());
+            //行政区间 市级别
+            ext.setAdministrativeAreaProv(shouli.getAdministrativeArea().substring(0,4)+"00");
+            //行政区间 县级别
+            ext.setAdministrativeArea(shouli.getAdministrativeArea());
+        }else{
+            ext.setId(Integer.parseInt(id));
+            ext.setName(shouli.getName());
+            //设置类别
+            ext.setClassificationid( shouli.getClassificationid().substring(0,2) + "00");
+            //申请机构
+            ext.setApplicantOrganization(shouli.getApplicantOrganization());
+            //初审机构
+            ext.setPreliminaryExaminationBody(shouli.getPreliminaryExaminationBody());
+            //省份名称
+            ext.setProvinceName(shouli.getProvinceName());
+            //地市县区名称
+            ext.setCityName(shouli.getCityName());
+            //保护范围
+            ext.setProtectionScope(shouli.getProtectionScope());
+            //界定保护范围文件
+            ext.setDocumentDefiningTheScopeOfProtection(shouli.getDocumentDefiningTheScopeOfProtection());
+            //技术规范
+            ext.setTechnicalSpecifications(shouli.getTechnicalSpecifications());
+            //专用标志使用
+            ext.setUseOfSpecialSigns(shouli.getUseOfSpecialSigns());
+            //批准机构
+            ext.setApprovalAuthorityProduct(shouli.getApprovalAuthorityProduct());
+            //批准公告简称
+            ext.setApprovalAnnouncementNoProduct(shouli.getApprovalAnnouncementNoProduct());
+            //批准公告全称（用于下啦框）
+            ext.setApprovalAnnouncementNoProductAll(pizhun.getProtectionNoticeTitle());
+            //受理公告 （用于下啦框）
+            ext.setProtectionNoticeTitle(shouli.getProtectionNoticeTitle());
+            //行政区间 市级别
+            ext.setAdministrativeAreaProv(shouli.getAdministrativeArea().substring(0,4)+"00");
+            //行政区间 县级别
+            ext.setAdministrativeArea(shouli.getAdministrativeArea());
+        }
+
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("item",ext);
         QueryResult queryResult = new QueryResult();
