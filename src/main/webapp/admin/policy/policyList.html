@@ -6,13 +6,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-
-
-
     <title>政策列表页</title>
     <meta name="description" content="政策列表页">
     <meta name="keywords" content="政策列表页">
-
 
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
 
@@ -71,10 +67,8 @@
                 </div>
 
                 <div class="box-body">
-
                     <!-- 数据表格 -->
                     <div class="table-box">
-
                         <!--工具栏-->
                         <div class="pull-left">
                             <div class="form-group form-inline">
@@ -97,34 +91,30 @@
                         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox" id="all" name="all" onclick="chk()" /></th>
-                                <th class="sorting_asc">序号</th>
+                                <th class="text-center"><input type="checkbox" id="all" name="all" onclick="chk()" /></th>
+                                <th class="sorting_asc text-center">序号</th>
                                 <th class="sorting">政策名称</th>
-                                <th class="sorting">政策类别</th>
-                                <th class="sorting">创建时间</th>
+                                <th class="sorting text-center">政策类别</th>
+                                <th class="sorting text-center">创建时间</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr ng-repeat=" item in resultMap.rows ">
-                                <td><input type="checkbox" id="mychk" name="mychk" value="{{item.id}}"/></td>
-                                <td>{{$index+1}}</td>
+                                <td class="text-center"><input type="checkbox" id="mychk" name="mychk" value="{{item.id}}"/></td>
+                                <td class="text-center">{{$index+1}}</td>
                                 <td>{{item.title}}</td>
-                                <td>{{item.typeval}}</td>
-                                <td>{{item.createTime.substring(0,10)}}</td>
+                                <td class="text-center">{{item.typeval}}</td>
+                                <td class="text-center">{{item.createTime.substring(0,10)}}</td>
                                 <td class="text-center">
-                                    <a href="policyEdit.html#?idVal={{item.id}}"  style="text-decoration: none" class="btn bg-olive btn-xs"  > 详情 </a>
                                     <a href="policyEdit.html#?idVal={{item.id}}"  style="text-decoration: none" class="btn bg-olive btn-xs"  >编辑</a>
                                 </td>
                             </tr>
-
                             </tbody>
                         </table>
                         <!--数据列表/-->
                     </div>
                     <!-- 数据表格 /-->
-
-
                 </div>
                 <!-- /.box-body -->
 
@@ -166,16 +156,13 @@
                 </div>
                 <!-- /.box-footer-->
 
-
             </div>
 
         </section>
         <!-- 正文区域 /-->
-
     </div>
 
     <script>
-
         function chk(){
             var all = document.getElementById("all");
             var mychk = document.getElementsByName("mychk");
@@ -194,13 +181,6 @@
                 }
             }
         }
-
-        $(document).ready(function() {
-
-            // 激活导航位置
-            setSidebarActive("order-manage");
-
-        });
     </script>
 
 </div>
@@ -216,14 +196,12 @@
             liObj.addClass("active");
         }
     }
-
-
     $(document).ready(function() {
-
         // 激活导航位置
         setSidebarActive("order-manage");
 
     });
+
 </script>
 </body>
 

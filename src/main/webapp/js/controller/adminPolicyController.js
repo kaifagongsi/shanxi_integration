@@ -51,6 +51,7 @@ adminApp.controller('adminPolicyController',function ($scope,$location,adminPoli
         adminPolicyService.saveOrupdate( $scope.contentMap ).success(
             function(response2){
                 alert("保存成功！");
+                location.href="../../admin/policy/policyList.html";
             }
         );
     };

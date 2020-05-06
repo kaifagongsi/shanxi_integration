@@ -101,7 +101,7 @@ public class policypapersServiceImpl implements policypapersService {
     public int saveOrupdate(Map contentMap){
         int returnResult = 0;
        TbPolicyDocument record = new TbPolicyDocument();
-        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if(contentMap.get("id") != "undefined" && contentMap.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(contentMap.get("id"), ""))  ){
                 record.setCreateTime(sdf.parse(contentMap.get("createTime").toString()));

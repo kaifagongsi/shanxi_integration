@@ -146,7 +146,6 @@ public class ProclamationServiceImpl implements ProclamtionService {
     public int saveOrupdate(Map contentMap){
         int returnResult = 0;
         TbProtectionNotice record = new TbProtectionNotice();
-        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
         if(contentMap.get("id") != "undefined" && contentMap.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(contentMap.get("id"), ""))  ){
             record.setNoticeTime(contentMap.get("noticeTime").toString());
             record.setContent(contentMap.get("content").toString().getBytes());

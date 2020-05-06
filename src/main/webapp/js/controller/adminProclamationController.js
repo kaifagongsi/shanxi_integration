@@ -5,6 +5,15 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
     $scope.resultMap= {"totalPages":"0"};
     $scope.idList = new Array();
 
+    $scope.query=function(){
+        alert(11111111);
+        // adminProclamationService.load( $scope.searchMap ).success(
+        //     function(response1){
+        //         $scope.resultMap = response1;//搜索返回的结果
+        //         buildPageLabel();
+        //     }
+        // );
+    };
 
     //列表页加载
     $scope.load=function(){
@@ -51,6 +60,7 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
         adminProclamationService.saveOrupdate( $scope.contentMap ).success(
             function(response2){
                 alert("保存成功！");
+                location.href="../../admin/proclamation/proclamationList.html";
             }
         );
     };
