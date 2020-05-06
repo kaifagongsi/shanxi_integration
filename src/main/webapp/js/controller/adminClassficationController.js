@@ -38,7 +38,7 @@ adminApp.controller('adminClassficationController',function ($scope,$http,adminC
             return;
         }
         if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(imageFile)){
-            alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)\"");
+            alert("图片类型必须是(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)\"");
             $("#imageFile").val('');
             return;
         }
@@ -76,7 +76,7 @@ adminApp.controller('adminClassficationController',function ($scope,$http,adminC
             return;
         }
         if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(imageFile)){
-            alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)\"");
+            alert("图片类型必须是(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)\"");
             $("#imageFile").val('');
             return;
         }

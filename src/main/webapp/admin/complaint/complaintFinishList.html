@@ -5,10 +5,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-
-
-
+    
     <title>投诉处理</title>
     <meta name="description" content="投诉处理页">
     <meta name="keywords" content="投诉处理页">
@@ -85,11 +82,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input type="text" class="form-control input-sm" placeholder="搜索">
-                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        <div class="box-tools pull-right" style="width: 40%;">
+                            <div class="col-md-2" style="width: 25%;padding-left: 1px;" id="typeVal">
+                                <select id="searchType" class="form-control"   ng-model="searchMap.searchType" >
+                                    <option value="" >请选择</option>
+                                    <option value="object_of_complaint">投诉对象</option>
+                                    <option value="complainant">投诉人</option>
+                                    <option value="contact">联系方式</option>
+                                    <option value="amount_of_complaint">涉诉金额</option>
+                                    <option value="details_of_complaints">投诉详情</option>
+                                    <option value="handling_situation">处理情况</option>
+                                    <<!--option value="state">展示情况</option>-->
+                                </select>
                             </div>
+
+                            <input type="text" name="searchMap.searchVal" value="请输入查询关键词" style="min-height: 34px;width:50%;"
+                                   onfocus="if(this.value=='请输入查询关键词')this.value=''" onblur="if(this.value=='')this.value='请输入查询关键词'" autocomplete="off">
+                            <button style="height: 34px;width: 55px;"  class="button" ng-click="search()">确定</button>
                         </div>
                         <!--工具栏/-->
 
@@ -123,12 +132,10 @@
                                 <td align="center" >{{x.amountOfComplaint}}</td>
                                 <td align="center" title="{{x.detailsOfComplaints}}">{{x.detailsOfComplaints}}</td>
                                 <td align="center" title="{{x.handlingSituation}}">{{x.handlingSituation}}</td>
-                                <td align="center" title="{{x.state}}">{{x.state}}</td>
+                                <!--<td align="center" title="{{x.state}}">{{x.state}}</td>-->
+                                <td align="center" title="{{x.state}}">{{x.state==1?"未展示":"展示"}}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" data-id="edit">处理</button>
-                                    <!--<button type="button" class="btn bg-olive btn-xs" ng-click="deleteHandling()">删除</button>-->
-                                    <!--<button type="button" class="btn btn-warning" ng-click="update($index)"><i class="fa fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger" ng-click="delete($index)"><i class="fa fa-trash-o"></i></button>-->
                                 </td>
                             </tr>
 
@@ -150,7 +157,7 @@
                                         <input type="text" style="display: none;" name="complaintId" id="complaintId" ng-model="complaintId" />
                                         <input type="text" style="display:none;" name="complaintDetail" id="complaintDetail" ng-model="complaintDetail"/>
                                         <label for="handlingSituation">投诉处理</label>
-                                        <textarea class="form-control" rows="5" id="handlingSituation" name="handlingSituation" ng-model="handlingSituation" placeholder="请输入处理情况"></textarea>
+                                        <textarea class="form-control" rows="5" id="handlingSituation" name="handlingSituation" ng-model="handlingSituation" placeholder="更新处理情况"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -170,32 +177,26 @@
                 <div class="box-footer">
                     <div class="pull-left">
                         <div class="form-group form-inline">
-                            总共{{resultMap.totalPages}}页，总共{{resultMap.total}}条数据。 每页
-                            <select class="form-control">
-                                <option>5</option>
-                                <option>10</option>
-                                <option>15</option>
-                                <option>20</option>
-                            </select> 条
+                            总共{{resultMap.totalPages}}页，总共{{resultMap.total}}条数据。
                         </div>
                     </div>
 
                     <div class="box-tools pull-right">
                         <ul class="pagination">
                             <li>
-                                <a href="#" aria-label="Previous" ng-click="queryByPage(1)">首页</a>
+                                <a href="#" aria-label="Previous" ng-click="queryFinishByPage(1)">首页</a>
                             </li>
                             <li class="prev {{isTopPage()?'disabled':''}}">
-                                <a href="#" ng-click="queryByPage(searchMap.pageNo - 1)">上一页</a>
+                                <a href="#" ng-click="queryFinishByPage(searchMap.pageNo - 1)">上一页</a>
                             </li>
                             <li class="dotted" ng-if="firstDot == true"><span>...</span></li>
-                            <li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryByPage(p)">{{p}}</a></li>
+                            <li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryFinishByPage(p)">{{p}}</a></li>
                             <li class="dotted" ng-if="lastDot == true"><span>...</span></li>
                             <li class="next {{isEndPage() ? 'disabled': ''}}">
-                                <a href="#"  ng-click="queryByPage(searchMap.pageNo + 1)">下一页</a>
+                                <a href="#"  ng-click="queryFinishByPage(searchMap.pageNo + 1)">下一页</a>
                             </li>
                             <li>
-                                <a href="#" aria-label="Next"  ng-click="queryByPage(resultMap.totalPages)">尾页</a>
+                                <a href="#" aria-label="Next"  ng-click="queryFinishByPage(resultMap.totalPages)">尾页</a>
                             </li>
                         </ul>
                     </div>
@@ -216,55 +217,8 @@
 
 
 <script type="text/javascript">
-    function chk(){
-        var all = document.getElementById("all");
-        var mychk = document.getElementsByName("mychk");
-        //alert("mychk长度=="+mychk.length);
-        if(all.checked==true){
-            //alert("all.checked==true全选");
-            if(mychk.length){
-                for(var i=0;i<mychk.length;i++){
-                    mychk[i].checked = true;
-                }
-
-            }
-            mychk.chcked=true;
-        }else{
-            //alert("all.checked==false全不选");
-            if(mychk.length){
-                for(var i=0;i<mychk.length;i++){
-                    mychk[i].checked = false;
-                }
-
-            }
-        }
-
-    }
 
     $(document).ready(function() {
-        /*// 选择框
-        $(".select2").select2();*/
-
-        /*// WYSIHTML5编辑器
-        $(".textarea").wysihtml5({
-            locale: 'zh-CN'
-        });*/
-    });
-
-    // 设置激活菜单
-    function setSidebarActive(tagUri) {
-        var liObj = $("#" + tagUri);
-        if (liObj.length > 0) {
-            liObj.parent().parent().addClass("active");
-            liObj.addClass("active");
-        }
-    }
-
-
-    $(document).ready(function() {
-
-        // 激活导航位置
-        setSidebarActive("order-manage");
 
     });
 

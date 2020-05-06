@@ -24,7 +24,7 @@ public class ClassficationServiceImpl implements ClassficationService {
 
     @Override
     public Map<String, Object> getCountryClassList(Map searchMap) {
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),Integer.parseInt(searchMap.get("pageSize").toString()));
         //返回页面结果集
         Map mapResult = new HashMap();
         TbClassficationCountryExample slectExample = new TbClassficationCountryExample();
@@ -51,7 +51,7 @@ public class ClassficationServiceImpl implements ClassficationService {
 
     @Override
     public Map<String, Object> getShanxiClassList(Map searchMap) {
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),Integer.parseInt(searchMap.get("pageSize").toString()));
         //返回页面结果集
         Map mapResult = new HashMap();
         TbClassificationExample slectExample = new TbClassificationExample();
@@ -119,7 +119,7 @@ public class ClassficationServiceImpl implements ClassficationService {
         int returnResult = 0;
         for(int i=0;i<len;i++){
             String id = idList.get(i).toString();
-            System.out.println("**********************"+id);
+            System.out.println("删除"+id);
             returnResult = tbClassificationMapper.deleteByClassificationId(id);
         }
         return returnResult;
@@ -131,7 +131,7 @@ public class ClassficationServiceImpl implements ClassficationService {
         int returnResult = 0;
         for(int i=0;i<len;i++){
             String id = idList.get(i).toString();
-            System.out.println("**********************"+id);
+            System.out.println("删除"+id);
             returnResult = tbClassficationCountryMapper.deleteByClassificationId(id);
         }
         return returnResult;

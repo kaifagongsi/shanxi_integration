@@ -1,5 +1,5 @@
 adminApp.controller('adminComplaintController',function ($scope,adminComplaintService) {
-    $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':15};
+    $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':2,'searchType':'','searchVal':''};
     $scope.resultMap= {"totalPages":"0"};
     $scope.pData = {"complaintId":'',"handlingInfo":'',"complaintDetail":''};
     $scope.idList = new Array();
@@ -7,11 +7,36 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
     $scope.load = function () {
         adminComplaintService.load($scope.searchMap).success(function (response) {
             $scope.resultMap = response;//搜索返回的结果
+            var all = document.getElementById("all");
+
             buildPageLabel();
             console.log(response);
         });
     }
 
+    chk = function(){
+        var all = document.getElementById("all");
+        var mychk = document.getElementsByName("mychk");
+        //alert("mychk长度=="+mychk.length);
+        if(all.checked==true){
+            //alert("all.checked==true全选");
+            if(mychk.length){
+                for(var i=0;i<mychk.length;i++){
+                    mychk[i].checked = true;
+                }
+
+            }
+            //mychk.chcked=true;
+        }else{
+            //alert("all.checked==false全不选");
+            if(mychk.length){
+                for(var i=0;i<mychk.length;i++){
+                    mychk[i].checked = false;
+                }
+
+            }
+        }
+    }
 
     $scope.loadTodo = function () {
         adminComplaintService.loadTodo($scope.searchMap).success(function (response) {
@@ -21,7 +46,54 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         });
     }
 
-    //保存维权处理情况
+    //根据关键词查询
+    $scope.search = function (){
+        //获取查询关键字
+        if($("#searchType") != undefined && $("#searchType").val() != null && $("#searchType").val() != ''){
+            $scope.searchMap.searchType = $("#searchType").val();
+        }else{
+            $scope.searchMap.searchType = '';
+            $scope.searchMap.searchVal = '';
+        }
+        //获取查询数值
+        if($("input[name='searchMap.searchVal']") != undefined && $("input[name='searchMap.searchVal']").val() != null  && $("input[name='searchMap.searchVal']").val() != ''
+            && $("input[name='searchMap.searchVal']").val() != '请输入查询关键词' ){
+            $scope.searchMap.searchVal = $("input[name='searchMap.searchVal']").val();
+        }else{
+            $scope.searchMap.searchVal = '';
+            $scope.searchMap.searchType = '';
+        }
+        adminComplaintService.load($scope.searchMap).success(function (response) {
+            $scope.resultMap = response;//搜索返回的结果
+            buildPageLabel();
+            console.log(response);
+        });
+
+    }
+    $scope.searchTodo = function(){
+        //获取查询关键字
+        if($("#searchType") != undefined && $("#searchType").val() != null && $("#searchType").val() != ''){
+            $scope.searchMap.searchType = $("#searchType").val();
+        }else{
+            $scope.searchMap.searchType = '';
+            $scope.searchMap.searchVal = '';
+        }
+        //获取查询数值
+        if($("input[name='searchMap.searchVal']") != undefined && $("input[name='searchMap.searchVal']").val() != null  && $("input[name='searchMap.searchVal']").val() != ''
+            && $("input[name='searchMap.searchVal']").val() != '请输入查询关键词' ){
+            $scope.searchMap.searchVal = $("input[name='searchMap.searchVal']").val();
+        }else{
+            $scope.searchMap.searchVal = '';
+            $scope.searchMap.searchType = '';
+        }
+        adminComplaintService.loadTodo($scope.searchMap).success(function (response) {
+            $scope.resultMap = response;//搜索返回的结果
+            buildPageLabel();
+            console.log(response);
+        });
+    }
+
+    //新增保存维权处理情况
     $scope.handlingInsert = function(){
         $scope.pData.complaintId = $("#complaintId").val();
         $scope.pData.complaintDetail = $("#complaintDetail").val();
@@ -40,11 +112,13 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         $scope.pData.complaintDetail = $("#complaintDetail").val();
         //alert($scope.pData.complaintId);
         $scope.pData.handlingInfo = $("#handlingSituation").val();
-        adminComplaintService.updateHandling($scope.pData).success(function (response) {
-            alert("更新成功！");
-            //location.reload();
-            console.log(response);
-        })
+        if(confirm("该操作不可撤销，是否确认更改当前维权处理信息?")) {
+            adminComplaintService.updateHandling($scope.pData).success(function (response) {
+                alert("更新成功！");
+                //location.reload();
+                console.log(response);
+            })
+        }
     }
 
     //展示维权
@@ -102,17 +176,6 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
 
     }
 
-
-    //搜索
-    $scope.search=function(){
-        adminComplaintService.load( $scope.searchMap ).success(
-            function(response1){
-                $scope.resultMap = response1;//搜索返回的结果
-                buildPageLabel();
-            }
-        );
-    };
-
     buildPageLabel = function () {
         $scope.pageLabel = [];
         var maxPageNo = $scope.resultMap.totalPages;//最后页码
@@ -141,13 +204,22 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         }
     };
 
-    $scope.queryByPage = function (pageNo) {
+    $scope.queryFinishByPage = function (pageNo) {
         //页码验证
         if(pageNo < 1 || pageNo > $scope.resultMap.totalPages){
             return;
         }
         $scope.searchMap.pageNo = pageNo;
-        $scope.search();
+        $scope.load();
+    };
+
+    $scope.queryTodoByPage = function (pageNo) {
+        //页码验证
+        if(pageNo < 1 || pageNo > $scope.resultMap.totalPages){
+            return;
+        }
+        $scope.searchMap.pageNo = pageNo;
+        $scope.loadTodo();
     };
 
     //判断当前为第一页

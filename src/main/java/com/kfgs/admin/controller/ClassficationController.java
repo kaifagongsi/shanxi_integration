@@ -56,7 +56,7 @@ public class ClassficationController {
     @RequestMapping(value = "savePic",method=RequestMethod.POST)
     @ResponseBody
     public String savePic(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        System.out.println("111111111111111111111");
+        //System.out.println("111111111111111111111");
         MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest) request;
         MultipartFile multipartFile = multipartRequest.getFile("imagePath");
         String className = multipartRequest.getParameter("className");
@@ -68,7 +68,7 @@ public class ClassficationController {
         System.out.println(className);
         //源文件类型
         String type=multipartFile.getContentType();
-        System.out.println(type);
+        System.out.println("图片文件类型为："+type);
         //源文件名称
         String imgName = multipartFile.getOriginalFilename();
         System.out.println(imgName);

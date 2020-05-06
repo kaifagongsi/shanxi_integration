@@ -25,12 +25,32 @@ public class ComplaintManageServiceImpl implements ComplaintManageService {
 
     @Override
     public Map getFinishList(Map searchMap){
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
+        //PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),Integer.parseInt(searchMap.get("pageSize").toString()));
         //返回页面结果集
-
         Map mapResult = new HashMap();
         TbComplaintsAboutRightsProtectionExample slectExample = new TbComplaintsAboutRightsProtectionExample();
-        slectExample.createCriteria().andStateNotEqualTo("0");
+        TbComplaintsAboutRightsProtectionExample.Criteria criteria = slectExample.createCriteria();
+        //查询关键字
+        String searchType = searchMap.get("searchType").toString();
+        String searchVal = searchMap.get("searchVal").toString();
+        if(searchType != null && searchType != "" && searchVal != null && searchVal != "" &&  !"请输入查询关键词".equals(searchVal)){
+            if("object_of_complaint".equals(searchType)){
+                criteria.andStateNotEqualTo("0").andObjectOfComplaintLike('%' + searchVal + '%');
+            }else if("complainant".equals(searchType)){
+                criteria.andStateNotEqualTo("0").andComplainantLike('%' + searchVal + '%');
+            }else if("contact".equals(searchType)){
+                criteria.andStateNotEqualTo("0").andContactLike('%' + searchVal + '%');
+            }else if("amount_of_complaint".equals(searchType)){
+                criteria.andStateNotEqualTo("0").andAmountOfComplaintEqualTo(Double.valueOf(searchVal));
+            }else if("details_of_complaints".equals(searchType)){
+                criteria.andStateNotEqualTo("0").andDetailsOfComplaintsLike('%' + searchVal + '%');
+            }else if("handling_situation".equals(searchType)){
+                criteria.andStateNotEqualTo("0").andHandlingSituationLike('%' + searchVal + '%');
+            }else{
+                criteria.andStateNotEqualTo("0");
+            }
+        }
         slectExample.setOrderByClause("  create_time desc  ");
         Page<TbComplaintsAboutRightsProtection> page = (Page<TbComplaintsAboutRightsProtection>) tbComplaintsAboutRightsProtectionMapper.selectByExample(slectExample);
         System.out.println(page.getTotal());
@@ -42,11 +62,30 @@ public class ComplaintManageServiceImpl implements ComplaintManageService {
 
     @Override
     public Map getTodoList(Map searchMap){
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
+        /*PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);*/
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),Integer.parseInt(searchMap.get("pageSize").toString()));
         //返回页面结果集
         Map mapResult = new HashMap();
         TbComplaintsAboutRightsProtectionExample slectExample = new TbComplaintsAboutRightsProtectionExample();
-        slectExample.createCriteria().andStateEqualTo("0");
+        TbComplaintsAboutRightsProtectionExample.Criteria criteria = slectExample.createCriteria();
+        //查询关键字
+        String searchType = searchMap.get("searchType").toString();
+        String searchVal = searchMap.get("searchVal").toString();
+        if(searchType != null && searchType != "" && searchVal != null && searchVal != "" &&  !"请输入查询关键词".equals(searchVal)){
+            if("object_of_complaint".equals(searchType)){
+                criteria.andStateEqualTo("0").andObjectOfComplaintLike('%' + searchVal + '%');
+            }else if("complainant".equals(searchType)){
+                criteria.andStateEqualTo("0").andComplainantLike('%' + searchVal + '%');
+            }else if("contact".equals(searchType)){
+                criteria.andStateEqualTo("0").andContactLike('%' + searchVal + '%');
+            }else if("details_of_complaints".equals(searchType)){
+                criteria.andStateEqualTo("0").andDetailsOfComplaintsLike('%' + searchVal + '%');
+            }else if("amount_of_complaint".equals(searchType)){
+                criteria.andStateEqualTo("0").andAmountOfComplaintEqualTo(Double.valueOf(searchVal));
+            }else{
+                criteria.andStateEqualTo("0");
+            }
+        }
         slectExample.setOrderByClause("  create_time desc  ");
         Page<TbComplaintsAboutRightsProtection> page = (Page<TbComplaintsAboutRightsProtection>) tbComplaintsAboutRightsProtectionMapper.selectByExample(slectExample);
         System.out.println(page.getTotal());
@@ -93,6 +132,7 @@ public class ComplaintManageServiceImpl implements ComplaintManageService {
         TbComplaintsAboutRightsProtectionExample complaintsAboutRightsProtectionExample = new TbComplaintsAboutRightsProtectionExample();
         tbComplaintsAboutRightsProtection.setState("2");
         int len = showidList.size();
+        /*System.out.println("展示条数:"+len);*/
         int returnResult = 0;
         for (int i=0;i<len;i++){
             String id = showidList.get(i).toString();

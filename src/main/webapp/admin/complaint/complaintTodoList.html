@@ -78,17 +78,27 @@
                         <div class="pull-left">
                             <div class="form-group form-inline">
                                 <div class="btn-group">
-                                    <!--<button type="button" class="btn btn-default" title="新建" onclick='location.href="all-order-manage-edit.html"'><i class="fa fa-file-o"></i> 新建</button>-->
-                                    <!--<button type="button" class="btn btn-default" title="展示" ng-click=""><i class="fa fa-check"></i> 展示</button>-->
                                     <button type="button" class="btn btn-default" title="删除" ng-click="deleteAll()"><i class="fa fa-trash-o"></i> 删除</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="box-tools pull-right">
-                            <div class="has-feedback">
-                                <input type="text" class="form-control input-sm" placeholder="搜索">
-                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        <div class="box-tools pull-right" style="width: 40%;">
+                            <div class="col-md-2" style="width: 25%;padding-left: 1px;" id="typeVal">
+                                <select id="searchType" class="form-control"   ng-model="searchMap.searchType" >
+                                    <option value="" >请选择</option>
+                                    <option value="object_of_complaint">投诉对象</option>
+                                    <option value="complainant">投诉人</option>
+                                    <option value="contact">联系方式</option>
+                                    <option value="amount_of_complaint">涉诉金额</option>
+                                    <option value="details_of_complaints">投诉详情</option>
+                                    <!--<option value="handling_situation">处理情况</option>-->
+                                    <<!--option value="state">展示情况</option>-->
+                                </select>
                             </div>
+
+                            <input type="text" name="searchMap.searchVal" value="请输入查询关键词" style="min-height: 34px;width:50%;"
+                                   onfocus="if(this.value=='请输入查询关键词')this.value=''" onblur="if(this.value=='')this.value='请输入查询关键词'" autocomplete="off">
+                            <button style="height: 34px;width: 55px;"  class="button" ng-click="searchTodo()">确定</button>
                         </div>
                         <!--工具栏/-->
 
@@ -170,32 +180,32 @@
                 <div class="box-footer">
                     <div class="pull-left">
                         <div class="form-group form-inline">
-                            总共{{resultMap.totalPages}}页，总共{{resultMap.total}}条数据。 每页
+                            总共{{resultMap.totalPages}}页，总共{{resultMap.total}}条数据。 <!--每页
                             <select class="form-control">
                                 <option>5</option>
                                 <option>10</option>
                                 <option>15</option>
                                 <option>20</option>
-                            </select> 条
+                            </select> 条-->
                         </div>
                     </div>
 
                     <div class="box-tools pull-right">
                         <ul class="pagination">
                             <li>
-                                <a href="#" aria-label="Previous" ng-click="queryByPage(1)">首页</a>
+                                <a href="#" aria-label="Previous" ng-click="queryTodoByPage(1)">首页</a>
                             </li>
                             <li class="prev {{isTopPage()?'disabled':''}}">
-                                <a href="#" ng-click="queryByPage(searchMap.pageNo - 1)">上一页</a>
+                                <a href="#" ng-click="queryTodoByPage(searchMap.pageNo - 1)">上一页</a>
                             </li>
                             <li class="dotted" ng-if="firstDot == true"><span>...</span></li>
-                            <li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryByPage(p)">{{p}}</a></li>
+                            <li  ng-repeat="p in pageLabel"><a href="#" ng-click="queryTodoByPage(p)">{{p}}</a></li>
                             <li class="dotted" ng-if="lastDot == true"><span>...</span></li>
                             <li class="next {{isEndPage() ? 'disabled': ''}}">
-                                <a href="#"  ng-click="queryByPage(searchMap.pageNo + 1)">下一页</a>
+                                <a href="#"  ng-click="queryTodoByPage(searchMap.pageNo + 1)">下一页</a>
                             </li>
                             <li>
-                                <a href="#" aria-label="Next"  ng-click="queryByPage(resultMap.totalPages)">尾页</a>
+                                <a href="#" aria-label="Next"  ng-click="queryTodoByPage(resultMap.totalPages)">尾页</a>
                             </li>
                         </ul>
                     </div>
@@ -214,41 +224,6 @@
 </div>
 
 <script>
-
-    function chk(){
-        var all = document.getElementById("all");
-        var mychk = document.getElementsByName("mychk");
-        //alert("mychk长度=="+mychk.length);
-        if(all.checked==true){
-            //alert("all.checked==true全选");
-            if(mychk.length){
-                for(var i=0;i<mychk.length;i++){
-                    mychk[i].checked = true;
-                }
-
-            }
-            mychk.chcked=true;
-        }else{
-            //alert("all.checked==false全不选");
-            if(mychk.length){
-                for(var i=0;i<mychk.length;i++){
-                    mychk[i].checked = false;
-                }
-
-            }
-        }
-
-    }
-
-    // 设置激活菜单
-    function setSidebarActive(tagUri) {
-        var liObj = $("#" + tagUri);
-        if (liObj.length > 0) {
-            liObj.parent().parent().addClass("active");
-            liObj.addClass("active");
-        }
-    }
-
 
     $(document).ready(function() {
 
