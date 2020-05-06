@@ -17,26 +17,12 @@
   <![endif]-->
     <!-- 页面meta /-->
 
-    <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../plugins/datepicker/css/datepicker3.css">
     <link rel="stylesheet" href="../../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-
-
-    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="../../plugins/jQueryUI/jquery-ui.min.js"></script>
-    <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../plugins/adminLTE/js/app.min.js"></script>
-    <script src="../../plugins/datepicker/js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="../../plugins/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="../../plugins/ckeditor/config.js"></script>
-
-    <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
-    <script type="text/javascript" src="../../js/adminBase.js"></script>
-    <script type="text/javascript" src="../../js/service/adminProclamationService.js"></script>
-    <script type="text/javascript" src="../../js/controller/adminProclamationController.js"></script>
 
 </head>
 
@@ -79,10 +65,10 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" ng-model="contentMap.noticeTime" id="noticeTime" class="form-control pull-right" id="datepicker-a3">
+                                <input type="text" ng-model="contentMap.noticeTime" name="noticeTime" class="form-control pull-right" id="datepicker-a3">
                             </div>
                         </div>
-                        
+
                         <div class="col-md-2 title ">公告类型</div>
                         <div class="col-md-4 data">
                             <select class="form-control select2" ng-model="contentMap.typeVal" id="typeVal"  style="width: 100%;">
@@ -125,6 +111,25 @@
         <!-- 底部导航 /-->
 
     </div>
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../../plugins/jQueryUI/jquery-ui.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../plugins/datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../../plugins/datepicker/js/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="../../plugins/adminLTE/js/app.min.js"></script>
+
+
+
+    <script type="text/javascript" src="../../plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="../../plugins/ckeditor/config.js"></script>
+
+
+    <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="../../js/adminBase.js"></script>
+    <script type="text/javascript" src="../../js/service/adminProclamationService.js"></script>
+    <script type="text/javascript" src="../../js/controller/adminProclamationController.js"></script>
+
 
     <script>
         $(document).ready(function() {

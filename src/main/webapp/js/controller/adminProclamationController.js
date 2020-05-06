@@ -55,7 +55,7 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
         $scope.contentMap.id = $("#proclamationId").val();
         $scope.contentMap.title = $("#title").val();
         $scope.contentMap.typeVal = $("#typeVal").val();
-        $scope.contentMap.noticeTime = $("#noticeTime").val();
+        $scope.contentMap.noticeTime = $( "input[name='noticeTime']" ).val();
 
         adminProclamationService.saveOrupdate( $scope.contentMap ).success(
             function(response2){

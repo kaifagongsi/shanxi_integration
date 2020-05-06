@@ -46,7 +46,8 @@ adminApp.controller('adminPolicyController',function ($scope,$location,adminPoli
         $scope.contentMap.id = $("#policyId").val();
         $scope.contentMap.title = $("#title").val();
         $scope.contentMap.typeVal = $("#typeVal").val();
-        $scope.contentMap.createTime = $("#createTime").val();
+        $scope.contentMap.createTime = $( "input[name='createTime']" ).val();
+
 
         adminPolicyService.saveOrupdate( $scope.contentMap ).success(
             function(response2){
