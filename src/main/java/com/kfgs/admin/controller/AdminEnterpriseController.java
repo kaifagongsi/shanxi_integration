@@ -29,4 +29,14 @@ public class AdminEnterpriseController {
     public QueryResponseResult addEnterprise(@RequestBody TbEnterpriseExt tbEnterpriseExt){
         return  adminEnterpriseService.addEnterprise(tbEnterpriseExt);
     }
+
+    @GetMapping("/selectById")
+    public QueryResponseResult selectById(String id ){
+        return  adminEnterpriseService.selectById(id);
+    }
+
+    @DeleteMapping("/deleteEnterprise")
+    public QueryResponseResult deleteEnterprise(String id ){
+            return  adminEnterpriseService.deleteEnterprise(id);
+    }
 }

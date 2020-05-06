@@ -145,6 +145,7 @@
             <include refid="Example_Where_Clause" />
         </if>
     </delete>
+
     <insert id="insert" parameterType="com.kfgs.domain.TbEnterprise" >
         insert into tb_enterprise (product_id, enterprise_name, approval_announcement_no_enterprise,
           id, enterprise_address, administrative_id,
@@ -416,14 +417,15 @@
         tb_product p
     WHERE
         e.product_id = p.id
+        and e.isdelete = 0
   </select>
 
     <select id="selectEnterpriseGroupByApprovalYear" resultType="java.util.Map">
-        select count(1),approval_year from tb_enterprise where is_first_submission = '未变更' group by approval_year
+        select count(1),approval_year from tb_enterprise where is_first_submission = '未变更'  and isdelete = 0 group by approval_year
     </select>
 
     <select id="selectByIdInList" resultType="com.kfgs.domain.TbEnterprise">
-        select id,enterprise_name from tb_enterprise where is_first_submission = '未变更' and
+        select id,enterprise_name from tb_enterprise where is_first_submission = '未变更' and isdelete = 0 and
         id in
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item}
@@ -431,11 +433,11 @@
     </select>
 
     <select id="selectDistinctEnterpriseApprovalYear" resultType="java.lang.String">
-        select DISTINCT approval_year from tb_enterprise where is_first_submission = '未变更'
+        select DISTINCT approval_year from tb_enterprise where is_first_submission = '未变更' and isdelete = 0
     </select>
 
     <select id="selectByIdAndName" resultType="java.util.Map">
-         select  id,enterprise_name from    tb_enterprise where is_first_submission = '未变更'
+         select  id,enterprise_name from    tb_enterprise where is_first_submission = '未变更' and isdelete = 0
     </select>
 
     <select id="selectHistogramByProEnt" resultType="java.util.Map">
@@ -452,7 +454,7 @@
         FROM
         tb_enterprise enn LEFT JOIN
         tb_product  tpp on enn.product_id = tpp.id
-        where  enn.is_first_submission = '未变更'
+        where  enn.is_first_submission = '未变更'  and enn.isdelete = 0
         <if test="year != null and year != '' and year!='全部'">
             and  enn.approval_year = #{year}
         </if>
@@ -519,7 +521,7 @@
         tb_enterprise en
         left join tb_product pro on en.product_id = pro.id
         where
-        is_first_submission = '未变更'
+        is_first_submission = '未变更'  and en.isdelete = 0
         <if test = "year != null and year != '' and year!='全部'" >
             AND en.approval_year = #{year}
         </if >
@@ -548,7 +550,7 @@
         FROM
         tb_enterprise  enn LEFT JOIN
         tb_product  tpp on enn.product_id = tpp.id
-        WHERE  enn.is_first_submission = '未变更'
+        WHERE  enn.is_first_submission = '未变更' and enn.isdelete = 0
         <if test="classification != null and classification != '' and classification!='0000' ">
             and   tpp.classificationId   in (select classificationId from tb_classification where parentId = #{classification})
         </if>
@@ -581,6 +583,7 @@
             tb_enterprise
         where
           product_id = #{productId}
+          and isdelete = 0
     </select>
 
     <select id="selectByExampleReturnTBEXT" resultType="com.kfgs.domain.ext.TbEnterpriseExt" parameterType="com.kfgs.domain.TbEnterpriseExample" >
@@ -596,6 +599,7 @@
           tb_enterprise e,
           tb_product p
         where e.product_id = p.id
+          and e.isdelete = 0
         <if test="_parameter != null" >
           <if test="_parameter.oredCriteria.size != 0">
             and
@@ -635,6 +639,29 @@
             tb_product pro
         WHERE
             en.product_id = pro.id
+            and en.isdelete = 0
+    </select>
+    <select id="selectById" resultType="com.kfgs.domain.ext.TbEnterpriseExt">
+        SELECT
+            id AS id,
+            enterprise_name AS enterpriseName,
+            enterprise_address AS enterpriseAddress,
+            administrative_id AS administrativeId,
+            product_id AS productId,
+            corporate_representative AS corporateRepresentative,
+            approval_announcement_no_enterprise AS approvalAnnouncementNoEnterprise,
+            approval_announcement_no_enterprise_all AS approvalAnnouncementNoEnterpriseAll,
+            uniform_social_credit_code AS uniformSocialCreditCode,
+            approval_authority_enterprise AS approvalAuthorityEnterprise,
+            is_first_submission AS isFirstSubmission
+        FROM
+            tb_enterprise
+        where
+            id = #{id}
+            and isdelete ='0'
     </select>
 
+    <delete id="deleteById">
+        update tb_enterprise  set  isdelete = '1' where id = #{id}
+    </delete>
 </mapper>

@@ -316,4 +316,12 @@
     <select id="selectById" resultType="com.kfgs.domain.TbProtectionNotice">
         select id as id, title as title, notice_time as noticeTime from tb_protection_notice where id = #{approvalAnnouncementNoEnterpriseAll}
     </select>
+    <select id="selectByName" resultType="java.lang.String">
+        SELECT
+            id
+        FROM
+            tb_protection_notice
+        where
+            title = #{approvalAnnouncementNoEnterpriseAll}
+    </select>
 </mapper>

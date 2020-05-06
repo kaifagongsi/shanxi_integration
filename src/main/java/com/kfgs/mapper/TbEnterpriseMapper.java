@@ -69,4 +69,8 @@ public interface TbEnterpriseMapper {
     int insertList(List<TbEnterpriseExcel> enterpriseList);
 
     List<TbEnterpriseExt> selectAdminEnterpriseList();
+
+    TbEnterpriseExt selectById(String id);
+
+    int deleteById(Integer id);
 }

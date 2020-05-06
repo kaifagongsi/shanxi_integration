@@ -80,11 +80,8 @@ public class AdminProductImpl implements AdminProductService {
         //删除产品表
         int productDeleteNm =  tbProductMapper.deleteByPrimaryKey(Integer.parseInt(id));
 
-        if(1 == productDeleteNm && 1 == tbProductShowNum && 1 == tbClassificationNum && productProtectionNoticeNum == 1){
-            return new QueryResponseResult(CommonCode.SUCCESS,null);
-        }else{
-            return new QueryResponseResult(CommonCode.FAIL,null);
-        }
+        return new QueryResponseResult(CommonCode.SUCCESS,null);
+
     }
 
 
@@ -227,8 +224,7 @@ public class AdminProductImpl implements AdminProductService {
         /*List<TbProduct> productList  = tbProductMapper.selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice();*/
         Page<TbProductExt> page  = (Page<TbProductExt> ) tbProductMapper.selectAdminProductList();
         for(TbProductExt p : page.getResult()){
-          //  p.set
-            p.setClassificationName(areaMap.get(p.getClassificationid()));
+            p.setClassificationName(areaMap.get(p.getClassificationid().substring(0,2)+"00"));
         }
         resultMap.put("rows",page.getResult());
         resultMap.put("totalPages", page.getPages());
@@ -341,6 +337,8 @@ public class AdminProductImpl implements AdminProductService {
         List<HashMap<String,String>> list = tbClassificationMapper.selectClassificationIdAndNameReturnMap();
         return  ListToModelUtils.listToMap(list);
     }
+
+
 
 
 }

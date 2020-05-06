@@ -21,7 +21,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.content = null;
 
     //构造用标企业信息
-    $scope.enterprise = {'id':0,'enterpriseName':'','enterpriseAddress':'','administrativeId':'','productId':'','corporateRepresentative':'','uniformSocialCreditCode':'',
+    $scope.enterprise = {'id':0,'enterpriseName':'','enterpriseAddress':'','city':'','administrativeId':'','productId':'','corporateRepresentative':'','uniformSocialCreditCode':'',
                          'approvalAnnouncementNoEnterpriseAll':'','approvalAnnouncementNoEnterprise':'','approvalAuthorityEnterprise':'',
                         'isFirstSubmission':''};
 
@@ -34,9 +34,28 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.hezhunList = null;
 
     //用标企业实体
-    /*******************************用标企业新增/更新**********************************/
+    /*******************************用标企业新增/更新/删除**********************************/
+    $scope.enterpriseDelete = function(id){
+        adminEnterpriseService.deleteEnterprise(id).success(function (response) {
+            console.log(response)
+        });
+    };
     $scope.initEnterprise = function (){
+
         initSelectEnterprise();
+        if ($location.$$search.id) {
+            //表示为更新
+            $scope.enterprise.id = $location.$$search['id'];
+            console.log($location.$$search['id']);
+            adminEnterpriseService.selectById($scope.enterprise.id).success(function (response) {
+                console.log(response);
+                $scope.enterprise = response.queryResult.map.item;
+                $scope.enterprise.approvalAnnouncementNoEnterpriseAll = parseInt(response.queryResult.map.item.approvalAnnouncementNoEnterpriseAll);
+            });
+        }else{
+            //表示为新增
+        }
+
     };
 
     $scope.addEnterprise = function () {
@@ -54,7 +73,6 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             $scope.entAreasCityList = responose.queryResult.map.entAreasCityList;
             $scope.productList = responose.queryResult.map.productList;
             $scope.hezhunList = responose.queryResult.map.protectionNoticesList;
-            console.log(responose);
         });
     }
     /*
@@ -81,6 +99,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
 
     $scope.deleteProduct = function(productId){
         adminProductService.deleteProduct(productId).success(function (response) {
+
             console.log(response);
         });
     };

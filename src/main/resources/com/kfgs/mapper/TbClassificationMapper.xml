@@ -312,7 +312,9 @@
             reserve
         FROM
             tb_classification c
+
         LEFT JOIN tb_product p ON c.name = p.name
+         where c.isdelete = 0
   </select>
     <select id="selectMaxClassificationIdMaxLevelAndParentIdByName"
             resultType="com.kfgs.domain.TbClassification">
@@ -331,6 +333,7 @@
                 WHERE
                     NAME = #{name}
             )
+            and isdelete = 0
     </select>
 
 
@@ -359,6 +362,7 @@
             ${tableName} a
         WHERE
             rootId = '1'
+            and isdelete = 0
     </select>
 
     <select id="selectNameAndLevelReturnMap" resultType="java.util.HashMap"   >
@@ -376,6 +380,7 @@
             ${tableName} a
         WHERE
             rootId = '1'
+            and isdelete = 0
     </select>
 
     <select id="selectNameAndParentIdReturnMap" resultType="java.util.HashMap"   >
@@ -386,16 +391,17 @@
             ${tableName} a
         WHERE
             rootId = '1'
+            and isdelete = 0
     </select>
     <select id="selectClassificationIdAndNameReturnMap" resultType="java.util.HashMap">
-        select  classificationId as 'key' ,name as 'value' from tb_classification
+        select  classificationId as 'key' ,name as 'value' from tb_classification where isdelete = 0
     </select>
     <select id="selectRootIdEqulesOne" resultType="com.kfgs.domain.TbClassification">
-        select  *   from tb_classification where rootId = '1'
+        select  *   from tb_classification where rootId = '1' and isdelete = 0
     </select>
     <select id="selectMaxClassificationIdByParentId" resultType="java.lang.Integer">
 
-        select max(classificationId) from tb_classification where parentId = #{administrativeArea}
+        select max(classificationId) from tb_classification where parentId = #{administrativeArea} and isdelete = 0
     </select>
     <select id="selectMaxClassificationIdMaxLevelAndParentIdByClassificationId"
             resultType="com.kfgs.domain.TbClassification">
@@ -407,11 +413,12 @@
             tb_classification
         WHERE
             parentId =  #{tbProductExtAdministrativeArea}
+            and isdelete = 0
     </select>
 
 
     <delete id="deleteByName">
-        delete from tb_classification where name = (select name from tb_product where id = #{productId})
+        update  tb_classification set  isdelete = 1  where name = (select name from tb_product where id = #{productId})
     </delete>
 
 </mapper>

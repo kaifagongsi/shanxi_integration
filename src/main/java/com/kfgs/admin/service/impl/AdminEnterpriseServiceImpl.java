@@ -13,14 +13,14 @@ import com.kfgs.mapper.TbEnterpriseMapper;
 import com.kfgs.mapper.TbProductMapper;
 import com.kfgs.mapper.TbProtectionNoticeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
+@Transactional
 public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
 
     @Autowired
@@ -61,7 +61,7 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         Map resultMap = new HashMap();
         //1获取行政区间市级别
         TbAdministrativeAreaExample adminExample = new  TbAdministrativeAreaExample();
-        adminExample.createCriteria().andParentIdEqualTo("610000");
+        adminExample.createCriteria().andLevelNotEqualTo(2);
         List<TbAdministrativeArea> areas = tbAdministrativeAreaMapper.selectByExample(adminExample);
         resultMap.put("entAreasCityList",areas);
         //2.获取产品
@@ -80,7 +80,12 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
 
     @Override
     public QueryResponseResult addEnterprise(TbEnterpriseExt tbEnterpriseExt) {
+        int deleteNum = 0;
+        if(tbEnterpriseExt.getId() != 0 ){
+            deleteNum =  tbEnterpriseMapper.deleteById(tbEnterpriseExt.getId());
+        }else{
 
+        }
         //设置批准公告
         TbProtectionNotice protectionNotice = tbProtectionNoticeMapper.selectById(tbEnterpriseExt.getApprovalAnnouncementNoEnterpriseAll());
         tbEnterpriseExt.setApprovalAnnouncementNoEnterpriseAll(protectionNotice.getTitle());
@@ -92,11 +97,32 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         tbEnterpriseExt.setIsdelete(0);
         System.out.println(tbEnterpriseExt);
         int insert = tbEnterpriseMapper.insert(tbEnterpriseExt);
-        if( 1 == insert){
-            System.out.println("插入成功");
-            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        if( 1 == insert ){
+                System.out.println("插入成功");
+                return new QueryResponseResult(CommonCode.SUCCESS,null);
         }else{
             return new QueryResponseResult(CommonCode.FAIL,null);
         }
+    }
+
+    @Override
+    public QueryResponseResult selectById(String id) {
+        Map resultMap = new HashMap();
+        TbEnterpriseExt ext = tbEnterpriseMapper.selectById(id);
+        ext.setCity(ext.getAdministrativeId().substring(0,4)+"00");
+        String noticeId = tbProtectionNoticeMapper.selectByName(ext.getApprovalAnnouncementNoEnterpriseAll());
+        ext.setApprovalAnnouncementNoEnterpriseAll(noticeId);
+        System.out.println(ext);
+        QueryResult queryResult = new QueryResult();
+        resultMap.put("item",ext);
+        queryResult.setMap(resultMap);
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+
+    @Override
+    public QueryResponseResult deleteEnterprise(String id) {
+        System.out.println(id);
+        int deleteNum = tbEnterpriseMapper.deleteById(Integer.parseInt(id));
+        return null;
     }
 }

@@ -12,4 +12,8 @@ public interface AdminEnterpriseService {
     QueryResponseResult getSelectEnterprise();
 
     QueryResponseResult addEnterprise(TbEnterpriseExt tbEnterpriseExt);
+
+    QueryResponseResult selectById(String id);
+
+    QueryResponseResult deleteEnterprise(String id);
 }

@@ -106,9 +106,8 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from tb_product
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+      update tb_product set isdelete = 1   where id = #{id,jdbcType=INTEGER}
+     </delete>
     <delete id="deleteByExample" parameterType="com.kfgs.domain.TbProductExample" >
         delete from tb_product
         <if test="_parameter != null" >
@@ -422,14 +421,14 @@
 
     <!-- 自己增加的 -->
     <select id="selectProductGroupByApprovalYear" resultType="java.util.HashMap">
-        select count(1),approval_year from tb_product group by approval_year
+        select count(1),approval_year from tb_product  where isdelete = 0 group by approval_year
     </select>
     <select id="selectDistinctProductApprovalYear" resultType="java.lang.String">
-        select DISTINCT approval_year from tb_product
+        select DISTINCT approval_year from tb_product   where isdelete = 0
     </select>
 
     <select id="selectByIdInList" resultType="com.kfgs.domain.TbProduct">
-        select id,name from tb_product where id in
+        select id,name from tb_product where isdelete = 0 and  id in
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
@@ -440,7 +439,7 @@
         SELECT
         <choose>
             <when test="parentId ==null or parentId =='' or parentId == '610000' ">
-                SUBSTR(administrative_area , 1  ,4) as area,count(1)  as countNum from  tb_product  WHERE 1 = 1
+                SUBSTR(administrative_area , 1  ,4) as area,count(1)  as countNum from  tb_product  WHERE isdelete = 0
                 <choose>
                     <when test="parentId ==null or parentId ==''">
                         and administrative_area !=  '610000'
@@ -455,10 +454,10 @@
             <otherwise>
                 <choose>
                     <when test="parentId.lastIndexOf('00') > 0">
-                        administrative_area as area,count(1)  as countNum from  tb_product  WHERE 1 = 1 and administrative_area !=  #{parentId}
+                        administrative_area as area,count(1)  as countNum from  tb_product  WHERE isdelete = 0 and administrative_area !=  #{parentId}
                     </when>
                     <otherwise>
-                        administrative_area as area,count(1)  as countNum from  tb_product  WHERE 1 = 1
+                        administrative_area as area,count(1)  as countNum from  tb_product  WHERE isdelete = 0
                     </otherwise>
                 </choose>
 
@@ -530,7 +529,7 @@
         count(1)
         FROM
         tb_product
-        where 1 = 1
+        where isdelete = 0
         <if test="year != null and year != '' and year!='全部' ">
             and  approval_year =#{year}
         </if>
@@ -558,7 +557,7 @@
         approval_year as years,COUNT(1)
         FROM
         tb_product
-        WHERE  1 = 1
+        WHERE  isdelete = 0
         <if test="classification != null and classification != '' and classification!='0000' ">
             and   classificationId   in (select classificationId from tb_classification where parentId = #{classification})
         </if>
@@ -584,7 +583,7 @@
         from
         tb_product
         where
-        1 = 1
+         isdelete = 0
         <if test="year != null and year != '' and year!='全部' ">
             and  approval_year =#{year}
         </if>
@@ -629,7 +628,7 @@
         ) AS classificationName
         FROM
         tb_product t0
-        where 1 = 1
+        where   t0.isdelete = 0
         <if test="year != null and year != '' and year!='全部' ">
             and  approval_year =#{year}
         </if>
@@ -649,7 +648,7 @@
     </select>
 
     <select id="selectByIdAndName" resultType="java.util.Map">
-        select  id,name from   tb_product
+        select  id,name from   tb_product where isdelete = 0
     </select>
 
     <select id="getList"  resultType="com.kfgs.domain.ext.TbProductExt"  parameterType="com.kfgs.domain.TbProductExample" >
@@ -701,16 +700,16 @@
 
 
     <select id="selectByName" resultType="java.lang.Integer">
-        select id from tb_product where name = #{productName}
+        select id from tb_product where name = #{productName} and isdelete = 0
     </select>
     <select id="selectProductIdAndName" resultType="java.util.HashMap">
-        select name as 'key', id as 'value' from tb_product
+        select name as 'key', id as 'value' from tb_product and isdelete = 0
     </select>
 
     <select id="selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice" resultType="com.kfgs.domain.TbProduct">
         select pro.id,pro.name,pro.administrative_area,pro.classificationId, pro.approval_announcement_no_product, ppn.protection_notice_id
- from tb_product pro , tb_product_protection_notice  ppn where   pro.id = ppn.product_id
-
+         from tb_product pro , tb_product_protection_notice  ppn where   pro.id = ppn.product_id
+        and pro.isdelete = 0
     </select>
 
     <select id="selectAdminProductList" resultType="com.kfgs.domain.ext.TbProductExt">
@@ -731,6 +730,7 @@
             pn.typeVal = '批准公告'
         AND ppn.product_id = pro.id
         AND ppn.protection_notice_id = pn.id
+        and pro.isdelete = 0
     </select>
 
 
@@ -805,12 +805,12 @@
          ppn.product_id = pro.id  and
          ppn.protection_notice_id = pn.id  and
          pro.id = #{id}
-
+        and pro.isdelete = 0
     </select>
     <select id="selectByIdAndNameReturnList" resultType="com.kfgs.domain.TbProduct">
-        select id,name from tb_product
+        select id,name from tb_product  where isdelete = 0
     </select>
     <select id="selectById" resultType="java.lang.String">
-        select name from tb_product where id = #{productId}
+        select name from tb_product where id = #{productId} where isdelete = 0
     </select>
 </mapper>
