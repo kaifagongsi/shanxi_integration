@@ -80,6 +80,21 @@ adminApp.controller('adminPolicyController',function ($scope,$location,adminPoli
         }
     }
 
+
+    $scope.queryData = function(){
+        //获取查询数值
+        if($("input[name='searchMap.keywords']") != undefined && $("input[name='searchMap.keywords']").val() != null  && $("input[name='searchMap.keywords']").val() != ''
+            && $("input[name='searchMap.keywords']").val() != '请输入查询政策名称' ){
+            $scope.searchMap.keywords = $("input[name='searchMap.keywords']").val();
+        }else{
+            $scope.searchMap.keywords = '';
+        }
+        adminPolicyService.load($scope.searchMap).success(function (response) {
+            $scope.resultMap = response;//搜索返回的结果
+            buildPageLabel();
+        });
+    }
+
     buildPageLabel = function () {
         $scope.pageLabel = [];
         var maxPageNo = $scope.resultMap.totalPages;//最后页码

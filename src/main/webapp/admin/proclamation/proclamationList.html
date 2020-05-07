@@ -74,14 +74,18 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default" title="新建" onclick='location.href="proclamationEdit.html"'><i class="fa fa-file-o"></i> 新建</button>
                                     <button type="button" class="btn btn-default" title="删除" ng-click="deleteAll()"><i class="fa fa-trash-o"></i> 删除</button>
+                                    <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                 </div>
                             </div>
                         </div>
                         <div class="box-tools pull-right">
-                            <div class="has-feedback">
+                           <!-- <div class="has-feedback">
                                 <input type="text" class="form-control input-sm" placeholder="搜索">
                                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                            </div>
+                            </div>-->
+                            <input type="text" name="searchMap.keywords" value="请输入查询公告名称" style="min-height: 34px;"
+                                   onfocus="if(this.value=='请输入查询公告名称')this.value=''" onblur="if(this.value=='')this.value='请输入查询公告名称'" autocomplete="off">
+                            <button style="height: 34px;width: 55px;"  class="button" ng-click="queryData()">确定</button>
                         </div>
                         <!--工具栏/-->
 
