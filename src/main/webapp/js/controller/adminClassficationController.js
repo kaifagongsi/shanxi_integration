@@ -4,6 +4,7 @@ adminApp.controller('adminClassficationController',function ($scope,$http,adminC
     $scope.resultMap= {"totalPages":"0"};
     $scope.classData={"name":'',"maxId":''}
     $scope.idList=new Array();
+    $scope.editClass={"name":'',"img":'',"classId":''}
     //国内分类
     $scope.loadCountry = function () {
         adminClassficationService.loadCountry($scope.searchMap).success(function (response) {
@@ -37,8 +38,8 @@ adminApp.controller('adminClassficationController',function ($scope,$http,adminC
             alert("请选择需要上传的类别图片");
             return;
         }
-        if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(imageFile)){
-            alert("图片类型必须是(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)\"");
+        if(!/\.(?:png|jpg|PNG|JPG)$/.test(imageFile)){
+            alert("图片类型不正确，请重新选择");
             $("#imageFile").val('');
             return;
         }
@@ -60,6 +61,95 @@ adminApp.controller('adminClassficationController',function ($scope,$http,adminC
 
         }
 
+    //修改陕西分类
+    $scope.editShanxiClass = function(){
+        $scope.classData.name = $("#editName").val();
+        var imageFile = $("#editImageFile").val();
+        if($scope.classData.name == '' || $scope.classData.name.length == 0){
+            alert("请输入分类名称");
+            return;
+        }
+        $scope.thisimg = $("#thisimg").val();
+        //alert($scope.thisimg);
+        if($scope.thisimg == "" || $scope.thisimg.length == 0 || $scope.thisimg == null){
+            alert("请上传类别图片");
+        }else if(imageFile == '' || imageFile.length == 0){
+            //只修改了类别名称
+            $scope.editClass.name = $("#editName").val();
+            $scope.editClass.classId = $("#thisId").val();
+            adminClassficationService.updateShanxiClass($scope.editClass).success(function (response) {
+                console.log(response);
+                location.reload();
+            })
+        }else{
+            //修改了图片
+            if(!/\.(?:png|jpg|PNG|JPG)$/.test(imageFile)){
+                alert("图片类型不正确，请重新选择");
+                $("#editImageFile").val('');
+                return;
+            }else{
+                var formData = new FormData();
+                formData.append("imagePath",$("#editImageFile")[0].files[0]);
+                formData.append("className",$("#editName").val());
+                formData.append("classId",$("#thisId").val());
+                return $http({
+                    method: 'post',
+                    url: '../../admin/updateShanxiPic.do',
+                    data: formData,
+                    headers: {'Content-Type': undefined},
+                    transformRequest: angular.identity
+                }).then(function (response) {
+                    alert("操作成功!");
+                    location.reload();
+                });
+            }
+        }
+    }
+    //修改国内分类
+    $scope.editCountryClass = function(){
+        $scope.classData.name = $("#editName").val();
+        var imageFile = $("#editImageFile").val();
+        if($scope.classData.name == '' || $scope.classData.name.length == 0){
+            alert("请输入分类名称");
+            return;
+        }
+        $scope.thisimg = $("#thisimg").val();
+        //alert($scope.thisimg);
+        if($scope.thisimg == "" || $scope.thisimg.length == 0 || $scope.thisimg == null){
+            alert("请上传类别图片");
+        }else if(imageFile == '' || imageFile.length == 0){
+            //只修改了类别名称
+            $scope.editClass.name = $("#editName").val();
+            $scope.editClass.classId = $("#thisId").val();
+            alert($scope.editClass.classId);
+            adminClassficationService.updateShanxiClass($scope.editClass).success(function (response) {
+                console.log(response);
+                location.reload();
+            })
+        }else{
+            //修改了图片
+            if(!/\.(?:png|jpg|PNG|JPG)$/.test(imageFile)){
+                alert("图片类型不正确，请重新选择");
+                $("#editImageFile").val('');
+                return;
+            }else{
+                var formData = new FormData();
+                formData.append("imagePath",$("#editImageFile")[0].files[0]);
+                formData.append("className",$("#editName").val());
+                formData.append("classId",$("#thisId").val());
+                return $http({
+                    method: 'post',
+                    url: '../../admin/updateCountryPic.do',
+                    data: formData,
+                    headers: {'Content-Type': undefined},
+                    transformRequest: angular.identity
+                }).then(function (response) {
+                    alert("操作成功!");
+                    location.reload();
+                });
+            }
+        }
+    }
 
     //新增陕西分类
     $scope.addShanxiClass = function(){
@@ -75,8 +165,8 @@ adminApp.controller('adminClassficationController',function ($scope,$http,adminC
             alert("请选择需要上传的类别图片");
             return;
         }
-        if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(imageFile)){
-            alert("图片类型必须是(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)\"");
+        if(!/\.(?:png|jpg|PNG|JPG)$/.test(imageFile)){
+            alert("图片类型不正确，请重新选择");
             $("#imageFile").val('');
             return;
         }

@@ -9,7 +9,14 @@ adminApp.service('adminClassficationService',function ($http) {
     this.loadShanxi = function (searchMap) {
         return $http.post('../../admin/getShanxiClassList.do',searchMap);
     }
-    
+    //修改国内分类
+    this.updateCountryClass = function (editClass) {
+        return $http.post('../../admin/updateCountryClass.do',editClass);
+    }
+    //修改陕西分类
+    this.updateShanxiClass = function (editClass) {
+        return $http.post('../../admin/updateShanxiClass.do',editClass);
+    }
     //新增国内分类
     this.addCountryClass = function () {
         return $http.post('../../admin/addCountryClass.do');

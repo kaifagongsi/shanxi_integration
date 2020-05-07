@@ -78,7 +78,33 @@ public class ClassficationServiceImpl implements ClassficationService {
         mapResult.put("parentId",rootids);
         return mapResult;
     }
+    @Override
+    public String updateCountryClass(Map editClass){
+        TbClassficationCountry classficationCountry = new TbClassficationCountry();
+        TbClassficationCountryExample slectExample = new TbClassficationCountryExample();
+        classficationCountry.setName(editClass.get("name").toString());
+        String classid = editClass.get("classId").toString();
+        if(editClass.get("img").toString() != "" || editClass.get("img").toString() != null){
+            classficationCountry.setReserve(editClass.get("img").toString());
+        }
+        slectExample.createCriteria().andClassificationidEqualTo(classid);
+        int returnResult = tbClassficationCountryMapper.updateByExampleSelective(classficationCountry,slectExample);
+        return "success";
+    }
 
+    @Override
+    public String updateShanxiClass(Map editClass){
+        TbClassification classification = new TbClassification();
+        TbClassificationExample slectExample = new TbClassificationExample();
+        classification.setName(editClass.get("name").toString());
+        String classid = editClass.get("classId").toString();
+        if(editClass.get("img").toString() != "" || editClass.get("img").toString() != null){
+            classification.setReserve(editClass.get("img").toString());
+        }
+        slectExample.createCriteria().andClassificationidEqualTo(classid);
+        int returnResult = tbClassificationMapper.updateByExampleSelective(classification,slectExample);
+        return "success";
+    }
     @Override
     public int addCountryClass(String name,String path,String id){
         TbClassficationCountry classficationCountry = new TbClassficationCountry();
