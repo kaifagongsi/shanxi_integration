@@ -45,3 +45,47 @@ adminApp.directive('loading', function(){
         }
     }
 });
+//focus directive
+adminApp.directive('myFocus', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            scope.$watch(attr.myFocus, function (n, o) {
+                if (n != 0 && n) {
+                    element[0].focus();
+                }
+            });
+        }
+    };
+});
+//blur directive
+adminApp.directive('myBlur', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            element.bind('blur', function () {
+                //apply scope (attributes)
+                scope.$apply(attr.myBlur);
+                //return scope value for focusing to false
+                //scope.$eval(attr.myFocus + '=false');
+            });
+        }
+    };
+});
+adminApp.directive('ngFocus', [function() {
+    var FOCUS_CLASS = "ng-focused";
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attrs, ctrl) {
+            ctrl.$focused = false;
+            element.bind('focus', function(evt) {
+                element.addClass(FOCUS_CLASS);
+                scope.$apply(function() {ctrl.$focused = true;});
+            }).bind('blur', function(evt) {
+                element.removeClass(FOCUS_CLASS);
+                scope.$apply(function() {ctrl.$focused = false;});
+            });
+        }
+    }
+}]);

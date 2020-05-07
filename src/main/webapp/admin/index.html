@@ -21,9 +21,24 @@
     <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../plugins/adminLTE/js/app.min.js"></script>
+
+    <!-- 导入js  -->
+   <!-- <script type="text/javascript" src="../js/jquery.js"></script>-->
+    <!-- 导入controller  -->
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="../js/adminBase.js"></script>
+    <script type="text/javascript" src="../js/service/adminUserService.js"></script>
+    <script type="text/javascript" src="../js/controller/adminUserController.js"></script>
+
+
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-purple sidebar-mini"  ng-controller="adminUserController" ng-app="shanxi-admin" ng-init="getUser()">
 
 <div class="wrapper">
 
@@ -32,7 +47,7 @@
 
 
         <!-- Logo -->
-        <a href="all-admin-index.html" class="logo">
+        <a href="#" class="logo">
             <span class="logo-lg"><b>数据</b>后台管理</span>
         </a>
 
@@ -48,25 +63,24 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="../img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">张猿猿</span>
+                            <span class="hidden-xs">{{user}}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!-- User image -->
                             <li class="user-header">
                                 <img src="../img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
                                 <p>
-                                    张猿猿 - 数据管理员
-                                    <small>最后登录 11:20AM</small>
+                                    {{user}}
                                 </p>
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">修改密码</a>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                        修改密码
+                                    </button>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">注销</a>
+                                    <a href="../logout.do" class="btn btn-default btn-flat"   >注销</a>
                                 </div>
                             </li>
                         </ul>
@@ -87,8 +101,7 @@
                     <img src="../img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>张猿猿</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+                    <p>{{user}}</p>
                 </div>
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -104,16 +117,11 @@
                     </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li  >
+                        <li >
                             <a href="product/productDateList.html" target="iframe">
                                 <i class="fa fa-circle-o"></i> 产品列表
                             </a>
                         </li>
-                        <!--<li  >
-                            <a href="all-admin-dataform.html">
-                                <i class="fa fa-circle-o"></i> 表单页
-                            </a>
-                        </li>-->
                     </ul>
                 </li>
                 <li class="treeview">
@@ -140,7 +148,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="policy/policyList.html">
+                            <a href="policy/policyList.html" target="iframe">
                                 <i class="fa fa-circle-o"></i> 政策文件列表页
                             </a>
                         </li>
@@ -155,7 +163,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="proclamation/proclamationList.html">
+                            <a href="proclamation/proclamationList.html" target="iframe">
                                 <i class="fa fa-circle-o"></i> 公告列表页
                             </a>
                         </li>
@@ -204,21 +212,6 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-folder"></i> <span>行政区间</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li>
-                            <a href="area/areaManage.html" target="iframe">
-                                <i class="fa fa-circle-o"></i> 区间管理
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
                         <i class="fa fa-folder"></i> <span>相关企业</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -226,13 +219,28 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-datalist">
-                            <a href="all-admin-datalist.html">
+                            <a href="all-admin-datalist.html" target="iframe">
                                 <i class="fa fa-circle-o"></i> 数据列表页
                             </a>
                         </li>
                         <li id="admin-dataform">
-                            <a href="all-admin-dataform.html">
+                            <a href="all-admin-dataform.html" target="iframe">
                                 <i class="fa fa-circle-o"></i> 表单页
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i> <span>查询统计</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li >
+                            <a href="all-admin-datalist.html" target="iframe">
+                                <i class="fa fa-circle-o"></i> 陕西省地理标志整体概况
                             </a>
                         </li>
                     </ul>
@@ -258,13 +266,50 @@
     </footer>
     <!-- 底部导航 /-->
 
+    <!-- modal -->
+    <div id="myModal" class="modal " role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改密码</h4>{{oldPassword}}{{newPassword}}
+                </div>
+                <div class="modal-body">
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputPassword1" class="col-sm-2 control-label">原始密码:</label>
+                                <div class="col-sm-5">
+                                    <input  id="inputPassword1"   my-blur="checkOldPassword()" ng-model="oldPassword" type="password" class="form-control" placeholder="原始密码" value="" >
+                                    <span   ng-show="oldPasswordFlag">原始密码错误</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputPassword2" class="col-sm-2 control-label">新密码:</label>
+                                <div class="col-sm-5">
+                                    <input id="inputPassword2"  ng-model="newPassword" type="password" class="form-control" placeholder="新密码" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn " data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn " data-dismiss="modal" ng-click="savePassword()">保存</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
 </div>
 
 
-<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
-<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="../plugins/adminLTE/js/app.min.js"></script>
+
 <script>
 
     function SetIFrameHeight() {

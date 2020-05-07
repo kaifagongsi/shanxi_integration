@@ -235,4 +235,7 @@
     <update id="updatePasswordById">
         update tb_user set password=#{password} where id=#{id}
     </update>
+    <update id="updatePasswordByName">
+        update tb_user set password=#{password} where username= #{username}
+    </update>
 </mapper>

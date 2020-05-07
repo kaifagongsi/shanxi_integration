@@ -33,4 +33,7 @@ public interface TbUserMapper {
     TbUserExt selectByName(String username);
 
     int  updatePasswordById(@Param("id") int id,@Param("password") String password);
+
+    int updatePasswordByName(@Param("password") String password,@Param("username") String username);
+
 }
