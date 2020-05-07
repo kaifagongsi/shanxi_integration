@@ -61,7 +61,7 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         Map resultMap = new HashMap();
         //1获取行政区间市级别
         TbAdministrativeAreaExample adminExample = new  TbAdministrativeAreaExample();
-        adminExample.createCriteria().andLevelNotEqualTo(2);
+        adminExample.createCriteria().andLevelEqualTo(1);
         List<TbAdministrativeArea> areas = tbAdministrativeAreaMapper.selectByExample(adminExample);
         resultMap.put("entAreasCityList",areas);
         //2.获取产品
