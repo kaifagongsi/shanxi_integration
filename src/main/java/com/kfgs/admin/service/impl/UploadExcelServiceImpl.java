@@ -55,27 +55,55 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     @Autowired
     TbEnterpriseMapper tbEnterpriseMapper;
 
+    @Autowired
+    TbPolicyDocumentMapper tbPolicyDocumentMapper;
+
     @Override
     public void upload(MultipartFile file,String dataBasesType,String productType) {
         String originalFilename = file.getOriginalFilename();
         String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         try {
 
-            if("1".equals(dataBasesType)){
+            if("1".equals(dataBasesType)){//产品
                 // 设置excel读取15列数据
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 17);
                 uploadProduct(list.get(0).getDataList());
-            }else if("2".equals(dataBasesType)){
+            }else if("2".equals(dataBasesType)){//用标企业
                 // 设置excel读取15列数据
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 11);
                 uploadEnterprise(list.get(0).getDataList());
-            }else if("公告.xls".equals(originalFilename)){
-
-            }else if("政策文件.xls".equals(originalFilename)){
-
+            }else if("3".equals(dataBasesType)){//政策文件
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 2);
+                uploadPolicyDocument(list.get(0).getDataList());
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void uploadPolicyDocument(List<List<Object>> dataList) {
+        System.out.println(dataList);
+        List<TbPolicyDocument> documentList = new ArrayList();
+        Date date = new Date();
+        for(int i = 1; i < dataList.size(); i++){
+            TbPolicyDocument tbPolicyDocument = new TbPolicyDocument();
+            List<Object> item = dataList.get(i);
+            item.add(0,0);
+            item.add(2,date);
+            item.add(3,0);
+            item.add(5,new byte[1]);
+            try {
+                ListToModelUtils.listToModel(item,tbPolicyDocument);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            documentList.add(tbPolicyDocument);
+        }
+        int insertNumber = tbPolicyDocumentMapper.insertList(documentList);
+        if(insertNumber == dataList.size() - 1){
+            System.out.println("插入ok");
+        }else{
+            System.out.println("插入失败");
         }
     }
 

@@ -79,7 +79,6 @@ public class AdminProductImpl implements AdminProductService {
         int tbProductShowNum =  tbProductShowMapper.deleteByTitle(Integer.parseInt(id));
         //删除产品表
         int productDeleteNm =  tbProductMapper.deleteByPrimaryKey(Integer.parseInt(id));
-
         return new QueryResponseResult(CommonCode.SUCCESS,null);
 
     }

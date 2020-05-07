@@ -34,4 +34,6 @@ public interface TbPolicyDocumentMapper {
     int updateByPrimaryKeyWithBLOBs(TbPolicyDocument record);
 
     int updateByPrimaryKey(TbPolicyDocument record);
+
+    int insertList(List<TbPolicyDocument> documentList);
 }

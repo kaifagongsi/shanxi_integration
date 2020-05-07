@@ -174,7 +174,8 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kfgs.domain.TbPolicyDocumentExample" resultType="java.lang.Integer" >
+
+    <select id="countByExample" parameterType="com.kfgs.domain.TbPolicyDocumentExample" resultType="java.lang.Integer" >
     select count(*) from tb_policy_document
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -267,4 +268,14 @@
       typeVal = #{typeval,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+    <insert id="insertList">
+        insert into tb_policy_document(title,create_time,isdelete,typeVal) values
+        <foreach collection="list" separator="," item="item">
+            (
+              #{item.title},#{item.createTime},#{item.isdelete},#{item.typeval}
+            )
+        </foreach>
+    </insert>
 </mapper>

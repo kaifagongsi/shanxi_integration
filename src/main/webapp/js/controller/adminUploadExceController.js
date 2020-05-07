@@ -8,7 +8,11 @@ adminApp.controller('adminUploadExcelController',function ($scope,$location,admi
     $scope.saveExcel = function () {
         console.log("adminController");
         adminUploadExcelService.saveUploadExcel($scope.dataBasesType,$scope.productType).success(function (response) {
-            console.log(response);
+            if(response.code == '10000'){
+                alert(response.message);
+            }else{
+                alert("插入失败");
+            }
         });
     }
 });
