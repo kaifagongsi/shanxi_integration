@@ -3,6 +3,7 @@ package com.kfgs.proclamation.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.kfgs.domain.TbPolicyDocument;
+import com.kfgs.domain.TbPolicyDocumentExample;
 import com.kfgs.domain.TbProtectionNotice;
 import com.kfgs.domain.TbProtectionNoticeExample;
 import com.kfgs.mapper.TbProtectionNoticeMapper;
@@ -97,10 +98,15 @@ public class ProclamationServiceImpl implements ProclamtionService {
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
         TbProtectionNoticeExample slectExample = new TbProtectionNoticeExample();
+        TbProtectionNoticeExample.Criteria criteria = slectExample.createCriteria();
+        criteria.andIsdeleteEqualTo(0);
+        //查询关键字
+        String keywords = searchMap.get("keywords").toString();
         if(StringUtils.isNotBlank(ObjectUtils.toString(searchMap.get("type"), ""))){
-            slectExample.createCriteria().andIsdeleteEqualTo(0).andTypevalEqualTo(searchMap.get("type").toString());
-        }else{
-            slectExample.createCriteria().andIsdeleteEqualTo(0);
+            criteria.andTypevalEqualTo(searchMap.get("type").toString());
+        }
+        if(keywords != null && keywords != "" &&  !"请输入查询公告名称".equals(keywords)){
+            criteria.andTitleLike("%" + keywords + "%");
         }
         slectExample.setOrderByClause(" notice_time desc, typeVal asc");
         Page<TbProtectionNotice> page = (Page<TbProtectionNotice>) tbProtectionNoticeMapper.selectByExample(slectExample);
