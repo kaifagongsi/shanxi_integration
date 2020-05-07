@@ -1,5 +1,5 @@
 adminApp.controller('adminComplaintController',function ($scope,adminComplaintService) {
-    $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':2,'searchType':'','searchVal':''};
+    $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':15,'searchType':'','searchVal':''};
     $scope.resultMap= {"totalPages":"0"};
     $scope.pData = {"complaintId":'',"handlingInfo":'',"complaintDetail":''};
     $scope.idList = new Array();
@@ -10,7 +10,7 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
             var all = document.getElementById("all");
 
             buildPageLabel();
-            console.log(response);
+            /*console.log(response);*/
         });
     }
 
@@ -42,7 +42,7 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         adminComplaintService.loadTodo($scope.searchMap).success(function (response) {
             $scope.resultMap = response;//搜索返回的结果
             buildPageLabel();
-            console.log(response);
+            /*console.log(response);*/
         });
     }
 
@@ -66,7 +66,7 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         adminComplaintService.load($scope.searchMap).success(function (response) {
             $scope.resultMap = response;//搜索返回的结果
             buildPageLabel();
-            console.log(response);
+            /*console.log(response);*/
         });
 
     }
@@ -89,7 +89,7 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         adminComplaintService.loadTodo($scope.searchMap).success(function (response) {
             $scope.resultMap = response;//搜索返回的结果
             buildPageLabel();
-            console.log(response);
+            /*console.log(response);*/
         });
     }
 
@@ -102,7 +102,8 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
 
         adminComplaintService.insertHandling($scope.pData).success(function (response) {
             alert("保存成功！");
-            console.log(response);
+            location.reload();
+            /*console.log(response);*/
         })
     }
 
@@ -115,8 +116,8 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
         if(confirm("该操作不可撤销，是否确认更改当前维权处理信息?")) {
             adminComplaintService.updateHandling($scope.pData).success(function (response) {
                 alert("更新成功！");
-                //location.reload();
-                console.log(response);
+                location.reload();
+                /*console.log(response);*/
             })
         }
     }
@@ -143,7 +144,7 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
             adminComplaintService.showHandling($scope.idList).success(function (response) {
                 alert("操作成功！");
                 location.reload();
-                console.log(response);
+                /*console.log(response);*/
             })
         }
     }
@@ -170,7 +171,7 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
             adminComplaintService.deleteAll($scope.idList).success(function (response) {
                 alert("删除成功！");
                 location.reload();
-                console.log(response);
+                /*console.log(response);*/
             })
         }
 
@@ -239,6 +240,4 @@ adminApp.controller('adminComplaintController',function ($scope,adminComplaintSe
             return false;
         }
     };
-
-
 });
