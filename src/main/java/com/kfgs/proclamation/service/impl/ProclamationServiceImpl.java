@@ -2,8 +2,6 @@ package com.kfgs.proclamation.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.kfgs.domain.TbPolicyDocument;
-import com.kfgs.domain.TbPolicyDocumentExample;
 import com.kfgs.domain.TbProtectionNotice;
 import com.kfgs.domain.TbProtectionNoticeExample;
 import com.kfgs.mapper.TbProtectionNoticeMapper;
@@ -13,8 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

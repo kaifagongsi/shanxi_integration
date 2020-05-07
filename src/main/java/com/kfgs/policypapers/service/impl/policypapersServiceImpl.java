@@ -2,7 +2,6 @@ package com.kfgs.policypapers.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.kfgs.domain.TbComplaintsAboutRightsProtectionExample;
 import com.kfgs.domain.TbPolicyDocument;
 import com.kfgs.domain.TbPolicyDocumentExample;
 import com.kfgs.mapper.TbPolicyDocumentMapper;
