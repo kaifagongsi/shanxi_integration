@@ -30,4 +30,9 @@ public interface TbClassficationCountryMapper {
     int updateByPrimaryKeySelective(TbClassficationCountry record);
 
     int updateByPrimaryKey(TbClassficationCountry record);
+
+    List<TbClassficationCountry> getProductCountryList();
+
+    int deleteByName(String id);
+
 }

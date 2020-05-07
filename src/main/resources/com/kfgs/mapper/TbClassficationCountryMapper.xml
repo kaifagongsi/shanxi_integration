@@ -109,7 +109,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kfgs.domain.TbClassficationCountry" >
+
+    <insert id="insert" parameterType="com.kfgs.domain.TbClassficationCountry" >
     insert into tb_classfication_country (id, name, rootId, 
       classificationId, parentId, content, 
       create_time, isdelete, level, 
@@ -192,7 +193,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+
+    <update id="updateByExampleSelective" parameterType="map" >
     update tb_classfication_country
     <set >
       <if test="record.id != null" >
@@ -292,4 +294,26 @@
       reserve = #{reserve,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+    <select id="getProductCountryList" resultType="com.kfgs.domain.TbClassficationCountry">
+        SELECT
+            ps.id,
+            t1. NAME AS NAME,
+            t2. NAME AS classificationid
+        FROM
+            tb_classfication_country t1,
+            tb_classfication_country t2,
+            tb_product_show ps
+        WHERE
+            t1.rootId = '2'
+        AND t1.parentId = t2.classificationId
+        AND ps. title = t1. NAME
+        and t1.isdelete = 0
+    </select>
+
+
+    <delete id="deleteByName">
+        update tb_classfication_country set isdelete = 1 where name = #{id}
+    </delete>
 </mapper>

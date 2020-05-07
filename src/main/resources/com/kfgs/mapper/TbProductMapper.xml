@@ -806,6 +806,7 @@
          ppn.protection_notice_id = pn.id  and
          pro.id = #{id}
         and pro.isdelete = 0
+          and pn.typeVal != '核准公告'
     </select>
     <select id="selectByIdAndNameReturnList" resultType="com.kfgs.domain.TbProduct">
         select id,name from tb_product  where isdelete = 0

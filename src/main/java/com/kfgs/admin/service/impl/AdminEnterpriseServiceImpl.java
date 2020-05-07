@@ -12,6 +12,7 @@ import com.kfgs.mapper.TbAdministrativeAreaMapper;
 import com.kfgs.mapper.TbEnterpriseMapper;
 import com.kfgs.mapper.TbProductMapper;
 import com.kfgs.mapper.TbProtectionNoticeMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Service;
@@ -85,6 +86,9 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
             deleteNum =  tbEnterpriseMapper.deleteById(tbEnterpriseExt.getId());
         }else{
 
+        }
+        if(StringUtils.isNotEmpty(tbEnterpriseExt.getAdministrativeId())){
+            tbEnterpriseExt.setAdministrativeId("610000");
         }
         //设置批准公告
         TbProtectionNotice protectionNotice = tbProtectionNoticeMapper.selectById(tbEnterpriseExt.getApprovalAnnouncementNoEnterpriseAll());

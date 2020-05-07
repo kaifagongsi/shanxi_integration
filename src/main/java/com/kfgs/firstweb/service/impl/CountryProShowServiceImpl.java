@@ -30,8 +30,8 @@ public class CountryProShowServiceImpl implements CountryProShowService {
         Map<String,List<TbClassficationCountry>> typeMap = new HashMap<String,List<TbClassficationCountry>>();
 
         TbClassficationCountryExample tbClassificationExample = new TbClassficationCountryExample();
-        tbClassificationExample.createCriteria().andParentidEqualTo("0000");
-        List<TbClassficationCountry> list = tbClassficationCountryMapper.selectByExample(null);
+        tbClassificationExample.createCriteria().andIsdeleteEqualTo(0);
+        List<TbClassficationCountry> list = tbClassficationCountryMapper.selectByExample(tbClassificationExample);
 
         if (list != null && list.size()>0){
             for(TbClassficationCountry temp:list){

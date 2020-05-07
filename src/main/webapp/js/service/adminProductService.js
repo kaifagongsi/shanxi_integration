@@ -32,5 +32,15 @@ adminApp.service('adminProductService',function ($http) {
         return $http.delete('../../admin/productController/deleteProduct.do?id='+productId);
     };
 
+    this.loadCountryList = function (searchMap) {
+        return $http.post('../../admin/productController/getProductCountryList.do',searchMap);
+    }
 
+    this.getCountryProductByProductId = function (productId) {
+        return $http.get('../../admin/productController/getCountryProductByProductId.do?id='+productId);
+    }
+
+    this.deleteCountryProduct = function (countryProductId) {
+        return $http.delete('../../admin/productController/deleteCountryProduct.do?id='+countryProductId);
+    }
 });

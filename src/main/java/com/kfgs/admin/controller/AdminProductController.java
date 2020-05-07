@@ -53,5 +53,19 @@ public class AdminProductController {
         return adminProductService.deleteProduct(id);
     }
 
+    @PostMapping("/getProductCountryList")
+    public QueryResponseResult getProductCountryList(@RequestBody Map map){
+        return adminProductService.getProductCountryList(map);
+    }
+
+    @GetMapping("/getCountryProductByProductId")
+    public QueryResponseResult getCountryProductByProductId(String id){
+        return adminProductService.getCountryProductByProductId(id);
+    }
+
+    @DeleteMapping("/deleteCountryProduct")
+    public  QueryResponseResult deleteCountryProduct(String id ){
+        return adminProductService.deleteCountryProduct(id);
+    }
 
 }

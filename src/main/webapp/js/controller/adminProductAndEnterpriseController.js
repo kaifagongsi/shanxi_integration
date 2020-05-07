@@ -1,6 +1,7 @@
 adminApp.controller('adminProductAndEnterpriseController',function ($scope,adminProductService,$location,adminEnterpriseService) {
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':10};
     $scope.pageDate={ 'list' : '','totalPages':''};
+    $scope.enterprisePageDate={ 'list' : '','totalPages':''};
     $scope.currPageNo = 1;
     $scope.firstDot = true;//前面有点
     $scope.lastDot = true;//后面有点
@@ -32,6 +33,9 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.entAreasCountyList = null;
     $scope.productList = null;
     $scope.hezhunList = null;
+
+    //国内产品
+    $scope.countryEntity = {'id' : '','name':''};
 
     //用标企业实体
     /*******************************用标企业新增/更新/删除**********************************/
@@ -95,8 +99,42 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
         });
     };
 
-    /*******************************产品功能**********************************/
 
+    /*******************************国内产品功能**********************************/
+    //国内产品列表
+    $scope.loadCountryList = function(){
+        adminProductService.loadCountryList($scope.searchMap).success(function (response) {
+            $scope.enterprisePageDate = response;
+            $scope.enterprisePageDate.list = response.queryResult.map.rows;
+            $scope.enterprisePageDate.totalPages = $scope.enterprisePageDate.queryResult.map.totalPages;
+            buildPageLabel($scope.enterprisePageDate.queryResult.map.totalPages);
+        });
+    };
+    //国内产品详细
+    $scope.initCountryProduct = function(){
+        if($scope.countryEntity.id == ''){
+            $scope.countryEntity.id = $location.$$search['id'];
+            //查询产品详细信息
+            adminProductService.getCountryProductByProductId($scope.countryEntity.id).success(function (response) {
+                $scope.countryEntity.name = response.queryResult.map.name;
+                CKEDITOR.instances.TextArea1.setData(response.queryResult.map.content);
+                console.log(response);
+            });
+        }else {
+
+        }
+
+    };
+    $scope.deleteCountryProduct = function(countryProductId){
+        adminProductService.deleteCountryProduct(countryProductId).success(function (response) {
+            if(response.code == '10000'){
+                alert(response.message);
+            }
+        });
+    };
+
+    /*******************************陕西产品功能**********************************/
+    //产品删除
     $scope.deleteProduct = function(productId){
         adminProductService.deleteProduct(productId).success(function (response) {
 
@@ -113,7 +151,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             $scope.areasCountyList = response.queryResult.list;
         });
     });
-
+    //初始化下拉框
     function initSelect() {
         adminProductService.initSelect().success(function (response) {
             console.log(response);
@@ -242,7 +280,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
 
     //刷新列表
     $scope.queryByPage = function (pageNo,type) {
-        if(type == '1'){
+        if(type == '1'){//陕西产品
             //页码验证
             if(pageNo < 1 || pageNo > $scope.pageDate.totalPages){
                 return;
@@ -250,7 +288,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             $scope.currPageNo = pageNo;
             $scope.searchMap.pageNo = pageNo;
             $scope.flush();
-        }else{
+        }else if(type == '2'){//用标企业
             //页码验证
             if(pageNo < 1 || pageNo > $scope.pageDate.totalPages){
                 return;
@@ -258,6 +296,14 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             $scope.currPageNo = pageNo;
             $scope.searchMap.pageNo = pageNo;
             $scope.loadEnterprise();
+        } else if(type =='3'){ // 国内产品
+            //页码验证
+            if(pageNo < 1 || pageNo > $scope.enterprisePageDate.totalPages){
+                return;
+            }
+            $scope.currPageNo = pageNo;
+            $scope.searchMap.pageNo = pageNo;
+            $scope.loadCountryList();
         }
     };
 

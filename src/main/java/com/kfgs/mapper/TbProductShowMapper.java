@@ -30,4 +30,11 @@ public interface TbProductShowMapper {
     List<TbProductShow> selectContentByProductId(String id);
 
     int deleteByTitle(int productId);
+
+    List<TbProductShow> selectCountryInfoByProduct(String id);
+
+    int deleteById(String id);
+
+
+    TbProductShow selectById(String id);
 }

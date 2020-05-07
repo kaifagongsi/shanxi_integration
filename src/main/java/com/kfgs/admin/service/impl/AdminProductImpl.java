@@ -12,6 +12,7 @@ import com.kfgs.domain.response.QueryResult;
 import com.kfgs.domain.response.ResultCode;
 import com.kfgs.mapper.*;
 import com.kfgs.utils.ListToModelUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +47,9 @@ public class AdminProductImpl implements AdminProductService {
 
     @Autowired
     TbProductProtectionNoticeMapper tbProductProtectionNoticeMapper;
+
+    @Autowired
+    TbClassficationCountryMapper tbClassficationCountryMapper;
 
     @Override
     public QueryResponseResult getProductContentByProductId(String id) {
@@ -84,6 +88,7 @@ public class AdminProductImpl implements AdminProductService {
     }
 
 
+
     @Override
     public QueryResponseResult getProductByProductId(String id) {
         TbProductExt ext = new TbProductExt();
@@ -93,6 +98,7 @@ public class AdminProductImpl implements AdminProductService {
         if(tbProductExts == null || tbProductExts.size() == 0){
             return new QueryResponseResult(CommonCode.FAIL,null);
         }
+        //估计会有bug  抽空优化
         for(TbProductExt e : tbProductExts){
             if("受理公告".equals(e.getArea())){
                 shouli = e;
@@ -252,7 +258,11 @@ public class AdminProductImpl implements AdminProductService {
         String classificationid = tbProductExt.getClassificationid();
         TbClassification classification = tbClassificationMapper.selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(classificationid);
         tbProductExt.setClassificationid(String.format("%04d",Integer.parseInt(classification.getClassificationid())));
-        tbProductExt.setAdministrativeArea(tbProductExt.getAdministrativeArea());
+
+        if(StringUtils.isBlank(tbProductExt.getAdministrativeArea())){
+            //默认设置为陕西
+            tbProductExt.setAdministrativeArea("610000");
+        }
         //设置批准年度啊
         TbProtectionNotice e = tbProtectionNoticeMapper.selectByPrimaryKey(Integer.parseInt(tbProductExt.getApprovalAnnouncementNoProductAll()));
         tbProductExt.setApprovalYear(e.getNoticeTime().substring(0,4) + "年");
@@ -338,6 +348,61 @@ public class AdminProductImpl implements AdminProductService {
     }
 
 
+    @Override
+    public QueryResponseResult getProductCountryList(Map map) {
+        Map<String,Object> resultMap = new HashMap<>();
+        PageHelper.startPage(Integer.parseInt(map.get("pageNo").toString()),Integer.parseInt(map.get("pageSize").toString()));
+        Page<TbClassficationCountry> page = (Page<TbClassficationCountry>)tbClassficationCountryMapper.getProductCountryList();
+        resultMap.put("rows",page.getResult());
+        resultMap.put("totalPages", page.getPages());
+        resultMap.put("total",page.getTotal());
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+        return queryResponseResult;
+    }
 
+    @Override
+    public QueryResponseResult getCountryProductByProductId(String id) {
+        Map<String,Object> resultMap = new HashMap<>();
+        List<TbProductShow>  model = tbProductShowMapper.selectCountryInfoByProduct(id);
+        if (model !=null && model.size()== 1) {
+            for (TbProductShow xx : model) {
+                if(xx.getContent() == null){
+                    resultMap.put("content","");
+                    resultMap.put("name",xx.getTitle());
+                }else {
+                    resultMap.put("content", new String(xx.getContent()));
+                    resultMap.put("name",xx.getTitle());
+                }
+            }
+        }else if(model == null){
+            resultMap.put("content","参数错误");
+        }
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+        return queryResponseResult;
+    }
 
+    @Override
+    public QueryResponseResult deleteCountryProduct(String id) {
+        //删除两个地方
+        //1.删除show表
+        TbProductShow tbProductShow = new TbProductShow();
+        int deleteShowNum  = tbProductShowMapper.deleteById(id);
+        List<TbProductShow> shows = tbProductShowMapper.selectCountryInfoByProduct(id);
+         if(shows != null && shows.size()== 1){
+             tbProductShow = shows.get(0);
+             //2.删除分类表
+             int classNum = tbClassficationCountryMapper.deleteByName(tbProductShow.getTitle());
+             if(1  == classNum && 1 == deleteShowNum){
+                 return new QueryResponseResult(CommonCode.SUCCESS,null);
+             }else{
+                 return new QueryResponseResult(CommonCode.FAIL,null);
+             }
+         }else{
+             return new QueryResponseResult(CommonCode.FAIL,null);
+         }
+    }
 }
