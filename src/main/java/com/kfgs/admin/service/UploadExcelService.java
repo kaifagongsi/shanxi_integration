@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface UploadExcelService {
 
-    public void upload(MultipartFile file,String dataBasesType,String productType);
+    public Boolean upload(MultipartFile file,String dataBasesType,String productType);
 
     public void downLoadExcel(HttpServletResponse response, Integer index);
 

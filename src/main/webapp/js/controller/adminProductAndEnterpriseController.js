@@ -40,9 +40,16 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     //用标企业实体
     /*******************************用标企业新增/更新/删除**********************************/
     $scope.enterpriseDelete = function(id){
-        adminEnterpriseService.deleteEnterprise(id).success(function (response) {
-            console.log(response)
-        });
+        if(window.confirm('你确定要取消交易吗？')){
+            adminEnterpriseService.deleteEnterprise(id).success(function (response) {
+                if(response.code == '10000'){
+                    alert(response.message);
+                }
+            });
+        }else{
+
+        }
+
     };
     $scope.initEnterprise = function (){
 
@@ -126,20 +133,30 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
 
     };
     $scope.deleteCountryProduct = function(countryProductId){
-        adminProductService.deleteCountryProduct(countryProductId).success(function (response) {
-            if(response.code == '10000'){
-                alert(response.message);
-            }
-        });
+        if(window.confirm('你确定要取消交易吗？')){
+            adminProductService.deleteCountryProduct(countryProductId).success(function (response) {
+                if(response.code == '10000'){
+                    alert(response.message);
+                    $scope.loadCountryList();
+                }
+            });
+        }else{
+            return false;
+        }
     };
 
     /*******************************陕西产品功能**********************************/
     //产品删除
     $scope.deleteProduct = function(productId){
-        adminProductService.deleteProduct(productId).success(function (response) {
+        if(window.confirm('你确定要取消交易吗？')){
+            adminProductService.deleteProduct(productId).success(function (response) {
+                alert(response.queryResult.message);
+                $scope.load();
+            });
+        }else{
 
-            console.log(response);
-        });
+        }
+
     };
 
     /*

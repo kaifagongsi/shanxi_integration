@@ -10,6 +10,7 @@ import com.kfgs.utils.DatabasePropertiesUtils;
 import com.kfgs.utils.ExportExcelUtil;
 import com.kfgs.utils.ImportExcelSheetUtil;
 import com.kfgs.utils.ListToModelUtils;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -59,52 +61,91 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     TbPolicyDocumentMapper tbPolicyDocumentMapper;
 
     @Override
-    public void upload(MultipartFile file,String dataBasesType,String productType) {
+    public Boolean upload(MultipartFile file,String dataBasesType,String productType) {
         String originalFilename = file.getOriginalFilename();
         String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         try {
-
             if("1".equals(dataBasesType)){//产品
                 // 设置excel读取15列数据
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 17);
-                uploadProduct(list.get(0).getDataList());
+                return uploadProduct(list.get(0).getDataList());
             }else if("2".equals(dataBasesType)){//用标企业
                 // 设置excel读取15列数据
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 11);
-                uploadEnterprise(list.get(0).getDataList());
+                return uploadEnterprise(list.get(0).getDataList());
             }else if("3".equals(dataBasesType)){//政策文件
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 2);
-                uploadPolicyDocument(list.get(0).getDataList());
+                return uploadPolicyDocument(list.get(0).getDataList());
+            }else if("4".equals(dataBasesType)){ //公告文件
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 3);
+                return uploadProtectionNotice(list.get(0).getDataList());
+            }else{
+                return  false;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return  false;
     }
 
-    private void uploadPolicyDocument(List<List<Object>> dataList) {
+    private Boolean uploadProtectionNotice(List<List<Object>> dataList) {
+        boolean b = false;
         System.out.println(dataList);
-        List<TbPolicyDocument> documentList = new ArrayList();
-        Date date = new Date();
-        for(int i = 1; i < dataList.size(); i++){
-            TbPolicyDocument tbPolicyDocument = new TbPolicyDocument();
-            List<Object> item = dataList.get(i);
-            item.add(0,0);
-            item.add(2,date);
-            item.add(3,0);
-            item.add(5,new byte[1]);
-            try {
-                ListToModelUtils.listToModel(item,tbPolicyDocument);
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            List<TbProtectionNotice> noticeList = new ArrayList();
+            Date date = new Date();
+            for(int i = 1; i < dataList.size(); i++){
+                TbProtectionNotice notice = new TbProtectionNotice();
+                List<Object> item = dataList.get(i);
+                String noticeTime = item.get(2).toString();
+                item.add(0,0);
+                item.add(2,"");
+                item.add(3,date);
+                item.add(4,0);
+                item.set(6,noticeTime.substring(0,10));
+                item.add(7,new byte[1]);
+                ListToModelUtils.listToModel(item,notice);
+                noticeList.add(notice);
             }
-            documentList.add(tbPolicyDocument);
+            int insertNumber = tbProtectionNoticeMapper.insertList(noticeList);
+            if(insertNumber == dataList.size() - 1){
+                b = true;
+                System.out.println("插入ok");
+            }else{
+                System.out.println("插入失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        int insertNumber = tbPolicyDocumentMapper.insertList(documentList);
-        if(insertNumber == dataList.size() - 1){
-            System.out.println("插入ok");
-        }else{
-            System.out.println("插入失败");
+        return b;
+    }
+
+    private Boolean uploadPolicyDocument(List<List<Object>> dataList) {
+        boolean b = false;
+        try {
+            List<TbPolicyDocument> documentList = new ArrayList();
+            Date date = new Date();
+            for(int i = 1; i < dataList.size(); i++){
+                TbPolicyDocument tbPolicyDocument = new TbPolicyDocument();
+                List<Object> item = dataList.get(i);
+                item.add(0,0);
+                item.add(2,date);
+                item.add(3,0);
+                item.add(5,new byte[1]);
+                ListToModelUtils.listToModel(item,tbPolicyDocument);
+                documentList.add(tbPolicyDocument);
+            }
+            int insertNumber = tbPolicyDocumentMapper.insertList(documentList);
+            if(insertNumber == dataList.size() - 1){
+                b = true;
+                System.out.println("插入ok");
+            }else{
+                System.out.println("插入失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return b;
     }
 
     /**
@@ -117,49 +158,54 @@ public class UploadExcelServiceImpl implements UploadExcelService {
      * @author : lxl
      * @date : 2020/4/22 9:28
      */
-    private void uploadEnterprise(List<List<Object>> dataList) {
-        //设置tbproductMap
-        Map<String,String> productIdAndNameMap = getProductIdAndNameMap();
-        //设置行政区间Map
-        Map<String,String> areaMap = getAdminAreaMap();
-        List<TbEnterpriseExcel> enterpriseList = new ArrayList<>();
-        List<TbProtectionNotice> noticesList = new ArrayList<>();
-        Date date = new Date();
-        for(int i = 1; i < dataList.size(); i++){
-            List<Object> item = dataList.get(i);
-            String name = item.get(0).toString();
-            if(name !=null && !"".equals(name)){
-                //1.设置企业名称
-                TbEnterpriseExcel tbEnterpriseExcel = new TbEnterpriseExcel();
-                item.add(0,date);
-                item.add(1,0);
-                try {
+    private boolean uploadEnterprise(List<List<Object>> dataList) {
+        boolean b = false;
+        try {
+            //设置tbproductMap
+            Map<String,String> productIdAndNameMap = getProductIdAndNameMap();
+            //设置行政区间Map
+            Map<String,String> areaMap = getAdminAreaMap();
+            List<TbEnterpriseExcel> enterpriseList = new ArrayList<>();
+            List<TbProtectionNotice> noticesList = new ArrayList<>();
+            Date date = new Date();
+            for(int i = 1; i < dataList.size(); i++){
+                List<Object> item = dataList.get(i);
+                String name = item.get(0).toString();
+                if(name !=null && !"".equals(name)){
+                    //1.设置企业名称
+                    TbEnterpriseExcel tbEnterpriseExcel = new TbEnterpriseExcel();
+                    item.add(0,date);
+                    item.add(1,0);
                     ListToModelUtils.listToModel(item,tbEnterpriseExcel);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    //1.1设置产品ID
+                    String productName = tbEnterpriseExcel.getProductName();
+                    tbEnterpriseExcel.setProductName(productIdAndNameMap.get(productName));
+                    //1.2设置行政区间
+                    tbEnterpriseExcel.setAdministrativeId(areaMap.get(tbEnterpriseExcel.getAdministrativeId()));
+                    enterpriseList.add(tbEnterpriseExcel);
+                    //1.3设置核准年度
+                    String approvalYear = tbEnterpriseExcel.getApprovalYear();
+                    tbEnterpriseExcel.setApprovalYear(approvalYear.substring(0,4) + "年");
+                    //2.1设置核准公告
+                    TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
+                    tbProtectionNotice.setTitle(tbEnterpriseExcel.getApprovalAnnouncementNoEnterpriseAll());
+                    tbProtectionNotice.setNoticeTime(approvalYear.substring(0,10));
+                    tbProtectionNotice.setCreateTime(date);
+                    tbProtectionNotice.setIsdelete(0);
+                    tbProtectionNotice.setTypeval("核准公告");
+                    noticesList.add(tbProtectionNotice);
                 }
-                //1.1设置产品ID
-                String productName = tbEnterpriseExcel.getProductName();
-                tbEnterpriseExcel.setProductName(productIdAndNameMap.get(productName));
-                //1.2设置行政区间
-                tbEnterpriseExcel.setAdministrativeId(areaMap.get(tbEnterpriseExcel.getAdministrativeId()));
-                enterpriseList.add(tbEnterpriseExcel);
-                //1.3设置核准年度
-                String approvalYear = tbEnterpriseExcel.getApprovalYear();
-                tbEnterpriseExcel.setApprovalYear(approvalYear.substring(0,4) + "年");
-                //2.1设置核准公告
-                TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
-                tbProtectionNotice.setTitle(tbEnterpriseExcel.getApprovalAnnouncementNoEnterpriseAll());
-                tbProtectionNotice.setNoticeTime(approvalYear.substring(0,10));
-                tbProtectionNotice.setCreateTime(date);
-                tbProtectionNotice.setIsdelete(0);
-                tbProtectionNotice.setTypeval("核准公告");
-                noticesList.add(tbProtectionNotice);
             }
+            int inserEnterprise = tbEnterpriseMapper.insertList(enterpriseList);
+            int tbProductProtectionNoticeNum = tbProtectionNoticeMapper.insertList(noticesList);
+            if(inserEnterprise != 0 &&  0 != tbProductProtectionNoticeNum){
+                b = true;
+            }
+            System.out.println(inserEnterprise + tbProductProtectionNoticeNum);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        int inserEnterprise = tbEnterpriseMapper.insertList(enterpriseList);
-        int tbProductProtectionNoticeNum = tbProtectionNoticeMapper.insertList(noticesList);
-        System.out.println(inserEnterprise + tbProductProtectionNoticeNum);
+        return b;
     }
 
     private Map<String, String> getProductIdAndNameMap() {
@@ -178,162 +224,170 @@ public class UploadExcelServiceImpl implements UploadExcelService {
      * @author : lxl
      * @date : 2020/4/16 14:40
      */
-    private void uploadProduct(List<List<Object>> dataList) {
-        //判断文件是否只有标题
-        if(dataList.size() == 1){
-            return;
-        }
-        //初始化行政区间map
-        Map<String,String> areaMap = getAdminAreaMap();
+    private boolean uploadProduct(List<List<Object>> dataList) {
+        boolean b = false;
+        try{
+            //判断文件是否只有标题
+            if(dataList.size() == 1){
+                return false;
+            }
+            //初始化行政区间map
+            Map<String,String> areaMap = getAdminAreaMap();
 
-        /**
-         * 初始化获取当前最大类别的产品id
-         */
-        Map<String,String> classificationAreaMap = getClassificationMap(1,1);
+            /**
+             * 初始化获取当前最大类别的产品id
+             */
+            Map<String,String> classificationAreaMap = getClassificationMap(1,1);
 
-        /**
-         * 初始化获取当前层级id
-         */
-        Map<String,String> classificationLevelMap = getClassificationMap(2,1);
-        /**
-         * 初始化获取当前一级类的id
-         */
-        Map<String,String> classificationParentIdMap = getClassificationMap(3,1);
+            /**
+             * 初始化获取当前层级id
+             */
+            Map<String,String> classificationLevelMap = getClassificationMap(2,1);
+            /**
+             * 初始化获取当前一级类的id
+             */
+            Map<String,String> classificationParentIdMap = getClassificationMap(3,1);
 
-        List<TbProductExcel> productList = new ArrayList<>();
-        List<TbClassification> tbClassificationList = new ArrayList<>();
-        List<TbProductShow> tbProductShowList = new ArrayList<>();
-        List<TbProtectionNotice> tbProtectionNotices = new ArrayList<>();
-        List<TbProductProtectionNotice> tbProductProtectionNoticeList = new ArrayList<>();
-        //每行
-        Date date = new Date();
-        //第0行是标题列表
-        for(int i = 1; i < dataList.size(); i++){
-            List<Object> item = dataList.get(i);
-            String name = item.get(0).toString();
-            if(name !=null && !"".equals(name)){
-                //1.设置产品实体
-                TbProductExcel productExcel = new TbProductExcel();
-                item.add(0,date);
-                item.add(1,0);
-                item.add(2,0);
-                try {
-                    ListToModelUtils.listToModel(item,productExcel);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //放入产品表中
-                //1.1设置产品的分类id
-                String classificationName = productExcel.getClassificationid();
-                String areaName = productExcel.getAdministrativeArea();
-                //TbClassification temp = tbClassificationMapper.selectMaxClassificationIdMaxLevelAndParentIdByName(productExcel.getClassificationid());
-                productExcel.setClassificationid(String.format("%04d",Integer.parseInt(classificationAreaMap.get(classificationName) ) + i ));
-                //1.2设置产品的行政区间id
-               // String area = tbAdministrativeAreaMapper.selectCityIdByCityName(productExcel.getAdministrativeArea());
-                productExcel.setAdministrativeArea(areaMap.get(areaName));
-                //1.3设置受理年度
-                String acceptanceYearInit = productExcel.getAcceptanceYear().substring(0,10);
-                String acceptanceYear = acceptanceYearInit.substring(0,4) + "年";
-                productExcel.setAcceptanceYear(acceptanceYear);
-                //1.4设置批准年度
-                //获取批准年度，后面会用到
-                String approvalYearInit = productExcel.getApprovalYear().substring(0,10);
-                String approvalYear = approvalYearInit.substring(0,4) + "年";
-                productExcel.setApprovalYear(approvalYear);
-                productList.add(productExcel);
+            List<TbProductExcel> productList = new ArrayList<>();
+            List<TbClassification> tbClassificationList = new ArrayList<>();
+            List<TbProductShow> tbProductShowList = new ArrayList<>();
+            List<TbProtectionNotice> tbProtectionNotices = new ArrayList<>();
+            List<TbProductProtectionNotice> tbProductProtectionNoticeList = new ArrayList<>();
+            //每行
+            Date date = new Date();
+            //第0行是标题列表
+            for(int i = 1; i < dataList.size(); i++){
+                List<Object> item = dataList.get(i);
+                String name = item.get(0).toString();
+                if(name !=null && !"".equals(name)){
+                    //1.设置产品实体
+                    TbProductExcel productExcel = new TbProductExcel();
+                    item.add(0,date);
+                    item.add(1,0);
+                    item.add(2,0);
+                    try {
+                        ListToModelUtils.listToModel(item,productExcel);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //放入产品表中
+                    //1.1设置产品的分类id
+                    String classificationName = productExcel.getClassificationid();
+                    String areaName = productExcel.getAdministrativeArea();
+                    //TbClassification temp = tbClassificationMapper.selectMaxClassificationIdMaxLevelAndParentIdByName(productExcel.getClassificationid());
+                    productExcel.setClassificationid(String.format("%04d",Integer.parseInt(classificationAreaMap.get(classificationName) ) + i ));
+                    //1.2设置产品的行政区间id
+                    // String area = tbAdministrativeAreaMapper.selectCityIdByCityName(productExcel.getAdministrativeArea());
+                    productExcel.setAdministrativeArea(areaMap.get(areaName));
+                    //1.3设置受理年度
+                    String acceptanceYearInit = productExcel.getAcceptanceYear().substring(0,10);
+                    String acceptanceYear = acceptanceYearInit.substring(0,4) + "年";
+                    productExcel.setAcceptanceYear(acceptanceYear);
+                    //1.4设置批准年度
+                    //获取批准年度，后面会用到
+                    String approvalYearInit = productExcel.getApprovalYear().substring(0,10);
+                    String approvalYear = approvalYearInit.substring(0,4) + "年";
+                    productExcel.setApprovalYear(approvalYear);
+                    productList.add(productExcel);
 
-                //2.放入分类表中（省内）
-                TbClassification classification = new TbClassification();
-                classification.setName(name);
-                classification.setRootid("2");
-                //设置分类
-                classification.setClassificationid(String.format("%04d",Integer.parseInt(classificationAreaMap.get(classificationName) ) + i ));
-                classification.setParentid(  classificationParentIdMap.get(classificationName)   );
-                classification.setCreateTime(date);
-                classification.setIsdelete(0);
-                classification.setLevel(String.valueOf(Integer.parseInt(  classificationLevelMap.get(classificationName)) + 1));
-                if(tbClassificationList.contains(classification)){
-                    return;
-                }else{
-                    tbClassificationList.add(classification);
-                }
+                    //2.放入分类表中（省内）
+                    TbClassification classification = new TbClassification();
+                    classification.setName(name);
+                    classification.setRootid("2");
+                    //设置分类
+                    classification.setClassificationid(String.format("%04d",Integer.parseInt(classificationAreaMap.get(classificationName) ) + i ));
+                    classification.setParentid(  classificationParentIdMap.get(classificationName)   );
+                    classification.setCreateTime(date);
+                    classification.setIsdelete(0);
+                    classification.setLevel(String.valueOf(Integer.parseInt(  classificationLevelMap.get(classificationName)) + 1));
+                    if(tbClassificationList.contains(classification)){
+                        return false;
+                    }else{
+                        tbClassificationList.add(classification);
+                    }
 
-                //3.设置TbProductShow
-                TbProductShow show = new TbProductShow();
-                show.setTitle(name);
-                show.setCreateTime(date);
-                show.setIsdelete(0);
-                show.setType("展示");
-                if(tbProductShowList.contains(show)){
-                    return;
-                }else{
-                    tbProductShowList.add(show);
-                }
-                //4.将受理公告插入到tb_protection_notice中
-                TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
-                tbProtectionNotice.setTitle(productExcel.getAcceptanceAnnouncement());
-                tbProtectionNotice.setCreateTime(  date);
-                tbProtectionNotice.setIsdelete(0);
-                tbProtectionNotice.setTypeval("受理公告");
-                tbProtectionNotice.setNoticeTime(acceptanceYearInit);
-                if(tbProtectionNotices.contains(tbProtectionNotice)){
-                    return;
-                }else{
-                    tbProtectionNotices.add(tbProtectionNotice);
-                }
-                //5.将批准（保护）公告插入到tb_protection_notice中
-                TbProtectionNotice tbProtectionNotice1 = new TbProtectionNotice();
-                tbProtectionNotice1.setTitle(productExcel.getApprovalAnnouncementNoProductAll());
-                tbProtectionNotice1.setCreateTime( date);
-                tbProtectionNotice1.setIsdelete(0);
-                tbProtectionNotice1.setTypeval("批准公告");
-                tbProtectionNotice1.setNoticeTime(approvalYearInit);
-                if(tbProtectionNotices.contains(tbProtectionNotice1)){
-                    return;
-                }else{
-                    tbProtectionNotices.add(tbProtectionNotice1);
+                    //3.设置TbProductShow
+                    TbProductShow show = new TbProductShow();
+                    show.setTitle(name);
+                    show.setCreateTime(date);
+                    show.setIsdelete(0);
+                    show.setType("展示");
+                    if(tbProductShowList.contains(show)){
+                        return false;
+                    }else{
+                        tbProductShowList.add(show);
+                    }
+                    //4.将受理公告插入到tb_protection_notice中
+                    TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
+                    tbProtectionNotice.setTitle(productExcel.getAcceptanceAnnouncement());
+                    tbProtectionNotice.setCreateTime(  date);
+                    tbProtectionNotice.setIsdelete(0);
+                    tbProtectionNotice.setTypeval("受理公告");
+                    tbProtectionNotice.setNoticeTime(acceptanceYearInit);
+                    if(tbProtectionNotices.contains(tbProtectionNotice)){
+                        return false;
+                    }else{
+                        tbProtectionNotices.add(tbProtectionNotice);
+                    }
+                    //5.将批准（保护）公告插入到tb_protection_notice中
+                    TbProtectionNotice tbProtectionNotice1 = new TbProtectionNotice();
+                    tbProtectionNotice1.setTitle(productExcel.getApprovalAnnouncementNoProductAll());
+                    tbProtectionNotice1.setCreateTime( date);
+                    tbProtectionNotice1.setIsdelete(0);
+                    tbProtectionNotice1.setTypeval("批准公告");
+                    tbProtectionNotice1.setNoticeTime(approvalYearInit);
+                    if(tbProtectionNotices.contains(tbProtectionNotice1)){
+                        return false;
+                    }else{
+                        tbProtectionNotices.add(tbProtectionNotice1);
+                    }
                 }
             }
-        }
-        //1.1插入到产品表
-        int insertProductNum = tbProductMapper.insertList(productList);
-        //2.1插入到分类表
-        int insertTbClassificationNum = tbClassificationMapper.insertList(tbClassificationList);
-        //3.1插入到tb_product_show表
-        int insertTbProductShowNum =  tbProductShowMapper.insertList(tbProductShowList);
-        //4.1 插入公告插入到tb_protection_notice中
-        int insertTbProtectionNotice = tbProtectionNoticeMapper.insertList(tbProtectionNotices);
+            //1.1插入到产品表
+            int insertProductNum = tbProductMapper.insertList(productList);
+            //2.1插入到分类表
+            int insertTbClassificationNum = tbClassificationMapper.insertList(tbClassificationList);
+            //3.1插入到tb_product_show表
+            int insertTbProductShowNum =  tbProductShowMapper.insertList(tbProductShowList);
+            //4.1 插入公告插入到tb_protection_notice中
+            int insertTbProtectionNotice = tbProtectionNoticeMapper.insertList(tbProtectionNotices);
 
-        //5关系表插数据
-        //5.1生成临时关系map
-        Map<String,String> productNoticeMap = new HashMap();
-        for(TbProtectionNotice notice : tbProtectionNotices){
-            productNoticeMap.put(notice.getTitle(),String.valueOf(notice.getId()));
-        }
-        //5.2构建关系实体
-        for(TbProductExcel product : productList){
-            TbProductProtectionNotice n1  = new TbProductProtectionNotice();//受理公告
-            TbProductProtectionNotice n2  = new TbProductProtectionNotice();//保护公告
-            n1.setProductId(String.valueOf(product.getId()));
-            n1.setCreateTime(date);
-            n2.setProductId(String.valueOf(product.getId()));
-            n2.setCreateTime(date);
-            //受理公告
-            String acceptanceAnnouncementId = productNoticeMap.get(product.getAcceptanceAnnouncement());
-            //保护公告
-            String approvalAnnouncementNoProductAllId = productNoticeMap.get(product.getApprovalAnnouncementNoProductAll());
-            if(StringUtils.isNotBlank(acceptanceAnnouncementId)){
-                n1.setProtectionNoticeId(acceptanceAnnouncementId);
-                tbProductProtectionNoticeList.add(n1);
+            //5关系表插数据
+            //5.1生成临时关系map
+            Map<String,String> productNoticeMap = new HashMap();
+            for(TbProtectionNotice notice : tbProtectionNotices){
+                productNoticeMap.put(notice.getTitle(),String.valueOf(notice.getId()));
             }
-            if(StringUtils.isNotBlank(approvalAnnouncementNoProductAllId)){
-                n2.setProtectionNoticeId(approvalAnnouncementNoProductAllId);
-                tbProductProtectionNoticeList.add(n2);
+            //5.2构建关系实体
+            for(TbProductExcel product : productList){
+                TbProductProtectionNotice n1  = new TbProductProtectionNotice();//受理公告
+                TbProductProtectionNotice n2  = new TbProductProtectionNotice();//保护公告
+                n1.setProductId(String.valueOf(product.getId()));
+                n1.setCreateTime(date);
+                n2.setProductId(String.valueOf(product.getId()));
+                n2.setCreateTime(date);
+                //受理公告
+                String acceptanceAnnouncementId = productNoticeMap.get(product.getAcceptanceAnnouncement());
+                //保护公告
+                String approvalAnnouncementNoProductAllId = productNoticeMap.get(product.getApprovalAnnouncementNoProductAll());
+                if(StringUtils.isNotBlank(acceptanceAnnouncementId)){
+                    n1.setProtectionNoticeId(acceptanceAnnouncementId);
+                    tbProductProtectionNoticeList.add(n1);
+                }
+                if(StringUtils.isNotBlank(approvalAnnouncementNoProductAllId)){
+                    n2.setProtectionNoticeId(approvalAnnouncementNoProductAllId);
+                    tbProductProtectionNoticeList.add(n2);
+                }
             }
+            int tbProductProtectionNoticeNum = tbProductProtectionNoticeMapper.insertList(tbProductProtectionNoticeList);
+            if(insertProductNum != 0 && insertTbClassificationNum !=0 &&  insertTbProductShowNum!=0 && insertTbProtectionNotice!=0 && tbProductProtectionNoticeNum !=0){
+                System.out.println(insertProductNum + " " + insertTbClassificationNum+ " " + insertTbProductShowNum + " " + insertTbProtectionNotice + "" + tbProductProtectionNoticeNum);
+                b = true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        int tbProductProtectionNoticeNum = tbProductProtectionNoticeMapper.insertList(tbProductProtectionNoticeList);
-
-        System.out.println(insertProductNum + " " + insertTbClassificationNum+ " " + insertTbProductShowNum + " " + insertTbProtectionNotice + "" + tbProductProtectionNoticeNum);
+        return  b;
     }
     /**
      * 功能描述:

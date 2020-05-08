@@ -36,10 +36,16 @@ public class UploadExcelController {
     public ResponseResult upload(@RequestParam("file") MultipartFile file, @RequestParam("dataBasesType")String dataBasesType,@RequestParam("productType")String productType){
         ResponseResult result = new ResponseResult();
         try {
-            uploadExcelService.upload(file,dataBasesType,productType);
-            result.setCode(Response.SUCCESS_CODE);
-            result.setSuccess(Response.SUCCESS);
-            result.setMessage("上传成功");
+            Boolean b = uploadExcelService.upload(file,dataBasesType,productType);
+            if(b){
+                result.setCode(Response.SUCCESS_CODE);
+                result.setSuccess(Response.SUCCESS);
+                result.setMessage("上传成功");
+            }else{
+                result.setCode(Response.FALIE_CODE);
+                result.setSuccess(Response.FALIE);
+                result.setMessage("上传失败,系统内部异常，请稍候重试");
+            }
             return  result;
         } catch (Exception e) {
             e.printStackTrace();

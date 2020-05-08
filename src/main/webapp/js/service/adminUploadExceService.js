@@ -6,7 +6,7 @@ adminApp.service('adminUploadExcelService',function ($http) {
         * H5的类：FormData
         * */
         var formData=new FormData();
-        formData.append("file",file.files[0]);
+        formData.append("file",exampleInputFile.files[0]);
         formData.append("dataBasesType",dataBasesType);
         formData.append("productType",productType);
         return $http({
