@@ -164,7 +164,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+
+    <update id="updateByExampleSelective" parameterType="map" >
     update tb_related_websites
     <set >
       <if test="record.id != null" >
@@ -240,4 +241,18 @@
       type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="getRelatedWebsitesList" resultType="com.kfgs.domain.ext.TbRelatedWebsitesExt">
+        SELECT
+            pro. NAME AS productName,
+            web.id AS id,
+            web.product_id AS productId,
+            web.pic_url AS picUrl,
+            web.`name` AS NAME,
+            web.web_url AS webUrl,
+            web.type AS type
+        FROM
+            tb_related_websites web
+        LEFT JOIN tb_product pro ON web.product_id = pro.id
+    </select>
 </mapper>
