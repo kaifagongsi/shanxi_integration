@@ -16,6 +16,10 @@ adminApp.service('adminProductService',function ($http) {
         return $http.get('../../admin/productController/getSelectMap.do');
     };
 
+    this.initCountrySelect = function () {
+        return $http.get('../../admin/productController/getCountrySelectMap.do');
+    };
+
     this.getAreasCountyList = function (cityId) {
         return $http.get('../../area/selectByParentId.do?id=' + cityId);
     };

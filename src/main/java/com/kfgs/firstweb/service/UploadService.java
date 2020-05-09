@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface UploadService {
 
-    public int updateByExampleSelective(Map pData);
+    public String updateByExampleSelective(Map pData);
 
     Map<String,Object>  selectByPrimaryKey(Map pData);
 

@@ -2,6 +2,7 @@ package com.kfgs.firstweb.controller;
 
 
 import com.kfgs.firstweb.service.UploadService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,8 +59,7 @@ public class UploadController {
         }else  if(StringUtils.equals(pData.get("type").toString(), "政策")){
             int returnStr = uploadService.updateByExampleSelective(pData);
         }*/
-        int returnStr = uploadService.updateByExampleSelective(pData);
-
+        String returnStr = uploadService.updateByExampleSelective(pData);
         return returnBack;
     }
 

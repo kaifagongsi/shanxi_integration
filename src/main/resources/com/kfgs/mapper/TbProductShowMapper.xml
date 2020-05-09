@@ -226,11 +226,11 @@
 
     <!--   自己添加的内容  -->
     <insert id="insertList"  useGeneratedKeys="true" keyProperty="id">
-        insert into tb_product_show(title,create_time,isdelete,type)
+        insert into tb_product_show(title,create_time,isdelete,type,content)
         values
         <foreach collection="list" item="item" separator=",">
             (
-             #{item.title},#{item.createTime},#{item.isdelete},#{item.type}
+             #{item.title},#{item.createTime},#{item.isdelete},#{item.type},#{item.content}
             )
         </foreach>
     </insert>
@@ -239,7 +239,7 @@
         select * from tb_product_show where title = (select name from tb_product where id = #{id} )
     </select>
     <select id="selectCountryInfoByProduct" resultType="com.kfgs.domain.TbProductShow">
-        select * from tb_product_show where id = #{id}
+        select id,create_time,isdelete,title,content,(select classificationId from tb_classfication_country where rootid=1 and classificationId=(select parentId from tb_classfication_country where name= (select title from tb_product_show where id = #{id}))) type from tb_product_show where id = #{id}
     </select>
     <select id="selectById" resultType="com.kfgs.domain.TbProductShow">
            select * from tb_product_show where id = #{id}

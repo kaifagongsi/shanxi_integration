@@ -38,6 +38,12 @@ public class AdminProductController {
         return adminProductService.getSelectMap();
     }
 
+
+    @GetMapping("/getCountrySelectMap")
+    public QueryResponseResult getCountrySelectMap(){
+        return adminProductService.getCountrySelectMap();
+    }
+
     @GetMapping("/getProductByProductId")
     public QueryResponseResult getProductByProductId(String id ){
         return adminProductService.getProductByProductId(id);
