@@ -62,9 +62,8 @@ firstwebApp.controller('complaintRightController',function ($scope,$http,$locati
             var file = document.getElementById("file").files[0];
 
             if (file != null) {
-                $scope.pData.filepath = "E:\\Projects\\shanxi\\shanxi-firstweb-web\\target\\classes\\static\\file\\";
+                //$scope.pData.filepath = "E:\\Projects\\shanxi\\shanxi-firstweb-web\\target\\classes\\static\\file\\";
                 var filename = file.name;
-                $scope.pData.filepath += filename
                 formData.append("file", file);
             }
 
@@ -72,10 +71,11 @@ firstwebApp.controller('complaintRightController',function ($scope,$http,$locati
                 method: 'post',
                 url: '../../upload/savefile.do',
                 data: formData,
+                dataType:"json",
                 headers: {'Content-Type': undefined},
                 transformRequest: angular.identity
             }).then(function (response) {
-                //alert(response);
+                $scope.pData.filepath =response.data;
                 complaintRightService.uploadfile($scope.pData).success(
                     alert("提交成功！")
                 )
@@ -83,7 +83,7 @@ firstwebApp.controller('complaintRightController',function ($scope,$http,$locati
         }
     }
 
-
+   
     //搜索
     $scope.search=function(){
         complaintRightService.load( $scope.searchMap ).success(

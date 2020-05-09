@@ -11,4 +11,5 @@ public interface ComplaintManageService {
     public int insertByExample(Map pData);
     public int deleteByExample(List idList);
     public int showByExample(List showIdList);
+    //public int downLoadFile(String id);
 }

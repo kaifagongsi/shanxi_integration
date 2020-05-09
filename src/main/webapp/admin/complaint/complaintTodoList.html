@@ -114,7 +114,7 @@
                                 <th class="text-center sorting">投诉时间</th>
                                 <th class="text-center sorting">涉诉金额</th>
                                 <th class="text-center sorting" style="width: 30%;">投诉详情</th>
-                                <th class="text-center sorting" style="width: 10%;">处理情况</th>
+                                <th class="text-center sorting" style="width: 10%;">下载附件</th>
                                 <th class="text-center">操作</th>
                             </tr>
                             </thead>
@@ -129,11 +129,12 @@
                                 <td align="center" >{{x.createTime.substring(0,10)}}</td>
                                 <td align="center" >{{x.amountOfComplaint}}</td>
                                 <td align="center" title="{{x.detailsOfComplaints}}">{{x.detailsOfComplaints}}</td>
-                                <td align="center" title="{{x.handlingSituation}}">{{x.handlingSituation}}</td>
+                                <!--<td align="center" title="{{x.handlingSituation}}">{{x.handlingSituation}}</td>-->
                                 <td class="text-center">
-                                    <!--<button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>查看</button>
-                                    <button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>详情</button>-->
-                                    <!--<button type="button" class="btn bg-olive btn-xs" onclick='location.href="all-order-manage-edit.html"'>处理投诉</button>-->
+                                    <button type="button" class="btn bg-olive btn-xs"><a href="{{x.pathOfEvidenceUpload}}" style="color: #ffffff;" download="" >下载附件</a></button>
+                                </td>
+                                <td class="text-center">
+
                                     <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editTodoModal" data-id="edit">处理</button>
                                     <!--<button type="button" class="btn bg-olive btn-xs" ng-click="deleteHandling()">删除</button>-->
                                 </td>
@@ -224,14 +225,10 @@
 </div>
 
 <script>
-
-    $(document).ready(function() {
-
-        // 激活导航位置
-        setSidebarActive("order-manage");
-
-    });
-
+    function downLoadFile(){
+        var file = $("#file").val(file);
+        alert(file);
+    }
     //获取当前行传值
     $('#editTodoModal').on('show.bs.modal',function (event) {
         /*$("textarea[name = handlingSituation]").innerHTML = "";*/
