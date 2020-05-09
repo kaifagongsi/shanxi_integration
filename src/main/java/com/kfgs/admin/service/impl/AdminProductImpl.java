@@ -384,10 +384,12 @@ public class AdminProductImpl implements AdminProductService {
                     resultMap.put("content","");
                     resultMap.put("name",xx.getTitle());
                     resultMap.put("typeVal",xx.getType());
+                    resultMap.put("classificationId",xx.getClassificationId());
                 }else {
                     resultMap.put("content", new String(xx.getContent()));
                     resultMap.put("name",xx.getTitle());
                     resultMap.put("typeVal",xx.getType());
+                    resultMap.put("classificationId",xx.getClassificationId());
                 }
             }
         }else if(model == null){

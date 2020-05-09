@@ -39,5 +39,4 @@ public interface TbClassficationCountryMapper {
 
     TbClassficationCountry selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(String tbProductExtAdministrativeArea);
 
-    int deleteByClassifyName(String name);
 }

@@ -6,7 +6,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.firstDot = true;//前面有点
     $scope.lastDot = true;//后面有点
     //产品详细信息的报错
-    $scope.pData = {'content':'','title':'','id':'','type':'展示','time':'','classificationName':''};
+    $scope.pData = {'content':'','title':'','id':'','type':'展示','time':'','classificationName':'','classificationId':''};
     //产品自己的信息
     $scope.product = {'id':0,'name':'','classificationid':'','applicantOrganization':'','preliminaryExaminationBody':'','provinceName':'','cityName':'','protectionScope':'',
                         'documentDefiningTheScopeOfProtection':'','technicalSpecifications':'','useOfSpecialSigns':'','approvalAuthorityProduct':'',
@@ -36,7 +36,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.hezhunList = null;
 
     //国内产品
-    $scope.countryEntity = {'id' : '','name':'','typeVal':''};
+    $scope.countryEntity = {'id' : '','name':'','typeVal':'','classificationId':''};
 
     //用标企业实体
     /*******************************用标企业新增/更新/删除**********************************/
@@ -126,6 +126,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             adminProductService.getCountryProductByProductId($scope.countryEntity.id).success(function (response) {
                 $scope.countryEntity.name = response.queryResult.map.name;
                 $scope.countryEntity.typeVal = response.queryResult.map.typeVal;
+                $scope.countryEntity.classificationId = response.queryResult.map.classificationId;
                 CKEDITOR.instances.TextArea1.setData(response.queryResult.map.content);
                 console.log(response);
             });
@@ -229,6 +230,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
         $scope.pData.title = $('#title').val();
         $scope.pData.classificationName = $('#fileType option:selected').text();//选中的值
         $scope.pData.id = $scope.countryEntity.id;
+        $scope.pData.classificationId = $scope.countryEntity.classificationId;
         /*$scope.pData.type = '展示';*/
         console.log($scope.pData);
         adminProductService.upload( $scope.pData ).success(
@@ -278,7 +280,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             $scope.lastDot = false;//后面无点
         }
         //循环生成页码的标签
-        for(let i = firstPage;i <=lastPage; i++){
+        for(var i = firstPage;i <=lastPage; i++){
             $scope.pageLabel.push(i);
         }
     }

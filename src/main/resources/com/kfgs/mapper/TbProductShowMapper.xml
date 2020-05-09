@@ -239,7 +239,7 @@
         select * from tb_product_show where title = (select name from tb_product where id = #{id} )
     </select>
     <select id="selectCountryInfoByProduct" resultType="com.kfgs.domain.TbProductShow">
-        select id,create_time,isdelete,title,content,(select classificationId from tb_classfication_country where rootid=1 and classificationId=(select parentId from tb_classfication_country where name= (select title from tb_product_show where id = #{id}))) type from tb_product_show where id = #{id}
+        select id,create_time,isdelete,title,content,(select id from tb_classfication_country where name= (select title from tb_product_show where id = #{id})) as classificationId,(select classificationId from tb_classfication_country where rootid=1 and classificationId=(select parentId from tb_classfication_country where name= (select title from tb_product_show where id = #{id}))) type from tb_product_show where id = #{id}
     </select>
     <select id="selectById" resultType="com.kfgs.domain.TbProductShow">
            select * from tb_product_show where id = #{id}

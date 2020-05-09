@@ -16,6 +16,8 @@ public class TbProductShow implements Serializable {
 
     private byte[] content;
 
+    private String classificationId;
+
     public Integer getId() {
         return id;
     }
@@ -62,5 +64,13 @@ public class TbProductShow implements Serializable {
 
     public void setContent(byte[] content) {
         this.content = content;
+    }
+
+    public String getClassificationId() {
+        return classificationId;
+    }
+
+    public void setClassificationId(String classificationId) {
+        this.classificationId = classificationId;
     }
 }

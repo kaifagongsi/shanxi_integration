@@ -334,10 +334,5 @@
     and isdelete = 0
   </select>
 
-  <delete id="deleteByClassifyName" parameterType="java.lang.String">
-    delete from tb_classfication_country
-    where name=#{name,jdbcType=VARCHAR}
-  </delete>
-
 
 </mapper>

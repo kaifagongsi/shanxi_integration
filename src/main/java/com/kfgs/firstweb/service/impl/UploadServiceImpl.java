@@ -35,7 +35,7 @@ public class UploadServiceImpl implements UploadService {
                 TbProductShowExample tbProductShowExample = new TbProductShowExample();
                 tbProductShowExample.createCriteria().andIdEqualTo(Integer.parseInt(pData.get("id").toString()));
                 tbProductShowMapper.deleteByExample(tbProductShowExample);
-                tbClassficationCountryMapper.deleteByClassifyName(pData.get("title").toString());
+                tbClassficationCountryMapper.deleteByPrimaryKey(Integer.parseInt(pData.get("classificationId").toString()));
             }
         } else {
 
