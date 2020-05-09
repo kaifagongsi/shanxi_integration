@@ -12,6 +12,27 @@ import com.kfgs.domain.TbRelatedWebsites;
 public class TbRelatedWebsitesExt extends TbRelatedWebsites {
     private String productName;
 
+    private String[] ent;
+
+    private String[] web;
+
+
+    public String[] getWeb() {
+        return web;
+    }
+
+    public void setWeb(String[] web) {
+        this.web = web;
+    }
+
+    public String[] getEnt() {
+        return ent;
+    }
+
+    public void setEnt(String[] ent) {
+        this.ent = ent;
+    }
+
     public TbRelatedWebsitesExt(){
     }
     public TbRelatedWebsitesExt(String productName,TbRelatedWebsites tbRelatedWebsites){

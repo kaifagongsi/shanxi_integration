@@ -22,4 +22,10 @@ public interface AdminRelatedWebsitesService {
 
     QueryResponseResult saveRelatedModel(TbRelatedWebsitesExt tbRelatedWebsitesExt);
 
+    QueryResponseResult selectById(String id);
+
+    QueryResponseResult loadProductRelatedWebsites();
+
+
+    QueryResponseResult saveProductAboutEntAndWeb(TbRelatedWebsitesExt tbRelatedWebsitesExt);
 }

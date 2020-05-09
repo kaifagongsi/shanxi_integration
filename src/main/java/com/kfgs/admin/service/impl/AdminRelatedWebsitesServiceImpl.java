@@ -3,11 +3,13 @@ package com.kfgs.admin.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.kfgs.admin.service.AdminRelatedWebsitesService;
-import com.kfgs.domain.TbClassficationCountry;
+import com.kfgs.domain.TbProduct;
+import com.kfgs.domain.TbRelatedWebsites;
 import com.kfgs.domain.ext.TbRelatedWebsitesExt;
 import com.kfgs.domain.response.CommonCode;
 import com.kfgs.domain.response.QueryResponseResult;
 import com.kfgs.domain.response.QueryResult;
+import com.kfgs.mapper.TbProductMapper;
 import com.kfgs.mapper.TbRelatedWebsitesMapper;
 import com.kfgs.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesServ
 
     @Autowired
     TbRelatedWebsitesMapper tbRelatedWebsitesMapper;
+
+    @Autowired
+    TbProductMapper tbProductMapper;
 
 
     @Override
@@ -109,6 +114,56 @@ public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesServ
         } catch (IOException e) {
             e.printStackTrace();
             return  new QueryResponseResult(CommonCode.FAIL,null);
+        }
+    }
+
+
+    @Override
+    public QueryResponseResult selectById(String id) {
+        TbRelatedWebsites tbRelatedWebsites = tbRelatedWebsitesMapper.selectByPrimaryKey(Integer.parseInt(id));
+        QueryResult queryResult = new QueryResult();
+        Map resultMap = new HashMap();
+        resultMap.put("relatedWebsites",tbRelatedWebsites);
+        queryResult.setMap(resultMap);
+        return  new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+
+    @Override
+    public QueryResponseResult loadProductRelatedWebsites() {
+        Map resultMap = new HashMap();
+        //产品列表
+        List<TbProduct> productList = tbProductMapper.selectByIdAndNameReturnList();
+        resultMap.put("productList",productList);
+        //相关企业
+        List<TbRelatedWebsites> relatedententerpriseList =  tbRelatedWebsitesMapper.selectByType("相关企业");
+        resultMap.put("enterpriseList",relatedententerpriseList);
+        //相关网站
+        List<TbRelatedWebsites> relatedWebsitesList =  tbRelatedWebsitesMapper.selectByType("相关网站");
+        resultMap.put("websitesList",relatedWebsitesList);
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+
+    @Override
+    public QueryResponseResult saveProductAboutEntAndWeb(TbRelatedWebsitesExt tbRelatedWebsitesExt) {
+        System.out.println(tbRelatedWebsitesExt);
+        List<TbRelatedWebsites> relatedententerpriseList = tbRelatedWebsitesMapper.selectById(tbRelatedWebsitesExt.getEnt());
+        List<TbRelatedWebsites> relatedentWebsitesList = tbRelatedWebsitesMapper.selectById(tbRelatedWebsitesExt.getWeb());
+
+        for(TbRelatedWebsites relatedententerprise : relatedententerpriseList){
+            relatedententerprise.setProductId(tbRelatedWebsitesExt.getProductId());
+        }
+
+        for(TbRelatedWebsites relatedentWebsites : relatedentWebsitesList){
+            relatedentWebsites.setProductId(tbRelatedWebsitesExt.getProductId());
+        }
+        int entNum = tbRelatedWebsitesMapper.insertProductAboutEntAndWeb(relatedententerpriseList);
+        int webNum = tbRelatedWebsitesMapper.insertProductAboutEntAndWeb(relatedentWebsitesList);
+        if(entNum == relatedententerpriseList.size() && webNum == relatedentWebsitesList.size() ){
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else{
+            return new QueryResponseResult(CommonCode.FAIL,null);
         }
     }
 }

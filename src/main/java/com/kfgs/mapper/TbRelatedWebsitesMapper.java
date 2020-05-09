@@ -34,4 +34,10 @@ public interface TbRelatedWebsitesMapper {
 
     int insertTbRelatedWebsitesExt(TbRelatedWebsitesExt ext);
 
+    List<TbRelatedWebsites> selectByType(String type);
+
+    List<TbRelatedWebsites> selectById(String[] ent);
+
+    int insertProductAboutEntAndWeb(List<TbRelatedWebsites> relatedentWebsitesList);
+
 }

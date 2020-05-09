@@ -28,4 +28,16 @@ adminApp.service('adminRelatedWebsitesService',function ($http) {
     this.saveRelatedMode = function (model) {
         return $http.put("../../admin/relatedWebsitesController/saveRelatedModel.do",model);
     };
+
+    this.selectById = function (id) {
+        return $http.get('../../admin/relatedWebsitesController/selectById.do?id='+id);
+    };
+
+    this.loadProductRelatedWebsites = function () {
+        return $http.get('../../admin/relatedWebsitesController/loadProductRelatedWebsites.do');
+    };
+
+    this.saveProductAboutEntAndWeb = function (model) {
+        return $http.put('../../admin/relatedWebsitesController/saveProductAboutEntAndWeb.do',model);
+    }
 });

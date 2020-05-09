@@ -7,11 +7,47 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
 
     $scope.relatedMode = {'id':'','productId':'','name':'','picUrl':'','webUrl':'','type':'','productName':'','spare':''};
 
+    //三个列表
+    $scope.enterpriseList = null;
+    $scope.productList = null;
+    $scope.websitesList = null;
+
+    $scope.productAboutEntAndWeb = {'productId':'','ent':'','web':''};
+
+    /*********************************产品与相关企业网站的关联*****************************************/
+
+    $scope.loadProductRelatedWebsites = function(){
+        adminRelatedWebsitesService.loadProductRelatedWebsites().success(function (response) {
+            console.log(response);
+            $scope.enterpriseList = response.queryResult.map.enterpriseList;
+            $scope.productList = response.queryResult.map.productList;
+            $scope.websitesList = response.queryResult.map.websitesList;
+        });
+    };
+
+    $scope.saveProductAboutEntAndWeb = function(){
+        adminRelatedWebsitesService.saveProductAboutEntAndWeb($scope.productAboutEntAndWeb).success(function (response) {
+            console.log(response);
+        });
+    };
+
 
     /***************************************相关企业网站新增*********************************************************/
 
     $scope.load = function(){
+        if ($location.$$search.id) {
+            //表示为更新
+            $scope.relatedMode.id = $location.$$search['id'];
+            console.log($location.$$search['id']);
+            adminRelatedWebsitesService.selectById($scope.relatedMode.id).success(function (response) {
+                $scope.relatedMode= response.queryResult.map.relatedWebsites;
+                /*console.log(response);
+                $scope.enterprise = response.queryResult.map.item;
+                $scope.enterprise.approvalAnnouncementNoEnterpriseAll = parseInt(response.queryResult.map.item.approvalAnnouncementNoEnterpriseAll);*/
+            });
+        }else{
 
+        }
     };
 
     $scope.saveRelatedMode = function (){

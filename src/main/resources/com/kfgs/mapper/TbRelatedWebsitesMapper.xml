@@ -257,8 +257,44 @@
         LEFT JOIN tb_product pro ON web.product_id = pro.id
     </select>
 
+
     <insert id="insertTbRelatedWebsitesExt" useGeneratedKeys="true" keyProperty="id">
         insert into tb_related_websites (pic_url,name,web_url,type)
         values ( #{picUrl}, #{name}, #{webUrl},#{type})
+    </insert>
+
+
+    <select id="selectByType" resultType="com.kfgs.domain.TbRelatedWebsites">
+        SELECT
+            id
+            NAME
+        FROM
+            tb_related_websites
+        WHERE
+            product_id IS NULL
+        AND type = #{type}
+    </select>
+    <select id="selectById" resultType="com.kfgs.domain.TbRelatedWebsites">
+        SELECT
+            id AS id,
+            NAME AS NAME,
+            pic_url AS picUrl,
+            web_url AS webUrl,
+            type as type
+        from
+            tb_related_websites
+        where id in
+            <foreach collection="array"   item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+    </select>
+
+    <insert id="insertProductAboutEntAndWeb">
+        insert into tb_related_websites (product_id,pic_url,name,web_url,type) values
+        <foreach collection="list" item="item"  index="index" separator=","   >
+            (
+             #{item.productId},#{item.picUrl},#{item.name},#{item.webUrl},#{item.type}
+            )
+        </foreach>
     </insert>
 </mapper>

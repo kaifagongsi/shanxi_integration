@@ -812,6 +812,6 @@
         select id,name from tb_product  where isdelete = 0
     </select>
     <select id="selectById" resultType="java.lang.String">
-        select name from tb_product where id = #{productId} where isdelete = 0
+        select name from tb_product where id = #{productId} and isdelete = 0
     </select>
 </mapper>
