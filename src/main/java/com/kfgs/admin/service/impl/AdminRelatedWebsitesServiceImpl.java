@@ -9,12 +9,20 @@ import com.kfgs.domain.response.CommonCode;
 import com.kfgs.domain.response.QueryResponseResult;
 import com.kfgs.domain.response.QueryResult;
 import com.kfgs.mapper.TbRelatedWebsitesMapper;
+import com.kfgs.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Date: 2020-05-08-17-09
@@ -29,6 +37,30 @@ public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesServ
     @Autowired
     TbRelatedWebsitesMapper tbRelatedWebsitesMapper;
 
+
+    @Override
+    public QueryResponseResult saveRelatedModel(TbRelatedWebsitesExt tbRelatedWebsitesExt) {
+        System.out.println(tbRelatedWebsitesExt);
+
+        if(tbRelatedWebsitesExt.getId() == null || tbRelatedWebsitesExt.getId() == 0){
+            //表示新增相关企业或者网站
+            if("1".equals(tbRelatedWebsitesExt.getType())){
+                tbRelatedWebsitesExt.setType("相关企业");
+            }else if("2".equals(tbRelatedWebsitesExt.getType())){
+                tbRelatedWebsitesExt.setType("相关网站");
+            }
+            int insertNum = tbRelatedWebsitesMapper.insertTbRelatedWebsitesExt(tbRelatedWebsitesExt);
+            if(1 == insertNum){
+                return new QueryResponseResult(CommonCode.SUCCESS,null);
+            }else{
+                return new QueryResponseResult(CommonCode.FAIL,null);
+            }
+        }else{
+            //表示编辑相关企业或者网站
+            return null;
+        }
+    }
+
     @Override
     public QueryResponseResult getRelatedWebsitesList(Map map) {
         Map<String,Object> resultMap = new HashMap<>();
@@ -41,5 +73,42 @@ public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesServ
         queryResult.setMap(resultMap);
         QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
         return queryResponseResult;
+    }
+
+    @Override
+    public QueryResponseResult saveImg(MultipartFile file, HttpServletRequest request) {
+
+        Map resultMap = new HashMap();
+        System.out.println(file);
+        //保存路径
+        String path= request.getSession().getServletContext().getRealPath("/")+"static\\relatedWebsites\\";
+        System.out.println(path);
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") );
+        String fileName = UUIDUtils.generateUuid8() + suffix;
+        File targetImg = new File(path + fileName);
+        try{
+            if(targetImg.exists()){
+                targetImg.delete();
+                System.out.println("原图片已删除");
+            }
+            FileOutputStream outputStream = new FileOutputStream(path+fileName);
+            outputStream.write(file.getBytes());
+            outputStream.flush();
+            outputStream.close();
+            String imgPath = path+fileName;
+            resultMap.put("picUrl","../../static/relatedWebsites/" + fileName);
+            QueryResult queryResult = new QueryResult();
+            queryResult.setMap(resultMap);
+            return  new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+        }catch (IllegalStateException e) {
+            e.printStackTrace();
+            return  new QueryResponseResult(CommonCode.FAIL,null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return  new QueryResponseResult(CommonCode.FAIL,null);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  new QueryResponseResult(CommonCode.FAIL,null);
+        }
     }
 }

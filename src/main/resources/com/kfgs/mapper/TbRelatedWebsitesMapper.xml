@@ -158,7 +158,8 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kfgs.domain.TbRelatedWebsitesExample" resultType="java.lang.Integer" >
+
+    <select id="countByExample" parameterType="com.kfgs.domain.TbRelatedWebsitesExample" resultType="java.lang.Integer" >
     select count(*) from tb_related_websites
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -255,4 +256,9 @@
             tb_related_websites web
         LEFT JOIN tb_product pro ON web.product_id = pro.id
     </select>
+
+    <insert id="insertTbRelatedWebsitesExt" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_related_websites (pic_url,name,web_url,type)
+        values ( #{picUrl}, #{name}, #{webUrl},#{type})
+    </insert>
 </mapper>

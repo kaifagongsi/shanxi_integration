@@ -1,12 +1,47 @@
-adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWebsitesService) {
-
+adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWebsitesService,$location) {
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':10};
-
     $scope.pageDate = {'list':'','totalPages':'','total':''};
-
     $scope.currPageNo = 1;
     $scope.firstDot = true;//前面有点
     $scope.lastDot = true;//后面有点
+
+    $scope.relatedMode = {'id':'','productId':'','name':'','picUrl':'','webUrl':'','type':'','productName':'','spare':''};
+
+
+    /***************************************相关企业网站新增*********************************************************/
+
+    $scope.load = function(){
+
+    };
+
+    $scope.saveRelatedMode = function (){
+        adminRelatedWebsitesService.saveRelatedMode($scope.relatedMode).success(function (response) {
+            if(response.code == '10000'){
+                alert(response.message);
+            }else{
+                alert("保存失败");
+            }
+        });
+    };
+
+    $scope.saveImg = function () {
+        if(imgFile.files[0] == null){
+            alert("请选择图片");
+        }else{
+            adminRelatedWebsitesService.saveUploadImg().success(function (response) {
+                if(response.code == '10000'){
+                    alert(response.message);
+                    $scope.relatedMode.picUrl = response.queryResult.map.picUrl;
+                }else{
+                    alert("图片上传失败");
+                }
+            });
+        }
+    };
+
+
+
+    /***************************************相关企业网站列表*********************************************************/
     // 加载默认列表
     $scope.loadList = function () {
         adminRelatedWebsitesService.loadList($scope.searchMap).success(function (response) {
@@ -79,13 +114,5 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
 
     };
 
-    /*$scope.flush = function () {
-        adminProductService.load( $scope.searchMap).success(
-            function(response){
-                $scope.pageDate = response;
-                $scope.pageDate.list = response.queryResult.map.rows;
-                buildPageLabel($scope.pageDate.queryResult.map.totalPages);
-            }
-        );
-    };*/
+
 });

@@ -31,4 +31,7 @@ public interface TbRelatedWebsitesMapper {
     int updateByPrimaryKey(TbRelatedWebsites record);
 
     List<TbRelatedWebsitesExt> getRelatedWebsitesList();
+
+    int insertTbRelatedWebsitesExt(TbRelatedWebsitesExt ext);
+
 }

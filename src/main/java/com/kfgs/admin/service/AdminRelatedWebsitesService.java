@@ -1,7 +1,10 @@
 package com.kfgs.admin.service;
 
+import com.kfgs.domain.ext.TbRelatedWebsitesExt;
 import com.kfgs.domain.response.QueryResponseResult;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -14,4 +17,9 @@ import java.util.Map;
 public interface AdminRelatedWebsitesService {
 
     QueryResponseResult getRelatedWebsitesList(Map map);
+
+    QueryResponseResult saveImg(MultipartFile file, HttpServletRequest request);
+
+    QueryResponseResult saveRelatedModel(TbRelatedWebsitesExt tbRelatedWebsitesExt);
+
 }
