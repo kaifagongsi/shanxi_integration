@@ -1,14 +1,14 @@
-adminApp.controller('adminComplaintController',function ($scope,adminComplaintService) {
+adminApp.controller('adminComplaintController',function ($scope,$http,adminComplaintService) {
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':15,'searchType':'','searchVal':''};
     $scope.resultMap= {"totalPages":"0"};
     $scope.pData = {"complaintId":'',"handlingInfo":'',"complaintDetail":''};
     $scope.idList = new Array();
+    $scope.downData = {"path":''};
 
     $scope.load = function () {
         adminComplaintService.load($scope.searchMap).success(function (response) {
             $scope.resultMap = response;//搜索返回的结果
             var all = document.getElementById("all");
-
             buildPageLabel();
             /*console.log(response);*/
         });

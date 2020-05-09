@@ -4,7 +4,12 @@ package com.kfgs.admin.controller;
 import com.kfgs.admin.service.ComplaintManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +29,6 @@ public class ComplaintManageController {
     public Map<String,Object> getTodoList(@RequestBody Map searchMap){
         return complaintManageService.getTodoList(searchMap);
     }
-
     //新增保存维权处理信息
     @PostMapping(value = "insertHandling", produces = "text/plain;charset=UTF-8")
     @ResponseBody

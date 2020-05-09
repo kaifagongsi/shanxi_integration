@@ -316,4 +316,23 @@
     <delete id="deleteByName">
         update tb_classfication_country set isdelete = 1 where name = #{id}
     </delete>
+
+  <select id="selectRootIdEqulesOne" resultType="com.kfgs.domain.TbClassficationCountry">
+    select  *   from tb_classfication_country where rootId = '1' and isdelete = 0
+  </select>
+
+  <select id="selectMaxClassificationIdMaxLevelAndParentIdByClassificationId"
+          resultType="com.kfgs.domain.TbClassficationCountry">
+    SELECT
+    max(classificationId) + 1  as classificationId,
+    max(LEVEL) + 1 as level,
+    parentId
+    FROM
+    tb_classfication_country
+    WHERE
+    parentId =  #{tbProductExtAdministrativeArea}
+    and isdelete = 0
+  </select>
+
+
 </mapper>

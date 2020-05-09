@@ -1,18 +1,17 @@
 package com.kfgs.firstweb.service.impl;
 
-import com.kfgs.domain.TbProductShow;
-import com.kfgs.domain.TbProductShowExample;
-import com.kfgs.domain.TbRelatedWebsites;
-import com.kfgs.domain.TbRelatedWebsitesExample;
+import com.kfgs.domain.*;
+import com.kfgs.domain.response.CommonCode;
+import com.kfgs.domain.response.QueryResponseResult;
 import com.kfgs.firstweb.service.UploadService;
+import com.kfgs.mapper.TbClassficationCountryMapper;
 import com.kfgs.mapper.TbProductShowMapper;
 import com.kfgs.mapper.TbRelatedWebsitesMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UploadServiceImpl implements UploadService {
@@ -23,14 +22,74 @@ public class UploadServiceImpl implements UploadService {
     @Autowired
     TbRelatedWebsitesMapper tbRelatedWebsitesMapper;
 
+    @Autowired
+    TbClassficationCountryMapper tbClassficationCountryMapper;
+
+
     @Override
-    public int updateByExampleSelective(Map pData){
-        TbProductShow record = new TbProductShow();
-        record.setContent(pData.get("content").toString().getBytes());
-        TbProductShowExample selectExample = new TbProductShowExample();
-        selectExample.createCriteria().andTitleEqualTo(pData.get("title").toString());
-        int returnResult = tbProductShowMapper.updateByExampleSelective(record, selectExample);
-        return returnResult;
+    public String updateByExampleSelective(Map pData) {
+        //已有国内产品展示数据的删除
+        if (StringUtils.isNotBlank(pData.get("id").toString())) {
+            TbProductShow tbProductShow = tbProductShowMapper.selectById(pData.get("id").toString());
+            if (tbProductShow != null) {
+                TbProductShowExample tbProductShowExample = new TbProductShowExample();
+                tbProductShowExample.createCriteria().andIdEqualTo(Integer.parseInt(pData.get("id").toString()));
+                tbProductShowMapper.deleteByExample(tbProductShowExample);
+                tbClassficationCountryMapper.deleteByPrimaryKey(Integer.parseInt(pData.get("classificationId").toString()));
+            }
+        } else {
+
+        }
+        TbClassficationCountryExample example = new TbClassficationCountryExample();
+        example.createCriteria().andNameEqualTo(pData.get("title").toString());
+        List<TbClassficationCountry> list = tbClassficationCountryMapper.selectByExample(example);
+        TbClassficationCountry classification = new TbClassficationCountry();
+        if(list != null && list.size() > 0){
+            //获取最大产品类别
+            String classificationid = list.get(0).getParentid();
+            classification = tbClassficationCountryMapper.selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(classificationid);
+        }else{
+            example = new TbClassficationCountryExample();
+            example.createCriteria().andNameEqualTo(pData.get("classificationName").toString());
+            list = tbClassficationCountryMapper.selectByExample(example);
+            if(list != null && list.size() > 0){
+                //获取最大产品类别
+                String classificationid = list.get(0).getClassificationid();
+                classification = tbClassficationCountryMapper.selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(classificationid);
+            }
+        }
+
+        //插入新的数据
+        Date currentDate = new Date();
+        //2.向tbProductShwo插入数据
+        TbProductShow tbProductShow  = new TbProductShow();
+        tbProductShow.setTitle(pData.get("title").toString());
+        tbProductShow.setType("展示");
+        tbProductShow.setCreateTime(currentDate);
+        tbProductShow.setIsdelete(0);
+        tbProductShow.setContent(pData.get("content").toString().getBytes());
+        List productShwoList = new ArrayList();
+        productShwoList.add(tbProductShow);
+        int insertList = tbProductShowMapper.insertList(productShwoList);
+
+        //3.向tb_classfication_country表中插入数据
+        int insertClassification = 0;
+        if(classification != null){
+            TbClassficationCountry tbClassficationCountry = new TbClassficationCountry();
+            tbClassficationCountry.setName(pData.get("title").toString());
+            tbClassficationCountry.setIsdelete(0);
+            tbClassficationCountry.setCreateTime(currentDate);
+            tbClassficationCountry.setRootid("2");
+            tbClassficationCountry.setParentid(classification.getParentid());
+            tbClassficationCountry.setClassificationid(String.format("%04d",Integer.parseInt(classification.getClassificationid())));
+            tbClassficationCountry.setLevel(classification.getLevel());
+            insertClassification = tbClassficationCountryMapper.insert(tbClassficationCountry);
+        }
+        if( 1 == insertClassification && 1 == insertList ){
+            return "success";
+        }else{
+            return "fail";
+        }
     }
 
     @Override

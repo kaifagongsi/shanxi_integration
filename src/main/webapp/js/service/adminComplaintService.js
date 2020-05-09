@@ -28,5 +28,4 @@ adminApp.service('adminComplaintService',function ($http) {
         return $http.post('../../admin/deleteAll.do',idList);
     }
 
-
 });

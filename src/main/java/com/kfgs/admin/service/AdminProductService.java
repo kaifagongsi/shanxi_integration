@@ -23,4 +23,6 @@ public interface AdminProductService {
     QueryResponseResult getCountryProductByProductId(String id);
 
     QueryResponseResult deleteCountryProduct(String id);
+
+    QueryResponseResult getCountrySelectMap();
 }

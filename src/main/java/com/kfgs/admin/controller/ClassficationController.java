@@ -221,7 +221,6 @@ public class ClassficationController {
     @RequestMapping(value = "saveShanxiPic",method=RequestMethod.POST)
     @ResponseBody
     public String saveShanxiPic(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-        System.out.println("111111111111111111111");
         MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest) request;
         MultipartFile multipartFile = multipartRequest.getFile("imagePath");
         String className = multipartRequest.getParameter("className");

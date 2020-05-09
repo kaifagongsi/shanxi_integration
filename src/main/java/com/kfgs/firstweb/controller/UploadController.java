@@ -1,13 +1,23 @@
 package com.kfgs.firstweb.controller;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.kfgs.firstweb.service.UploadService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Map;
 
 @RestController
@@ -17,28 +27,33 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
-    @RequestMapping(value = "savefile.do", method = RequestMethod.POST)
+    @RequestMapping(produces= "text/plain;charset=utf-8",value = "savefile.do", method = RequestMethod.POST)
     @ResponseBody
-    public String fileUpload(@RequestParam("filename") MultipartFile file){
+    public String fileUpload(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+        MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest) request;
+        MultipartFile file = multipartRequest.getFile("file");
         System.out.println(file.getOriginalFilename()+">>>>>>>>>");
         if(file.isEmpty()){
             return "false";
         }
         String fileName = file.getOriginalFilename();//z.png
         int size = (int) file.getSize();
-        //fileName=fileName.substring(fileName.lastIndexOf("\\")+1);
-
-        String path = System.getProperty("user.dir");//   /Users/apple/Desktop/IDEAWORKSPACE/day2/shoppingmall2
-        File dest = new File(path+"/target/classes/static/file" + "/" + fileName);
+        /*String path = System.getProperty("user.dir");//   /Users/apple/Desktop/IDEAWORKSPACE/day2/shoppingmall2*/
+        //保存路径
+        String path= request.getSession().getServletContext().getRealPath("/")+"static\\complaint\\";
+        File dest = new File(path);
         if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
             dest.getParentFile().mkdir();
         }
         try {
-            file.transferTo(dest); //保存文件
-            String savepath = "http://localhost:9103/upload/"+fileName;
-            System.out.println("*************************"+savepath);
-            return savepath;
-            //return "{\"file_path\":\"http://localhost:9101/upload/"+fileName+"\"}";
+            FileOutputStream outputStream = new FileOutputStream(path+fileName);
+            outputStream.write(file.getBytes());
+            outputStream.flush();
+            outputStream.close();
+            String savePath = path+fileName;
+            System.out.println("**********附件" + fileName+"已保存到" + savePath+"***********");
+            savePath = "../../static/complaint/"+fileName;
+            return savePath;
         } catch (IllegalStateException e) {
             e.printStackTrace();
             return "false";
@@ -58,8 +73,7 @@ public class UploadController {
         }else  if(StringUtils.equals(pData.get("type").toString(), "政策")){
             int returnStr = uploadService.updateByExampleSelective(pData);
         }*/
-        int returnStr = uploadService.updateByExampleSelective(pData);
-
+        String returnStr = uploadService.updateByExampleSelective(pData);
         return returnBack;
     }
 

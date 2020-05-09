@@ -341,6 +341,18 @@ public class AdminProductImpl implements AdminProductService {
     }
 
 
+    @Override
+    public QueryResponseResult getCountrySelectMap() {
+        //查询产品信息页面中的5个下拉列表
+        Map resultMap = new HashMap();
+        //1.查询顶级产品分类
+        List<TbClassficationCountry> adminArea = tbClassficationCountryMapper.selectRootIdEqulesOne();
+        resultMap.put("classifyCountyList",adminArea);
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
+
 
     public Map<String, String> getClassificationMap() {
         List<HashMap<String,String>> list = tbClassificationMapper.selectClassificationIdAndNameReturnMap();
@@ -371,9 +383,13 @@ public class AdminProductImpl implements AdminProductService {
                 if(xx.getContent() == null){
                     resultMap.put("content","");
                     resultMap.put("name",xx.getTitle());
+                    resultMap.put("typeVal",xx.getType());
+                    resultMap.put("classificationId",xx.getClassificationId());
                 }else {
                     resultMap.put("content", new String(xx.getContent()));
                     resultMap.put("name",xx.getTitle());
+                    resultMap.put("typeVal",xx.getType());
+                    resultMap.put("classificationId",xx.getClassificationId());
                 }
             }
         }else if(model == null){

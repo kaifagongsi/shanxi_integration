@@ -6,13 +6,14 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.firstDot = true;//前面有点
     $scope.lastDot = true;//后面有点
     //产品详细信息的报错
-    $scope.pData = {'content':'','title':'','id':'1','type':'展示','time':''};
+    $scope.pData = {'content':'','title':'','id':'','type':'展示','time':'','classificationName':'','classificationId':''};
     //产品自己的信息
     $scope.product = {'id':0,'name':'','classificationid':'','applicantOrganization':'','preliminaryExaminationBody':'','provinceName':'','cityName':'','protectionScope':'',
                         'documentDefiningTheScopeOfProtection':'','technicalSpecifications':'','useOfSpecialSigns':'','approvalAuthorityProduct':'',
                     'approvalAnnouncementNoProduct':'','approvalAnnouncementNoProductAll':'','protectionNoticeTitle':'','administrativeArea':''};
 
     $scope.adminArea = null;
+    $scope.classifyCountyList = null;
     $scope.noticePiZhunList = null;
     $scope.noticeShouLiList = null;
     $scope.areasCityList = null;
@@ -35,7 +36,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.hezhunList = null;
 
     //国内产品
-    $scope.countryEntity = {'id' : '','name':''};
+    $scope.countryEntity = {'id' : '','name':'','typeVal':'','classificationId':''};
 
     //用标企业实体
     /*******************************用标企业新增/更新/删除**********************************/
@@ -52,7 +53,6 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
 
     };
     $scope.initEnterprise = function (){
-
         initSelectEnterprise();
         if ($location.$$search.id) {
             //表示为更新
@@ -119,11 +119,14 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     };
     //国内产品详细
     $scope.initCountryProduct = function(){
-        if($scope.countryEntity.id == ''){
+        initCountrySelect();
+        if ($location.$$search.id) {
             $scope.countryEntity.id = $location.$$search['id'];
             //查询产品详细信息
             adminProductService.getCountryProductByProductId($scope.countryEntity.id).success(function (response) {
                 $scope.countryEntity.name = response.queryResult.map.name;
+                $scope.countryEntity.typeVal = response.queryResult.map.typeVal;
+                $scope.countryEntity.classificationId = response.queryResult.map.classificationId;
                 CKEDITOR.instances.TextArea1.setData(response.queryResult.map.content);
                 console.log(response);
             });
@@ -179,7 +182,12 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
            // $scope.areasCountyList = response.queryResult.map.areasCountyList;
         });
     }
-
+    //初始化下拉框
+    function initCountrySelect() {
+        adminProductService.initCountrySelect().success(function (response) {
+            $scope.classifyCountyList = response.queryResult.map.classifyCountyList;
+        });
+    }
 
     $scope.initProduct = function(){
         //接收index.html传参
@@ -220,7 +228,9 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.upload= function(){
         $scope.pData.content = CKEDITOR.instances.TextArea1.getData();
         $scope.pData.title = $('#title').val();
-        $scope.pData.type = $('#fileType option:selected').val();//选中的值
+        $scope.pData.classificationName = $('#fileType option:selected').text();//选中的值
+        $scope.pData.id = $scope.countryEntity.id;
+        $scope.pData.classificationId = $scope.countryEntity.classificationId;
         /*$scope.pData.type = '展示';*/
         console.log($scope.pData);
         adminProductService.upload( $scope.pData ).success(
@@ -229,8 +239,6 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             }
         );
     };
-
-
 
 
     /*******************************产品列表**********************************/
@@ -251,9 +259,9 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
      */
     function buildPageLabel ( totalPages) {
         $scope.pageLabel = [];
-        let maxPageNo = totalPages;//最后页码
-        let firstPage = 1;//开始页码
-        let lastPage = maxPageNo;//截止页码
+        var maxPageNo = totalPages;//最后页码
+        var firstPage = 1;//开始页码
+        var lastPage = maxPageNo;//截止页码
         $scope.firstDot = true;//前面有点
         $scope.lastDot = true;//后面有点
         if(totalPages > 5){//如果总页数大于5
@@ -272,7 +280,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             $scope.lastDot = false;//后面无点
         }
         //循环生成页码的标签
-        for(let i = firstPage;i <=lastPage; i++){
+        for(var i = firstPage;i <=lastPage; i++){
             $scope.pageLabel.push(i);
         }
     }
