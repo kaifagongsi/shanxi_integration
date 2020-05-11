@@ -15,6 +15,12 @@ public class TbEnterpriseExcel {
 
     private Integer isdelete;
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
+
     private String enterpriseName;
 
     private String enterpriseAddress;
