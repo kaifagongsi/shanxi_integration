@@ -70,8 +70,8 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 17);
                 return uploadProduct(list.get(0).getDataList());
             }else if("2".equals(dataBasesType)){//用标企业
-                // 设置excel读取15列数据
-                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 11);
+                // 设置excel读取13列数据
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 12);
                 return uploadEnterprise(list.get(0).getDataList());
             }else if("3".equals(dataBasesType)){//政策文件
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 3);
@@ -170,11 +170,13 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             Date date = new Date();
             for(int i = 1; i < dataList.size(); i++){
                 List<Object> item = dataList.get(i);
-                String name = item.get(0).toString();
+                String name = item.get(1).toString();
                 if(name !=null && !"".equals(name)){
                     //1.设置企业名称
                     TbEnterpriseExcel tbEnterpriseExcel = new TbEnterpriseExcel();
+                    //创建时间
                     item.add(0,date);
+                    //是否删除
                     item.add(1,0);
                     ListToModelUtils.listToModel(item,tbEnterpriseExcel);
                     //1.1设置产品ID

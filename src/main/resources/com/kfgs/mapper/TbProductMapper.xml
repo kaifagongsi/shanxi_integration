@@ -703,7 +703,7 @@
         select id from tb_product where name = #{productName} and isdelete = 0
     </select>
     <select id="selectProductIdAndName" resultType="java.util.HashMap">
-        select name as 'key', id as 'value' from tb_product and isdelete = 0
+        select name as 'key', id as 'value' from tb_product where isdelete = 0
     </select>
 
     <select id="selectProductIdAndNameAndAdminAreaAndProductClassificationAndApprovalAnnouncementNoProductAndProtectionNotice" resultType="com.kfgs.domain.TbProduct">
