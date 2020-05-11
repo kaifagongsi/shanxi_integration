@@ -61,4 +61,7 @@ public interface StatisticsService {
     public QueryResponseResult getThridTabSearch(Map map);
 
     public  QueryResponseResult getSecondList(String pageNo, Map map);
+
+    QueryResponseResult getCountNum();
+
 }

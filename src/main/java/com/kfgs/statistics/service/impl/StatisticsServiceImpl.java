@@ -909,4 +909,17 @@ public class StatisticsServiceImpl  implements StatisticsService {
         queryResult.setMap(resultMap);
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
+
+    @Override
+    public QueryResponseResult getCountNum() {
+        int productNum =  tbProductMapper.selectProductNum();
+        int entNum = tbEnterpriseMapper.selectCountWeiBianGen();
+        Map resultMap = new HashMap();
+        resultMap.put("productNum",productNum);
+        resultMap.put("entNum",entNum);
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+    }
 }
+

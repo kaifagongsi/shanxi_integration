@@ -24,6 +24,23 @@ tongjiApp.controller('statisticsController',function ($scope,statisticsService) 
     var pieChartOption = null;
     var optionHistogram = null;
 
+
+
+    $scope.productNum =null;
+    $scope.enterprise =null;
+    $scope.getCountNum = function(){
+        statisticsService.getCountNum().success(function (response) {
+            console.log(response);
+            $scope.productNum = response.queryResult.map.productNum;
+            $scope.enterprise = response.queryResult.map.entNum;
+        });
+    };
+
+
+
+
+
+
     $scope.getPieChart = function () {
         statisticsService.getPieChart().success(
             function (response) {

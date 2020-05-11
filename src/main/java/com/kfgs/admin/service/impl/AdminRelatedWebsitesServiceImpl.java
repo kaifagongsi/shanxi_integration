@@ -49,7 +49,9 @@ public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesServ
     @Override
     public QueryResponseResult saveRelatedModel(TbRelatedWebsitesExt tbRelatedWebsitesExt) {
         System.out.println(tbRelatedWebsitesExt);
-
+        if(tbRelatedWebsitesExt.getWebUrl().contains("http")){
+            tbRelatedWebsitesExt.setWebUrl("http://" + tbRelatedWebsitesExt.getWebUrl());
+        }
         if(tbRelatedWebsitesExt.getId() == null || tbRelatedWebsitesExt.getId() == 0){
             //表示新增相关企业或者网站
             if("1".equals(tbRelatedWebsitesExt.getType())){

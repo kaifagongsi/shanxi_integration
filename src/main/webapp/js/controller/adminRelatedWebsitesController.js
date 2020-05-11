@@ -18,7 +18,6 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
 
     /************************************检测列表切换*******************************************************/
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
         if(e.target.innerHTML=="相关企业网站"){
             $scope.loadList();
         }else if(e.target.innerHTML=="产品与相关企业网站的关联"){

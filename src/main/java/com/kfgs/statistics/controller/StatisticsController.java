@@ -109,4 +109,9 @@ public class StatisticsController {
         return statisticsService.getSecondList(pageNo,map);
     }
 
+    @GetMapping("/getCountNum")
+    public QueryResponseResult getCountNum(){
+        return statisticsService.getCountNum();
+    }
+
 }

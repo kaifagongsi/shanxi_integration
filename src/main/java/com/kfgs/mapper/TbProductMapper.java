@@ -81,4 +81,6 @@ public interface TbProductMapper {
     String selectById(String productId);
 
 
+    int selectProductNum();
+
 }

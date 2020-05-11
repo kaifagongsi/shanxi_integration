@@ -73,4 +73,7 @@ public interface TbEnterpriseMapper {
     TbEnterpriseExt selectById(String id);
 
     int deleteById(Integer id);
+
+    int selectCountWeiBianGen();
+
 }

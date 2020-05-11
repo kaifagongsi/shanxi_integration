@@ -74,7 +74,7 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 11);
                 return uploadEnterprise(list.get(0).getDataList());
             }else if("3".equals(dataBasesType)){//政策文件
-                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 2);
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 3);
                 return uploadPolicyDocument(list.get(0).getDataList());
             }else if("4".equals(dataBasesType)){ //公告文件
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 3);

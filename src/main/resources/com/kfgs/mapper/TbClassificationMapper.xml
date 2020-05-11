@@ -313,7 +313,7 @@
         FROM
             tb_classification c
 
-        LEFT JOIN tb_product p ON c.name = p.name
+        LEFT JOIN (select *  from tb_product where isdelete = 0) p ON c.name = p.name
          where c.isdelete = 0
   </select>
     <select id="selectMaxClassificationIdMaxLevelAndParentIdByName"
