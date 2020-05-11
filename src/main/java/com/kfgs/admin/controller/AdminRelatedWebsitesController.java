@@ -53,4 +53,24 @@ public class AdminRelatedWebsitesController {
     public  QueryResponseResult saveProductAboutEntAndWeb(@RequestBody TbRelatedWebsitesExt tbRelatedWebsitesExt){
         return  adminRelatedWebsitesService.saveProductAboutEntAndWeb(tbRelatedWebsitesExt);
     }
+
+    @DeleteMapping("/deleteRelatedWebsites")
+    public QueryResponseResult deleteRelatedWebsites(String id){
+        return  adminRelatedWebsitesService.deleteRelatedWebsites(id);
+    }
+
+    @PostMapping("/loadRelatedWebsitesList")
+    public QueryResponseResult loadRelatedWebsitesList(@RequestBody Map map){
+        return  adminRelatedWebsitesService.loadRelatedWebsitesList(map);
+    }
+
+    @GetMapping("/getProductRelatedWebsitesRellevance")
+    public QueryResponseResult getProductRelatedWebsitesRellevance(String id){
+        return adminRelatedWebsitesService.getProductRelatedWebsitesRellevance(id);
+    }
+
+    @DeleteMapping("/deleteProductRelatedWebsitesRelevance")
+    public QueryResponseResult deleteProductRelatedWebsitesRelevance(String id){
+        return adminRelatedWebsitesService.deleteProductRelatedWebsitesRelevance(id);
+    }
 }

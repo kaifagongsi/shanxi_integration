@@ -255,6 +255,8 @@
         FROM
             tb_related_websites web
         LEFT JOIN tb_product pro ON web.product_id = pro.id
+        where
+            web.product_id is  null
     </select>
 
 
@@ -266,8 +268,8 @@
 
     <select id="selectByType" resultType="com.kfgs.domain.TbRelatedWebsites">
         SELECT
-            id
-            NAME
+            id as id,
+            NAME as name
         FROM
             tb_related_websites
         WHERE
@@ -289,6 +291,7 @@
             </foreach>
     </select>
 
+
     <insert id="insertProductAboutEntAndWeb">
         insert into tb_related_websites (product_id,pic_url,name,web_url,type) values
         <foreach collection="list" item="item"  index="index" separator=","   >
@@ -297,4 +300,31 @@
             )
         </foreach>
     </insert>
+
+    <select id="getProductRelatedWebsitesRelevanceList" resultType="com.kfgs.domain.ext.TbRelatedWebsitesExt">
+        SELECT
+            pro. NAME AS productName,
+            web.id AS id,
+            web.product_id AS productId,
+            web.pic_url AS picUrl,
+            web.`name` AS NAME,
+            web.web_url AS webUrl,
+            web.type AS type
+        FROM
+            tb_related_websites web
+        LEFT JOIN tb_product pro ON web.product_id = pro.id
+        where
+            web.product_id is NOT null
+    </select>
+    <select id="selectProductRelatedWebsitesRellevanceByIdAndType"
+            resultType="java.lang.String">
+        SELECT
+            product_id
+        FROM
+            tb_related_websites
+        WHERE
+            id = #{id}
+        AND type = #{type}
+    </select>
+
 </mapper>

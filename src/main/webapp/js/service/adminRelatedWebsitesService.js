@@ -39,5 +39,23 @@ adminApp.service('adminRelatedWebsitesService',function ($http) {
 
     this.saveProductAboutEntAndWeb = function (model) {
         return $http.put('../../admin/relatedWebsitesController/saveProductAboutEntAndWeb.do',model);
+    };
+
+    this.deleteRelatedWebsites = function (id) {
+        return $http.delete('../../admin/relatedWebsitesController/deleteRelatedWebsites.do?id='+id)
+    };
+    
+    this.loadRelatedWebsitesList = function (searchMap) {
+        return $http.post('../../admin/relatedWebsitesController/loadRelatedWebsitesList.do',searchMap);
+    };
+
+
+    this.getProductRelatedWebsitesRellevance = function (id) {
+        return $http.get('../../admin/relatedWebsitesController/getProductRelatedWebsitesRellevance.do?id='+ id);
+    };
+
+
+    this.deleteProductRelatedWebsitesRelevance = function (id) {
+        return $http.delete('../../admin/relatedWebsitesController/deleteProductRelatedWebsitesRelevance.do?id='+id)
     }
 });

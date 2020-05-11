@@ -28,4 +28,13 @@ public interface AdminRelatedWebsitesService {
 
 
     QueryResponseResult saveProductAboutEntAndWeb(TbRelatedWebsitesExt tbRelatedWebsitesExt);
+
+    QueryResponseResult deleteRelatedWebsites(String id);
+
+    QueryResponseResult loadRelatedWebsitesList(Map map);
+
+
+    QueryResponseResult getProductRelatedWebsitesRellevance(String id);
+
+    QueryResponseResult deleteProductRelatedWebsitesRelevance(String id);
 }

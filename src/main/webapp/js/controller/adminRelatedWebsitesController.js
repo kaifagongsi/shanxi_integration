@@ -1,6 +1,8 @@
 adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWebsitesService,$location) {
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':10};
-    $scope.pageDate = {'list':'','totalPages':'','total':''};
+    $scope.productRelatedWebsitesSearchMap = {'keywords':'','pageNo':1,'pageSize':10};
+    $scope.pageRelatedWebSitesDate = {'list':'','totalPages':'','total':''};
+    $scope.productRelatedWebSitesRelevance = {'list':'','totalPages':'','total':''};
     $scope.currPageNo = 1;
     $scope.firstDot = true;//前面有点
     $scope.lastDot = true;//后面有点
@@ -12,10 +14,63 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
     $scope.productList = null;
     $scope.websitesList = null;
 
-    $scope.productAboutEntAndWeb = {'productId':'','ent':'','web':''};
+    $scope.productAboutEntAndWeb = {'productId':'','ent':[],'web':[],'id':''};
+
+    /************************************检测列表切换*******************************************************/
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+        if(e.target.innerHTML=="相关企业网站"){
+            $scope.loadList();
+        }else if(e.target.innerHTML=="产品与相关企业网站的关联"){
+            $scope.loadRelatedWebsitesList();
+        }
+    });
+
+    /*********************************产品与相关企业网站的关联的列表*****************************************/
+    $scope.loadRelatedWebsitesList = function () {
+        adminRelatedWebsitesService.loadRelatedWebsitesList($scope.productRelatedWebsitesSearchMap).success(function (response) {
+            console.log(response);
+            $scope.productRelatedWebSitesRelevance.list =  response.queryResult.map.rows;
+            $scope.productRelatedWebSitesRelevance.total =  response.queryResult.map.total;
+            $scope.pageRelatedWebSitesDate.totalPages =response.queryResult.map.totalPages;
+
+            buildPageLabel($scope.pageRelatedWebSitesDate.totalPages);
+        });
+    };
 
     /*********************************产品与相关企业网站的关联*****************************************/
 
+    $scope.loadProductRelatedWebsitesRellevance = function(){
+        $scope.loadProductRelatedWebsites();
+        if($location.$$search.id){
+            // 编辑功能放弃 编辑功能放弃 编辑功能放弃 编辑功能放弃 编辑功能放弃 编辑功能放弃
+             //表示为编辑
+            $scope.productAboutEntAndWeb.id = $location.$$search['id'];
+            //查询当前关联
+            adminRelatedWebsitesService.getProductRelatedWebsitesRellevance($scope.productAboutEntAndWeb.id).success(function (response) {
+
+            });
+        }else{
+            //表示为新增
+        }
+    };
+
+    $scope.deleteProductRelatedWebsitesRelevance = function(id){
+        if(window.confirm("确认删除该关联？")){
+            adminRelatedWebsitesService.deleteProductRelatedWebsitesRelevance(id).success(function (response) {
+                if(response.code = '10000'){
+                    alert(response.message);
+                    $scope.loadRelatedWebsitesList();
+                }else{
+                    alert("操作失败");
+                }
+            });
+        }
+    };
+
+
+
+    //新增或者编辑是初始化下拉框
     $scope.loadProductRelatedWebsites = function(){
         adminRelatedWebsitesService.loadProductRelatedWebsites().success(function (response) {
             console.log(response);
@@ -25,9 +80,14 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
         });
     };
 
+
     $scope.saveProductAboutEntAndWeb = function(){
         adminRelatedWebsitesService.saveProductAboutEntAndWeb($scope.productAboutEntAndWeb).success(function (response) {
-            console.log(response);
+            if(response.code = '10000'){
+                alert(response.message);
+            }else{
+                alert("操作失败");
+            }
         });
     };
 
@@ -48,6 +108,22 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
         }else{
 
         }
+    };
+
+    $scope.deleteRelatedWebsites = function( id ){
+        if(window.confirm("您将删除改相关企业/网站，并删除对应的关联关系请谨慎操作，改操作不可恢复")){
+            adminRelatedWebsitesService.deleteRelatedWebsites(id).success(function (response) {
+                if(response.code == '10000'){
+                    alert(response.message);
+                    $scope.loadList();
+                }else{
+                    alert("保存失败");
+                }
+            });
+        }else{
+            alert("用户取消");
+        }
+
     };
 
     $scope.saveRelatedMode = function (){
@@ -81,10 +157,10 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
     // 加载默认列表
     $scope.loadList = function () {
         adminRelatedWebsitesService.loadList($scope.searchMap).success(function (response) {
-            $scope.pageDate.list = response.queryResult.map.rows;
-            $scope.pageDate.totalPages =response.queryResult.map.totalPages;
-            $scope.pageDate.total = response.queryResult.map.total;
-            buildPageLabel($scope.pageDate.totalPages);
+            $scope.pageRelatedWebSitesDate.list = response.queryResult.map.rows;
+            $scope.pageRelatedWebSitesDate.totalPages =response.queryResult.map.totalPages;
+            $scope.pageRelatedWebSitesDate.total = response.queryResult.map.total;
+            buildPageLabel($scope.pageRelatedWebSitesDate.totalPages);
         });
     };
 
@@ -131,7 +207,7 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
 
     //判断当前为最后一页
     $scope.isEndPage = function () {
-        if($scope.pageDate.totalPages == $scope.currPageNo){
+        if($scope.pageRelatedWebSitesDate.totalPages == $scope.currPageNo){
             return true;
         }else{
             return false;
@@ -140,13 +216,19 @@ adminApp.controller('relatedWebsitesController',function ($scope,adminRelatedWeb
 
     //刷新列表
     $scope.queryByPage = function (pageNo,type) {
+
+        if(type == 1 ){
+            // 相关企业与网站
             //页码验证
-            if(pageNo < 1 || pageNo > $scope.pageDate.totalPages){
+            if(pageNo < 1 || pageNo > $scope.pageRelatedWebSitesDate.totalPages){
                 return;
             }
             $scope.currPageNo = pageNo;
             $scope.searchMap.pageNo = pageNo;
             $scope.loadList();
+        }else if(type == 2){
+            //产品与相关企业与网站 的关联
+        }
 
     };
 

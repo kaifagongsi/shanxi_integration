@@ -14,6 +14,8 @@ import com.kfgs.mapper.TbRelatedWebsitesMapper;
 import com.kfgs.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,7 @@ import java.util.UUID;
  * @author:
  */
 @Service
+@Transactional
 public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesService {
 
     @Autowired
@@ -121,6 +124,12 @@ public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesServ
     @Override
     public QueryResponseResult selectById(String id) {
         TbRelatedWebsites tbRelatedWebsites = tbRelatedWebsitesMapper.selectByPrimaryKey(Integer.parseInt(id));
+        //设置类型
+        if("相关企业".equals(tbRelatedWebsites.getType())){
+            tbRelatedWebsites.setType("1");
+        }else if ("相关网站".equals(tbRelatedWebsites.getType())){
+            tbRelatedWebsites.setType("2");
+        }
         QueryResult queryResult = new QueryResult();
         Map resultMap = new HashMap();
         resultMap.put("relatedWebsites",tbRelatedWebsites);
@@ -147,23 +156,88 @@ public class AdminRelatedWebsitesServiceImpl implements AdminRelatedWebsitesServ
 
     @Override
     public QueryResponseResult saveProductAboutEntAndWeb(TbRelatedWebsitesExt tbRelatedWebsitesExt) {
+        Boolean flag = false;
         System.out.println(tbRelatedWebsitesExt);
-        List<TbRelatedWebsites> relatedententerpriseList = tbRelatedWebsitesMapper.selectById(tbRelatedWebsitesExt.getEnt());
-        List<TbRelatedWebsites> relatedentWebsitesList = tbRelatedWebsitesMapper.selectById(tbRelatedWebsitesExt.getWeb());
-
-        for(TbRelatedWebsites relatedententerprise : relatedententerpriseList){
-            relatedententerprise.setProductId(tbRelatedWebsitesExt.getProductId());
+        if(tbRelatedWebsitesExt.getEnt() != null && tbRelatedWebsitesExt.getEnt().length > 0){
+            List<TbRelatedWebsites> relatedententerpriseList = tbRelatedWebsitesMapper.selectById(tbRelatedWebsitesExt.getEnt());
+            for(TbRelatedWebsites relatedententerprise : relatedententerpriseList){
+                relatedententerprise.setProductId(tbRelatedWebsitesExt.getProductId());
+            }
+            int entNum = tbRelatedWebsitesMapper.insertProductAboutEntAndWeb(relatedententerpriseList);
+            if(entNum == relatedententerpriseList.size()){
+                flag = true;
+            }else{
+                flag = false;
+            }
         }
-
-        for(TbRelatedWebsites relatedentWebsites : relatedentWebsitesList){
-            relatedentWebsites.setProductId(tbRelatedWebsitesExt.getProductId());
+        if(tbRelatedWebsitesExt.getWeb() != null && tbRelatedWebsitesExt.getWeb().length > 0){
+            List<TbRelatedWebsites> relatedentWebsitesList = tbRelatedWebsitesMapper.selectById(tbRelatedWebsitesExt.getWeb());
+            for(TbRelatedWebsites relatedentWebsites : relatedentWebsitesList){
+                relatedentWebsites.setProductId(tbRelatedWebsitesExt.getProductId());
+            }
+            int webNum = tbRelatedWebsitesMapper.insertProductAboutEntAndWeb(relatedentWebsitesList);
+            if(webNum == relatedentWebsitesList.size()){
+                flag = true;
+            }else{
+                flag = false;
+            }
         }
-        int entNum = tbRelatedWebsitesMapper.insertProductAboutEntAndWeb(relatedententerpriseList);
-        int webNum = tbRelatedWebsitesMapper.insertProductAboutEntAndWeb(relatedentWebsitesList);
-        if(entNum == relatedententerpriseList.size() && webNum == relatedentWebsitesList.size() ){
+        if(flag ){
             return new QueryResponseResult(CommonCode.SUCCESS,null);
         }else{
             return new QueryResponseResult(CommonCode.FAIL,null);
+        }
+    }
+
+
+    @Override
+    public QueryResponseResult deleteRelatedWebsites(String id) {
+        try{
+            tbRelatedWebsitesMapper.deleteByPrimaryKey(Integer.parseInt(id));
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new QueryResponseResult(CommonCode.FAIL,null);
+        }
+    }
+
+
+    @Override
+    public QueryResponseResult loadRelatedWebsitesList( Map map) {
+        Map<String,Object> resultMap = new HashMap<>();
+        PageHelper.startPage(Integer.parseInt(map.get("pageNo").toString()),Integer.parseInt(map.get("pageSize").toString()));
+        Page<TbRelatedWebsitesExt> page = (Page<TbRelatedWebsitesExt>) tbRelatedWebsitesMapper.getProductRelatedWebsitesRelevanceList();
+        resultMap.put("rows",page.getResult());
+        resultMap.put("totalPages", page.getPages());
+        resultMap.put("total",page.getTotal());
+        QueryResult queryResult = new QueryResult();
+        queryResult.setMap(resultMap);
+        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
+        return queryResponseResult;
+    }
+
+
+    @Override
+    public QueryResponseResult getProductRelatedWebsitesRellevance(String id) {
+        String ent = tbRelatedWebsitesMapper.selectProductRelatedWebsitesRellevanceByIdAndType(id,"相关企业");
+
+        //设置类型
+        /*if("相关企业".equals(tbRelatedWebsites.getType())){
+            tbRelatedWebsites.setType("1");
+        }else if ("相关网站".equals(tbRelatedWebsites.getType())){
+            tbRelatedWebsites.setType("2");
+        }*/
+        return null;
+    }
+
+
+    @Override
+    public QueryResponseResult deleteProductRelatedWebsitesRelevance(String id) {
+        int deleteNum = tbRelatedWebsitesMapper.deleteByPrimaryKey(Integer.parseInt(id));
+        if( deleteNum == 1){
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else{
+            return  new QueryResponseResult(CommonCode.FAIL,null);
         }
     }
 }
