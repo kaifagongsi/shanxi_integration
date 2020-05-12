@@ -127,6 +127,11 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
     public QueryResponseResult deleteEnterprise(String id) {
         System.out.println(id);
         int deleteNum = tbEnterpriseMapper.deleteById(Integer.parseInt(id));
-        return null;
+        if(1 == deleteNum){
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else{
+            return new QueryResponseResult(CommonCode.FAIL,null);
+        }
+
     }
 }

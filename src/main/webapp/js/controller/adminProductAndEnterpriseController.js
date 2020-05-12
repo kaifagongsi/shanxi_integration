@@ -45,7 +45,10 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             adminEnterpriseService.deleteEnterprise(id).success(function (response) {
                 if(response.code == '10000'){
                     alert(response.message);
+                }else{
+                    alert(response.message);
                 }
+                $scope.loadEnterprise();
             });
         }else{
 
