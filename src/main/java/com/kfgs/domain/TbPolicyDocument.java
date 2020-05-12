@@ -8,13 +8,13 @@ public class TbPolicyDocument implements Serializable {
 
     private String title;
 
-    private Date createTime;
-
     private Integer isdelete;
 
     private String typeval;
 
     private byte[] content;
+
+    private Date createTime;
 
     public Integer getId() {
         return id;

@@ -42,4 +42,7 @@ public interface TbProtectionNoticeMapper {
     TbProtectionNotice selectById(String approvalAnnouncementNoEnterpriseAll);
 
     String selectByName(String approvalAnnouncementNoEnterpriseAll);
+
+    List<TbProtectionNotice> selectByNameList(List<String> productNoticeList);
+
 }

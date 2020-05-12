@@ -83,4 +83,18 @@ public class TbProtectionNotice implements Serializable {
     public void setContent(byte[] content) {
         this.content = content;
     }
+
+
+    @Override
+    public int hashCode() {
+        //根据名字去判断是否唯一
+        return title.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        //根据名字去判断是否唯一
+        TbProtectionNotice u = (TbProtectionNotice) obj;
+        return title.equals(u.title);
+    }
 }

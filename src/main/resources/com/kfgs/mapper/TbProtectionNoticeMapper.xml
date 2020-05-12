@@ -324,4 +324,13 @@
         where
             title = #{approvalAnnouncementNoEnterpriseAll}
     </select>
+    <select id="selectAll" resultType="com.kfgs.domain.TbProtectionNotice">
+        select id, title, title_simple, create_time, isdelete, typeVal, notice_time from tb_protection_notice where isdelete = 0
+    </select>
+    <select id="selectByNameList" resultType="com.kfgs.domain.TbProtectionNotice">
+        select id, title, title_simple, create_time, isdelete, typeVal, notice_time from tb_protection_notice where isdelete = 0 and title in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

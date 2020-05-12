@@ -124,14 +124,16 @@ public class UploadExcelServiceImpl implements UploadExcelService {
         boolean b = false;
         try {
             List<TbPolicyDocument> documentList = new ArrayList();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
             Date date = new Date();
             for(int i = 1; i < dataList.size(); i++){
                 TbPolicyDocument tbPolicyDocument = new TbPolicyDocument();
                 List<Object> item = dataList.get(i);
                 item.add(0,0);
-                item.add(2,date);
-                item.add(3,0);
-                item.add(5,new byte[1]);
+
+                item.add(2,0);
+                item.add(4,new byte[1]);
+                item.set(5,simpleDateFormat.parse(item.get(5).toString().substring(0,10)));
                 ListToModelUtils.listToModel(item,tbPolicyDocument);
                 documentList.add(tbPolicyDocument);
             }
@@ -167,6 +169,7 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             Map<String,String> areaMap = getAdminAreaMap();
             List<TbEnterpriseExcel> enterpriseList = new ArrayList<>();
             List<TbProtectionNotice> noticesList = new ArrayList<>();
+            List<String> noticesStrigList = new ArrayList<>();
             Date date = new Date();
             for(int i = 1; i < dataList.size(); i++){
                 List<Object> item = dataList.get(i);
@@ -190,6 +193,7 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                     tbEnterpriseExcel.setApprovalYear(approvalYear.substring(0,4) + "年");
                     //2.1设置核准公告
                     TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
+                    noticesStrigList.add(tbEnterpriseExcel.getApprovalAnnouncementNoEnterpriseAll());
                     tbProtectionNotice.setTitle(tbEnterpriseExcel.getApprovalAnnouncementNoEnterpriseAll());
                     tbProtectionNotice.setNoticeTime(approvalYear.substring(0,10));
                     tbProtectionNotice.setCreateTime(date);
@@ -198,9 +202,17 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                     noticesList.add(tbProtectionNotice);
                 }
             }
+            //插入到公告表之前，去掉已存在的
+            List<TbProtectionNotice> selectAll = tbProtectionNoticeMapper.selectAll();
+            noticesList.removeAll(selectAll);
+
+            int tbProductProtectionNoticeNum = 0;
+            if(noticesList != null && noticesList.size() > 0){
+                tbProductProtectionNoticeNum = tbProtectionNoticeMapper.insertList(noticesList);
+            }
+
             int inserEnterprise = tbEnterpriseMapper.insertList(enterpriseList);
-            int tbProductProtectionNoticeNum = tbProtectionNoticeMapper.insertList(noticesList);
-            if(inserEnterprise != 0 &&  0 != tbProductProtectionNoticeNum){
+            if(inserEnterprise != 0 ){
                 b = true;
             }
             System.out.println(inserEnterprise + tbProductProtectionNoticeNum);
@@ -255,6 +267,8 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             List<TbProductShow> tbProductShowList = new ArrayList<>();
             List<TbProtectionNotice> tbProtectionNotices = new ArrayList<>();
             List<TbProductProtectionNotice> tbProductProtectionNoticeList = new ArrayList<>();
+            //存储公告的名字的list
+            List<String> productNoticeList = new ArrayList<String>();
             //每行
             Date date = new Date();
             //第0行是标题列表
@@ -321,28 +335,22 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                     }
                     //4.将受理公告插入到tb_protection_notice中
                     TbProtectionNotice tbProtectionNotice = new TbProtectionNotice();
+                    productNoticeList.add(productExcel.getAcceptanceAnnouncement());
                     tbProtectionNotice.setTitle(productExcel.getAcceptanceAnnouncement());
                     tbProtectionNotice.setCreateTime(  date);
                     tbProtectionNotice.setIsdelete(0);
                     tbProtectionNotice.setTypeval("受理公告");
                     tbProtectionNotice.setNoticeTime(acceptanceYearInit);
-                    if(tbProtectionNotices.contains(tbProtectionNotice)){
-                        return false;
-                    }else{
-                        tbProtectionNotices.add(tbProtectionNotice);
-                    }
+                    tbProtectionNotices.add(tbProtectionNotice);
                     //5.将批准（保护）公告插入到tb_protection_notice中
                     TbProtectionNotice tbProtectionNotice1 = new TbProtectionNotice();
+                    productNoticeList.add(productExcel.getApprovalAnnouncementNoProductAll());
                     tbProtectionNotice1.setTitle(productExcel.getApprovalAnnouncementNoProductAll());
                     tbProtectionNotice1.setCreateTime( date);
                     tbProtectionNotice1.setIsdelete(0);
                     tbProtectionNotice1.setTypeval("批准公告");
                     tbProtectionNotice1.setNoticeTime(approvalYearInit);
-                    if(tbProtectionNotices.contains(tbProtectionNotice1)){
-                        return false;
-                    }else{
-                        tbProtectionNotices.add(tbProtectionNotice1);
-                    }
+                    tbProtectionNotices.add(tbProtectionNotice1);
                 }
             }
             //1.1插入到产品表
@@ -352,7 +360,17 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             //3.1插入到tb_product_show表
             int insertTbProductShowNum =  tbProductShowMapper.insertList(tbProductShowList);
             //4.1 插入公告插入到tb_protection_notice中
-            int insertTbProtectionNotice = tbProtectionNoticeMapper.insertList(tbProtectionNotices);
+            //4.1.1插入之前，去掉数据库中已有的内容
+            List<TbProtectionNotice> selectAll = tbProtectionNoticeMapper.selectAll();
+            tbProtectionNotices.removeAll(selectAll);
+            //4.1.2插入之前去重
+            Set<TbProtectionNotice> protectionNoticeSet = new HashSet<>(tbProtectionNotices);
+            List<TbProtectionNotice> list = new ArrayList<>(protectionNoticeSet);
+            int insertTbProtectionNotice = 0;
+            if(list != null && list.size() != 0){
+                insertTbProtectionNotice = tbProtectionNoticeMapper.insertList(list);
+            }
+            tbProtectionNotices = tbProtectionNoticeMapper.selectByNameList(productNoticeList);
 
             //5关系表插数据
             //5.1生成临时关系map
@@ -382,7 +400,7 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 }
             }
             int tbProductProtectionNoticeNum = tbProductProtectionNoticeMapper.insertList(tbProductProtectionNoticeList);
-            if(insertProductNum != 0 && insertTbClassificationNum !=0 &&  insertTbProductShowNum!=0 && insertTbProtectionNotice!=0 && tbProductProtectionNoticeNum !=0){
+            if(insertProductNum != 0 && insertTbClassificationNum !=0 &&  insertTbProductShowNum!=0 &&   tbProductProtectionNoticeNum !=0){
                 System.out.println(insertProductNum + " " + insertTbClassificationNum+ " " + insertTbProductShowNum + " " + insertTbProtectionNotice + "" + tbProductProtectionNoticeNum);
                 b = true;
             }
