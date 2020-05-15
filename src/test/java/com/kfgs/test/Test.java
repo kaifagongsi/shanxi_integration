@@ -32,7 +32,7 @@ public class Test {
         //密码加密
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = passwordEncoder.encode("123456");
-        int i = tbUserMapper.updatePasswordById(1,password);
+        int i = tbUserMapper.updatePasswordById(2,password);
         System.out.println(i);
     }
 
