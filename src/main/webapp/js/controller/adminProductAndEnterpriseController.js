@@ -41,7 +41,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     //用标企业实体
     /*******************************用标企业新增/更新/删除**********************************/
     $scope.enterpriseDelete = function(id){
-        if(window.confirm('你确定要取消交易吗？')){
+        if(window.confirm('你确定要删除吗？')){
             adminEnterpriseService.deleteEnterprise(id).success(function (response) {
                 if(response.code == '10000'){
                     alert(response.message);
@@ -139,7 +139,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
 
     };
     $scope.deleteCountryProduct = function(countryProductId){
-        if(window.confirm('你确定要取消交易吗？')){
+        if(window.confirm('你确定要删除吗？')){
             adminProductService.deleteCountryProduct(countryProductId).success(function (response) {
                 if(response.code == '10000'){
                     alert(response.message);
@@ -154,7 +154,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     /*******************************陕西产品功能**********************************/
     //产品删除
     $scope.deleteProduct = function(productId){
-        if(window.confirm('你确定要取消交易吗？')){
+        if(window.confirm('你确定要删除吗？')){
             adminProductService.deleteProduct(productId).success(function (response) {
                 alert(response.queryResult.message);
                 $scope.load();

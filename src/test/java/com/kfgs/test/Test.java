@@ -50,6 +50,7 @@ public class Test {
 
         System.out.println(str); // 0001
     }
+
     @org.junit.Test
     public void distinctListObject() {
         List<People> listPeople = new ArrayList<People>();

@@ -1020,6 +1020,11 @@ public class TbEnterpriseExample {
             return (Criteria) this;
         }
 
+        public Criteria andApprovalYearLikeWithYongBiao(String value) {
+            addCriterion(" e.approval_year like", value, "approvalYear");
+            return (Criteria) this;
+        }
+
         public Criteria andApprovalYearNotLike(String value) {
             addCriterion("approval_year not like", value, "approvalYear");
             return (Criteria) this;

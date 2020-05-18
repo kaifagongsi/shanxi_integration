@@ -271,7 +271,7 @@ public class SydbqyServiceImpl implements SydbqyService {
         }else if("核准使用公告号".equals(type)){
             tbEnterpriseExample.createCriteria().andApprovalAnnouncementNoEnterpriseLike("%" + keywords + "%");
         }else if("核准时间".equals(type)){
-            tbEnterpriseExample.createCriteria().andApprovalYearLike("%" + keywords + "%");
+            tbEnterpriseExample.createCriteria().andApprovalYearLikeWithYongBiao("%" + keywords + "%");
         }else if("核准单位".equals(type)){
             tbEnterpriseExample.createCriteria().andApprovalAuthorityEnterpriseLike("%" + keywords + "%");
         }else if("".equals(type)){
