@@ -734,7 +734,7 @@
     </select>
 
 
-    <insert id="insertProduct" parameterType="com.kfgs.domain.TbProduct" useGeneratedKeys="true" keyProperty="product.id">
+    <insert id="insertProduct" parameterType="com.kfgs.domain.TbProduct" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO tb_product (
                 name,
                 classificationId,
@@ -756,23 +756,23 @@
             )
             VALUE
                 (
-                    #{product.name},
-                    #{product.classificationid},
-                    #{product.administrativeArea},
-                    #{product.createTime},
-                    #{product.isdelete},
-                    #{product.approvalYear},
-                    #{product.approvalAuthorityProduct},
-                    #{product.approvalAnnouncementNoProduct},
-                    #{product.approvalAnnouncementNoProductAll},
-                    #{product.provinceName},
-                    #{product.cityName},
-                    #{product.preliminaryExaminationBody},
-                    #{product.applicantOrganization},
-                    #{product.protectionScope},
-                    #{product.documentDefiningTheScopeOfProtection},
-                    #{product.technicalSpecifications},
-                    #{product.useOfSpecialSigns}
+                    #{name},
+                    #{classificationid},
+                    #{administrativeArea},
+                    #{createTime},
+                    #{isdelete},
+                    #{approvalYear},
+                    #{approvalAuthorityProduct},
+                    #{approvalAnnouncementNoProduct},
+                    #{approvalAnnouncementNoProductAll},
+                    #{provinceName},
+                    #{cityName},
+                    #{preliminaryExaminationBody},
+                    #{applicantOrganization},
+                    #{protectionScope},
+                    #{documentDefiningTheScopeOfProtection},
+                    #{technicalSpecifications},
+                    #{useOfSpecialSigns}
                 )
     </insert>
 

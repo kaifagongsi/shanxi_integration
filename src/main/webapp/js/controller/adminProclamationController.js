@@ -35,6 +35,7 @@ adminApp.controller('adminProclamationController',function ($scope,$location,adm
         adminProclamationService.initById( $scope.searchData ).success(
             function(response2){
                 console.log(response2);
+                CKEDITOR.instances.TextArea1.setData(response2.content);
                 $scope.contentMap=response2;//搜索返回的结果
             }
         );

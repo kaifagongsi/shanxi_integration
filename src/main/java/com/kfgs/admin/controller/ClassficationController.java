@@ -86,7 +86,7 @@ public class ClassficationController {
         //图片按照类别id命名
         String newName = classId+".jpg";
         //保存路径
-        String path= request.getSession().getServletContext().getRealPath("/")+"img\\index\\guonei\\";
+        String path= request.getSession().getServletContext().getRealPath("/")+"img\\index\\201507\\";
         System.out.println(path);
 
         File targetImg = new File(path);

@@ -10,10 +10,12 @@ import com.kfgs.mapper.TbRelatedWebsitesMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class UploadServiceImpl implements UploadService {
 
     @Autowired
@@ -24,6 +26,7 @@ public class UploadServiceImpl implements UploadService {
 
     @Autowired
     TbClassficationCountryMapper tbClassficationCountryMapper;
+
 
 
     @Override
@@ -50,6 +53,7 @@ public class UploadServiceImpl implements UploadService {
             classification = tbClassficationCountryMapper.selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(classificationid);
         }else{
             example = new TbClassficationCountryExample();
+            //example.createCriteria().andNameEqualTo(pData.get("title").toString());
             example.createCriteria().andNameEqualTo(pData.get("classificationName").toString());
             list = tbClassficationCountryMapper.selectByExample(example);
             if(list != null && list.size() > 0){
@@ -98,7 +102,7 @@ public class UploadServiceImpl implements UploadService {
         //1.查询产品的内容
         TbProductShowExample tbProductShowExample = new TbProductShowExample();
         String productId = pData.get("id").toString();
-        tbProductShowExample.createCriteria().andTitleEqualTo(pData.get("title").toString());
+        tbProductShowExample.createCriteria().andTitleEqualTo(pData.get("title").toString()).andIsdeleteEqualTo(0);
         List<TbProductShow> model = tbProductShowMapper.selectByExampleWithBLOBs(tbProductShowExample);
         if (model !=null && model.size()== 1) {
             for (TbProductShow xx : model) {
@@ -111,6 +115,8 @@ public class UploadServiceImpl implements UploadService {
             }
         }else if(model == null){
             map.put("content","参数错误");
+        }else if(model.size() > 1){
+            map.put("content","数据混乱");
         }
         //2查询相关网站、相关
         TbRelatedWebsitesExample example = new TbRelatedWebsitesExample();
@@ -130,5 +136,18 @@ public class UploadServiceImpl implements UploadService {
         return map;
     }
 
+    @Override
+    public QueryResponseResult saveShanXiProductInfo(Map pData) {
+        TbProductShow record = new TbProductShow();
+        record.setContent(pData.get("content").toString().getBytes());
+        TbProductShowExample selectExample = new TbProductShowExample();
+        selectExample.createCriteria().andTitleEqualTo(pData.get("title").toString()).andIsdeleteEqualTo(0);
+        int returnResult = tbProductShowMapper.updateByExampleSelective(record, selectExample);
+        if(returnResult == 1){
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else{
+            return new QueryResponseResult(CommonCode.FAIL,null);
+        }
 
+    }
 }

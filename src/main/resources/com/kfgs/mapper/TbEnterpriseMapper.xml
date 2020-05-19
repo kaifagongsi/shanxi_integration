@@ -159,7 +159,7 @@
           #{corporateRepresentative,jdbcType=VARCHAR}, #{approvalAnnouncementNoEnterpriseAll,jdbcType=VARCHAR},
           #{uniformSocialCreditCode,jdbcType=VARCHAR}, #{approvalAuthorityEnterprise,jdbcType=VARCHAR},
           #{approvalYear,jdbcType=VARCHAR}, #{isFirstSubmission,jdbcType=VARCHAR})
-  </insert>
+    </insert>
     <insert id="insertSelective" parameterType="com.kfgs.domain.TbEnterprise" >
         insert into tb_enterprise
         <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -667,4 +667,19 @@
     <delete id="deleteById">
         update tb_enterprise  set  isdelete = '1' where id = #{id}
     </delete>
+
+    <insert id="insertWithOutId" parameterType="com.kfgs.domain.ext.TbEnterpriseExt" >
+        insert into tb_enterprise (product_id, enterprise_name, approval_announcement_no_enterprise,
+          enterprise_address, administrative_id,
+          create_time, isdelete, brand,
+          corporate_representative, approval_announcement_no_enterprise_all,
+          uniform_social_credit_code, approval_authority_enterprise,
+          approval_year, is_first_submission)
+        values (#{productId,jdbcType=INTEGER}, #{enterpriseName,jdbcType=VARCHAR}, #{approvalAnnouncementNoEnterprise,jdbcType=VARCHAR},
+          #{enterpriseAddress,jdbcType=VARCHAR}, #{administrativeId,jdbcType=VARCHAR},
+          #{createTime,jdbcType=TIMESTAMP}, #{isdelete,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR},
+          #{corporateRepresentative,jdbcType=VARCHAR}, #{approvalAnnouncementNoEnterpriseAll,jdbcType=VARCHAR},
+          #{uniformSocialCreditCode,jdbcType=VARCHAR}, #{approvalAuthorityEnterprise,jdbcType=VARCHAR},
+          #{approvalYear,jdbcType=VARCHAR}, #{isFirstSubmission,jdbcType=VARCHAR})
+    </insert>
 </mapper>

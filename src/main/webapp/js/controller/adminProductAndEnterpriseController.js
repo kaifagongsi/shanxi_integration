@@ -156,7 +156,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
     $scope.deleteProduct = function(productId){
         if(window.confirm('你确定要删除吗？')){
             adminProductService.deleteProduct(productId).success(function (response) {
-                alert(response.queryResult.message);
+                alert(response.message);
                 $scope.load();
             });
         }else{
@@ -219,6 +219,9 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
         console.log($scope.product);
         adminProductService.saveProduct($scope.product).success(function (response) {
            console.log(response);
+            $scope.product = response.queryResult.map.product;
+            $scope.product.approvalAnnouncementNoProductAll = parseInt($scope.product.approvalAnnouncementNoProductAll);
+            $scope.product.protectionNoticeTitle = parseInt($scope.product.protectionNoticeTitle);
             if(response.code == '10000'){
                 alert('保存产品基本信息成功');
             }else{
@@ -237,6 +240,21 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
         /*$scope.pData.type = '展示';*/
         console.log($scope.pData);
         adminProductService.upload( $scope.pData ).success(
+            function(response3){
+                alert('保存成功');
+            }
+        );
+    };
+
+    //保护陕西省内产品详细
+    $scope.uploadShanXiProductInfo = function(){
+        $scope.pData.content = CKEDITOR.instances.TextArea1.getData();
+        $scope.pData.title = $('#title').val();
+        /*$scope.pData.id = $scope.countryEntity.id;
+        $scope.pData.classificationId = $scope.countryEntity.classificationId;*/
+        /*$scope.pData.type = '展示';*/
+        console.log($scope.pData);
+        adminProductService.uploadShanXiProductInfo( $scope.pData ).success(
             function(response3){
                 alert('保存成功');
             }

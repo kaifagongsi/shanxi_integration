@@ -76,4 +76,5 @@ public interface TbEnterpriseMapper {
 
     int selectCountWeiBianGen();
 
+    int insertWithOutId(TbEnterpriseExt tbEnterpriseExt);
 }

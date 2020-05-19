@@ -3,6 +3,7 @@ package com.kfgs.firstweb.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.kfgs.domain.response.QueryResponseResult;
 import com.kfgs.firstweb.service.UploadService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,16 +64,32 @@ public class UploadController {
         }
     }
 
+    /**
+     * 功能描述:
+     * 〈保存陕西产品信息〉
+     *
+     * @param pData 1
+     * @return : com.kfgs.domain.response.QueryResponseResult
+     * @author : lxl
+     * @date : 2020/5/18 11:57
+     */
+    @PostMapping("/saveShanXiProductInfo")
+    public QueryResponseResult saveShanXiProductInfo(@RequestBody Map pData){
+       return uploadService.saveShanXiProductInfo(pData);
+    }
+
+    /*
+     * 功能描述:
+     * 〈保存国内产品详细信息〉
+     *
+     * @return :
+     * @author : lxl
+     * @date : 2020/5/18 11:57
+     */
     @PostMapping(value = "save", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String save(@RequestBody Map pData) {
         String returnBack = "";
-        /*System.out.println(pData.get("type").toString());*/
-        /*if(StringUtils.equals(pData.get("type").toString(), "公告")){
-            int returnStr = uploadService.updateByExampleSelective(pData);
-        }else  if(StringUtils.equals(pData.get("type").toString(), "政策")){
-            int returnStr = uploadService.updateByExampleSelective(pData);
-        }*/
         String returnStr = uploadService.updateByExampleSelective(pData);
         return returnBack;
     }

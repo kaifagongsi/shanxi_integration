@@ -128,16 +128,37 @@ public class ProclamationServiceImpl implements ProclamtionService {
         Map<String,Object> map = new HashMap<>();
         if(pData.get("id") != "undefined" && pData.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(pData.get("id"), ""))  ){
             TbProtectionNotice model = tbProtectionNoticeMapper.selectByPrimaryKey(Integer.parseInt(pData.get("id").toString()));
-            if(model != null && model.getContent() == null){
+            //if(model != null && model.getContent() == null){
+            /*if(model == null ){
                 map.put("content",new String("暂无数据"));
-            }else if(StringUtils.isNotBlank(model.getContent().toString())){
-                map.put("content",new String(model.getContent()));
+            }else  if(model != null && (model.getContent() == null || StringUtils.isNotBlank(model.getContent().toString())) ) {
                 map.put("noticeTime", model.getNoticeTime());
                 map.put("typeVal",model.getTypeval());
                 map.put("title",model.getTitle());
                 map.put("id",model.getId());
-            }else{
+            }else {
+                if(StringUtils.isNotBlank(model.getContent().toString())){
+                    map.put("content",new String(model.getContent()));
+                    map.put("noticeTime", model.getNoticeTime());
+                    map.put("typeVal",model.getTypeval());
+                    map.put("title",model.getTitle());
+                    map.put("id",model.getId());
+                }else{
+                    map.put("content",new String("暂无数据"));
+                }
+            }*/
+            if(model == null ){
                 map.put("content",new String("暂无数据"));
+            }else{
+                map.put("noticeTime", model.getNoticeTime());
+                map.put("typeVal",model.getTypeval());
+                map.put("title",model.getTitle());
+                map.put("id",model.getId());
+                if(model.getContent() == null || StringUtils.isBlank(model.getContent().toString())){
+                    map.put("content",new String("暂无数据"));
+                }else{
+                    map.put("content",new String(model.getContent()));
+                }
             }
         }
         return map;

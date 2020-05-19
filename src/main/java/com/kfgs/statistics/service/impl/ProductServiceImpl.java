@@ -90,9 +90,8 @@ public class ProductServiceImpl implements ProductService {
             }else if("approvalYear".equals(searchType)){
                 criteria.andIsdeleteEqualTo(0).andApprovalYearLike('%' + searchVal + '%');
             }
-        }else{
-            criteria.andIsdeleteEqualTo(0);
         }
+        criteria.andIsdeleteEqualTo(0);
         slectExample.setOrderByClause("  create_time desc  ");
         PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
         Page<TbProductExt> page = (Page<TbProductExt>) tbProductMapper.getList(slectExample);

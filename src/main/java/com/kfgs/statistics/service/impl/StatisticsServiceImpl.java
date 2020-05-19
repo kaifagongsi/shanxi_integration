@@ -327,7 +327,9 @@ public class StatisticsServiceImpl  implements StatisticsService {
         //3.设置对应关系 （产品名称（key） 和 使用这个产品的企业名称（value）组装为map）
         //3..1设置对应关系 （产品id（key） 和 使用这个产品的企业id（value）组装为map）
         //查找企业和产品对应的id   没有用表中对应的产品名称和企业名称是担心后续再添加产品和企业关系时，没有添加
-        List<TbEnterprise> tbEnterprises = tbEnterpriseMapper.selectByExample(null);
+        TbEnterpriseExample tbEnterpriseExample = new TbEnterpriseExample();
+        tbEnterpriseExample.createCriteria().andIsdeleteEqualTo(0);
+        List<TbEnterprise> tbEnterprises = tbEnterpriseMapper.selectByExample(tbEnterpriseExample);
         List<String> productId_list = new ArrayList<>();
         List<String> enterpriseId_list = new ArrayList<>();
         Map<String,String> product_enterprise_map = new HashMap();

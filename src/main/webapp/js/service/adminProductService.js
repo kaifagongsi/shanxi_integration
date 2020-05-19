@@ -8,6 +8,10 @@ adminApp.service('adminProductService',function ($http) {
         return $http.post('../../upload/save.do',pData);
     };
 
+    this.uploadShanXiProductInfo = function (pData) {
+        return $http.post('../../upload/saveShanXiProductInfo.do',pData);
+    };
+
     this.saveProduct = function (product) {
         return $http.put('../../admin/productController/addProduct.do',product);
     };

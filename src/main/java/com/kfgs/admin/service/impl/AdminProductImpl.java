@@ -75,13 +75,13 @@ public class AdminProductImpl implements AdminProductService {
 
     @Override
     public QueryResponseResult deleteProduct(String id) {
-        //删除关联表
+        //删除关联表  真删
         int productProtectionNoticeNum = tbProductProtectionNoticeMapper.deleteByProductId(id);
-        //删除产品分类表
+        //删除产品分类表  假删
         int tbClassificationNum  = tbClassificationMapper.deleteByName(Integer.parseInt(id));
-        //删除产品展示表
+        //删除产品展示表 假删
         int tbProductShowNum =  tbProductShowMapper.deleteByTitle(Integer.parseInt(id));
-        //删除产品表
+        //删除产品表 假删
         int productDeleteNm =  tbProductMapper.deleteByPrimaryKey(Integer.parseInt(id));
         return new QueryResponseResult(CommonCode.SUCCESS,null);
 
@@ -244,8 +244,10 @@ public class AdminProductImpl implements AdminProductService {
     public QueryResponseResult addProduct(TbProductExt tbProductExt) {
         TbProduct product1 = tbProductMapper.selectByPrimaryKey(tbProductExt.getId());
         if(product1 != null){
+            deleteProduct(tbProductExt.getId().toString());
             //存在，直接删除
-            tbProductMapper.deleteByPrimaryKey(tbProductExt.getId());
+            //tbProductMapper.deleteByPrimaryKey(tbProductExt.getId());
+
         }else{
             //不存在，直接插入
         }
@@ -257,8 +259,19 @@ public class AdminProductImpl implements AdminProductService {
         //获取最大产品类别
         String classificationid = tbProductExt.getClassificationid();
         TbClassification classification = tbClassificationMapper.selectMaxClassificationIdMaxLevelAndParentIdByClassificationId(classificationid);
-        tbProductExt.setClassificationid(String.format("%04d",Integer.parseInt(classification.getClassificationid())));
-
+        //null 表示该父类下没有子类 需要在父类 + 1 表示为 第一个
+        if(classification == null){
+            classification = new TbClassification();
+            // 设置分类
+            classification.setClassificationid(String.valueOf( Integer.parseInt(classificationid) +1));
+            //设置父类
+            classification.setParentid(classificationid);
+            //设置层级
+            classification.setLevel("1");
+            tbProductExt.setClassificationid(String.format("%04d",Integer.parseInt(classificationid) + 1));
+        }else{
+            tbProductExt.setClassificationid(String.format("%04d",Integer.parseInt(classification.getClassificationid())));
+        }
         if(StringUtils.isBlank(tbProductExt.getAdministrativeArea())){
             //默认设置为陕西
             tbProductExt.setAdministrativeArea("610000");
@@ -302,7 +315,17 @@ public class AdminProductImpl implements AdminProductService {
         ppn1.setProtectionNoticeId(tbProductExt.getProtectionNoticeTitle());
         int insertPPN2 = tbProductProtectionNoticeMapper.insert(ppn1);
         if( 1 == insertPPN && 1 == insertClassification && 1 == insertList && 1 == insertProduct && 1 == insertPPN2){
-            return new QueryResponseResult(CommonCode.SUCCESS,null);
+            //设置id
+            tbProductExt.setId(product.getId());
+            //设置父类
+            tbProductExt.setClassificationid(tbProductExt.getClassificationid().substring(0,2)+"00");
+            //设置批准公告
+            tbProductExt.setApprovalAnnouncementNoProductAll(String.valueOf(e.getId()));
+            QueryResult queryResult = new QueryResult();
+            Map resultMap = new HashMap();
+            resultMap.put("product",tbProductExt);
+            queryResult.setMap(resultMap);
+            return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
         }else{
             return new QueryResponseResult(CommonCode.FAIL,null);
         }
@@ -404,14 +427,15 @@ public class AdminProductImpl implements AdminProductService {
     @Override
     public QueryResponseResult deleteCountryProduct(String id) {
         //删除两个地方
-        //1.删除show表
+
         TbProductShow tbProductShow = new TbProductShow();
-        int deleteShowNum  = tbProductShowMapper.deleteById(id);
         List<TbProductShow> shows = tbProductShowMapper.selectCountryInfoByProduct(id);
          if(shows != null && shows.size()== 1){
              tbProductShow = shows.get(0);
-             //2.删除分类表
+             //1.删除分类表
              int classNum = tbClassficationCountryMapper.deleteByName(tbProductShow.getTitle());
+             //2.删除show表
+             int deleteShowNum  = tbProductShowMapper.deleteById(id);
              if(1  == classNum && 1 == deleteShowNum){
                  return new QueryResponseResult(CommonCode.SUCCESS,null);
              }else{

@@ -72,7 +72,7 @@ public interface TbProductMapper {
 
     List<TbProductExt> selectAdminProductList();
 
-    int insertProduct(@Param("product") TbProduct product);
+    int insertProduct( TbProduct product);
 
     List<TbProductExt> selectByProductIdReturnProductExt(String id);
 

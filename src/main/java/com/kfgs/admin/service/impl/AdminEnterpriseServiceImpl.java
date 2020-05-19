@@ -100,7 +100,7 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         //设置是否删除
         tbEnterpriseExt.setIsdelete(0);
         System.out.println(tbEnterpriseExt);
-        int insert = tbEnterpriseMapper.insert(tbEnterpriseExt);
+        int insert = tbEnterpriseMapper.insertWithOutId(tbEnterpriseExt);
         if( 1 == insert ){
                 System.out.println("插入成功");
                 return new QueryResponseResult(CommonCode.SUCCESS,null);

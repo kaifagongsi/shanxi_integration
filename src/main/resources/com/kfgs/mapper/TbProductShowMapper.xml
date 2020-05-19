@@ -236,17 +236,65 @@
     </insert>
 
     <select id="selectContentByProductId" resultType="com.kfgs.domain.TbProductShow">
-        select * from tb_product_show where title = (select name from tb_product where id = #{id} )
+        select * from tb_product_show where title = (select name from tb_product where id = #{id} ) and isdelete = 0
     </select>
     <select id="selectCountryInfoByProduct" resultType="com.kfgs.domain.TbProductShow">
-        select id,create_time,isdelete,title,content,(select id from tb_classfication_country where name= (select title from tb_product_show where id = #{id})) as classificationId,(select classificationId from tb_classfication_country where rootid=1 and classificationId=(select parentId from tb_classfication_country where name= (select title from tb_product_show where id = #{id}))) type from tb_product_show where id = #{id}
+       SELECT
+            id,
+            create_time,
+            isdelete,
+            title,
+            content,
+            (
+                SELECT
+                    id
+                FROM
+                    tb_classfication_country
+                WHERE
+                    NAME = (
+                        SELECT
+                            title
+                        FROM
+                            tb_product_show
+                        WHERE
+                            id = #{id}
+                    )
+            ) AS classificationId,
+            (
+                SELECT
+                    classificationId
+                FROM
+                    tb_classfication_country
+                WHERE
+                    rootid = 1
+                AND classificationId = (
+                    SELECT
+                        parentId
+                    FROM
+                        tb_classfication_country
+                    WHERE
+                        NAME = (
+                            SELECT
+                                title
+                            FROM
+                                tb_product_show
+                            WHERE
+                                id = #{id}
+                        )
+                )
+            ) type
+       FROM
+            tb_product_show
+       WHERE
+            id = #{id}
+            and isdelete = 0
     </select>
     <select id="selectById" resultType="com.kfgs.domain.TbProductShow">
-           select * from tb_product_show where id = #{id}
+           select * from tb_product_show where id = #{id} and isdelete = 0
     </select>
 
 
     <delete id="deleteById">
-      update  tb_product_show set  isdelete = 1 where id = #{id}
+      update  tb_product_show set  isdelete = 1 where id = #{id} and isdelete = 0
     </delete>
 </mapper>

@@ -309,7 +309,7 @@
             t1.rootId = '2'
         AND t1.parentId = t2.classificationId
         AND ps. title = t1. NAME
-        and t1.isdelete = 0
+        and t1.isdelete = 0 and t2.isdelete = 0   and ps.isdelete = 0
     </select>
 
 
