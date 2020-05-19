@@ -256,7 +256,7 @@ public class SydbqyServiceImpl implements SydbqyService {
         String keywords = searchMap.get("searchVal").toString();
         if("产品名称".equals(type)){
             TbProductExample productExample = new TbProductExample();
-            productExample.createCriteria().andNameLike("%" + keywords + "%" );
+            productExample.createCriteria().andNameLike("%" + keywords + "%" ).andIsdeleteEqualTo(0);
             List<TbProduct> productList = tbProductMapper.selectByExample(productExample);
             List<Integer> list  = new ArrayList<>();
             for(TbProduct product : productList){
@@ -265,15 +265,15 @@ public class SydbqyServiceImpl implements SydbqyService {
             tbEnterpriseExample.createCriteria().andProductIdIn(list);
             //List<TbEnterpriseExt> tbEnterpriseList = tbEnterpriseMapper.selectByExampleReturnTBEXT(tbEnterpriseExample);
         }else if("企业名称".equals(type)){
-            tbEnterpriseExample.createCriteria().andEnterpriseNameLike("%" + keywords + "%");
+            tbEnterpriseExample.createCriteria().andEnterpriseNameLike("%" + keywords + "%").andIsdeleteEqualTo(0);
         }else if("统一信用代码".equals(type)){
-            tbEnterpriseExample.createCriteria().andUniformSocialCreditCodeLike("%" + keywords + "%");
+            tbEnterpriseExample.createCriteria().andUniformSocialCreditCodeLike("%" + keywords + "%").andIsdeleteEqualTo(0);
         }else if("核准使用公告号".equals(type)){
-            tbEnterpriseExample.createCriteria().andApprovalAnnouncementNoEnterpriseLike("%" + keywords + "%");
+            tbEnterpriseExample.createCriteria().andApprovalAnnouncementNoEnterpriseLike("%" + keywords + "%").andIsdeleteEqualTo(0);
         }else if("核准时间".equals(type)){
-            tbEnterpriseExample.createCriteria().andApprovalYearLikeWithYongBiao("%" + keywords + "%");
+            tbEnterpriseExample.createCriteria().andApprovalYearLikeWithYongBiao("%" + keywords + "%").andIsdeleteEqualTo(0);
         }else if("核准单位".equals(type)){
-            tbEnterpriseExample.createCriteria().andApprovalAuthorityEnterpriseLike("%" + keywords + "%");
+            tbEnterpriseExample.createCriteria().andApprovalAuthorityEnterpriseLike("%" + keywords + "%").andIsdeleteEqualTo(0);
         }else if("".equals(type)){
 
         }

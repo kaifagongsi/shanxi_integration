@@ -55,7 +55,7 @@ public class ClassficationServiceImpl implements ClassficationService {
         //返回页面结果集
         Map mapResult = new HashMap();
         TbClassificationExample slectExample = new TbClassificationExample();
-        slectExample.createCriteria().andRootidEqualTo("1");
+        slectExample.createCriteria().andRootidEqualTo("1").andIsdeleteEqualTo(0);
         //slectExample.setOrderByClause("  create_time desc  ");
         slectExample.setOrderByClause("level asc");
         Page<TbClassification> page = (Page<TbClassification>) tbClassificationMapper.selectByExample(slectExample);
@@ -87,7 +87,7 @@ public class ClassficationServiceImpl implements ClassficationService {
         if(editClass.get("img").toString() != "" || editClass.get("img").toString() != null){
             classficationCountry.setReserve(editClass.get("img").toString());
         }
-        slectExample.createCriteria().andClassificationidEqualTo(classid);
+        slectExample.createCriteria().andClassificationidEqualTo(classid).andIsdeleteEqualTo(0);
         int returnResult = tbClassficationCountryMapper.updateByExampleSelective(classficationCountry,slectExample);
         return "success";
     }
@@ -101,7 +101,7 @@ public class ClassficationServiceImpl implements ClassficationService {
         if(editClass.get("img").toString() != "" || editClass.get("img").toString() != null){
             classification.setReserve(editClass.get("img").toString());
         }
-        slectExample.createCriteria().andClassificationidEqualTo(classid);
+        slectExample.createCriteria().andClassificationidEqualTo(classid).andIsdeleteEqualTo(0);
         int returnResult = tbClassificationMapper.updateByExampleSelective(classification,slectExample);
         return "success";
     }
@@ -146,7 +146,9 @@ public class ClassficationServiceImpl implements ClassficationService {
         for(int i=0;i<len;i++){
             String id = idList.get(i).toString();
             System.out.println("删除"+id);
-            returnResult = tbClassificationMapper.deleteByClassificationId(id);
+            //使用假删
+            //returnResult = tbClassificationMapper.deleteByClassificationId(id);
+            returnResult = tbClassificationMapper.updateByClassificationId(id);
         }
         return returnResult;
     }

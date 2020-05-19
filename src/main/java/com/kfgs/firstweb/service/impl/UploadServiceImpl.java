@@ -36,7 +36,7 @@ public class UploadServiceImpl implements UploadService {
             TbProductShow tbProductShow = tbProductShowMapper.selectById(pData.get("id").toString());
             if (tbProductShow != null) {
                 TbProductShowExample tbProductShowExample = new TbProductShowExample();
-                tbProductShowExample.createCriteria().andIdEqualTo(Integer.parseInt(pData.get("id").toString()));
+                tbProductShowExample.createCriteria().andIdEqualTo(Integer.parseInt(pData.get("id").toString())).andIsdeleteEqualTo(0);
                 tbProductShowMapper.deleteByExample(tbProductShowExample);
                 tbClassficationCountryMapper.deleteByPrimaryKey(Integer.parseInt(pData.get("classificationId").toString()));
             }
@@ -44,7 +44,7 @@ public class UploadServiceImpl implements UploadService {
 
         }
         TbClassficationCountryExample example = new TbClassficationCountryExample();
-        example.createCriteria().andNameEqualTo(pData.get("title").toString());
+        example.createCriteria().andNameEqualTo(pData.get("title").toString()).andIsdeleteEqualTo(0);
         List<TbClassficationCountry> list = tbClassficationCountryMapper.selectByExample(example);
         TbClassficationCountry classification = new TbClassficationCountry();
         if(list != null && list.size() > 0){
@@ -54,7 +54,7 @@ public class UploadServiceImpl implements UploadService {
         }else{
             example = new TbClassficationCountryExample();
             //example.createCriteria().andNameEqualTo(pData.get("title").toString());
-            example.createCriteria().andNameEqualTo(pData.get("classificationName").toString());
+            example.createCriteria().andNameEqualTo(pData.get("classificationName").toString()).andIsdeleteEqualTo(0);
             list = tbClassficationCountryMapper.selectByExample(example);
             if(list != null && list.size() > 0){
                 //获取最大产品类别

@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
             }else if("classificationName".equals(searchType)){
                 List<String> ids = new LinkedList<String>();
                 TbClassificationExample tbClassificationExample = new TbClassificationExample();
-                tbClassificationExample.createCriteria().andParentidEqualTo("0000").andNameLike('%' + searchVal + '%');
+                tbClassificationExample.createCriteria().andParentidEqualTo("0000").andNameLike('%' + searchVal + '%').andIsdeleteEqualTo(0);
                 List<TbClassification> tbClassifications = tbClassificationMapper.selectByExample(tbClassificationExample);
                 if(tbClassifications != null && tbClassifications.size() > 0){
                     for(TbClassification  tbClassification : tbClassifications){
@@ -114,7 +114,7 @@ public class ProductServiceImpl implements ProductService {
         BeanUtils.copyProperties(product,tbProductExt);
         // 获取分类的名称 根据分类ID
         TbClassificationExample example = new TbClassificationExample();
-        example.createCriteria().andClassificationidEqualTo(product.getClassificationid().substring(0,2)+"00");
+        example.createCriteria().andClassificationidEqualTo(product.getClassificationid().substring(0,2)+"00").andIsdeleteEqualTo(0);
         List<TbClassification> classificationList = tbClassificationMapper.selectByExample(example);
         if(classificationList.size() <= 0 ){
             resultMap.put("state","200");

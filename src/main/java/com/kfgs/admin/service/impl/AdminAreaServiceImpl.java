@@ -30,8 +30,9 @@ public class AdminAreaServiceImpl implements AdminAreaService {
     @Override
     public String findTree() {
         TbAdministrativeAreaExample administrativeAreaExample = new TbAdministrativeAreaExample();
+        administrativeAreaExample.createCriteria().andIsdeleteEqualTo(0);
         //查询所有区域数据
-        List<TbAdministrativeArea> areaList = tbAdministrativeAreaMapper.selectByExample(null);
+        List<TbAdministrativeArea> areaList = tbAdministrativeAreaMapper.selectByExample(administrativeAreaExample);
         TbAdministrativeArea area = new TbAdministrativeArea();
         QueryResult queryResult = new QueryResult();
         queryResult.setList(areaList);
@@ -61,7 +62,9 @@ public class AdminAreaServiceImpl implements AdminAreaService {
 
     @Override
     public QueryResponseResult findParent() {
-        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(null);
+        TbAdministrativeAreaExample administrativeAreaExample = new TbAdministrativeAreaExample();
+        administrativeAreaExample.createCriteria().andIsdeleteEqualTo(0);
+        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(administrativeAreaExample);
         QueryResult queryResult = new QueryResult();
         queryResult.setList(administrativeAreas);
         return new QueryResponseResult(CommonCode.SUCCESS, queryResult);

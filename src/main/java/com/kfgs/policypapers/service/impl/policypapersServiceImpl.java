@@ -80,7 +80,7 @@ public class policypapersServiceImpl implements policypapersService {
         TbPolicyDocument record = new TbPolicyDocument();
         record.setContent(pData.get("content").toString().getBytes());
         TbPolicyDocumentExample slectExample = new TbPolicyDocumentExample();
-        slectExample.createCriteria().andTitleEqualTo(pData.get("title").toString());
+        slectExample.createCriteria().andTitleEqualTo(pData.get("title").toString()).andIsdeleteEqualTo(0);
         int returnResult = tbPolicyDocumentMapper.updateByExampleSelective(record, slectExample);
         return returnResult;
     }

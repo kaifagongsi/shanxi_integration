@@ -28,7 +28,7 @@ public class ClassificationServiceImpl implements ClassificationService {
     @Override
     public List getFirstClassification() {
         TbClassificationExample slectExample = new TbClassificationExample();
-        slectExample.createCriteria().andParentidEqualTo("0000");
+        slectExample.createCriteria().andParentidEqualTo("0000").andIsdeleteEqualTo(0);
         List<TbClassification> tbClassifications = tbClassificationMapper.selectByExample(slectExample);
         return tbClassifications;
     }
