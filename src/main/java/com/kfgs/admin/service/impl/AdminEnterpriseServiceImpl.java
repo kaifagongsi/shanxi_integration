@@ -62,7 +62,7 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         Map resultMap = new HashMap();
         //1获取行政区间市级别
         TbAdministrativeAreaExample adminExample = new  TbAdministrativeAreaExample();
-        adminExample.createCriteria().andLevelEqualTo(1);
+        adminExample.createCriteria().andLevelEqualTo(1).andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> areas = tbAdministrativeAreaMapper.selectByExample(adminExample);
         resultMap.put("entAreasCityList",areas);
         //2.获取产品
@@ -71,7 +71,7 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         resultMap.put("productList",productList);
         //3.获取核准公告
         TbProtectionNoticeExample example = new TbProtectionNoticeExample();
-        example.createCriteria().andTypevalEqualTo("核准公告");
+        example.createCriteria().andTypevalEqualTo("核准公告").andIsdeleteEqualTo(0);
         List<TbProtectionNotice> tbProtectionNotices = tbProtectionNoticeMapper.selectByExample(example);
         resultMap.put("protectionNoticesList",tbProtectionNotices);
         QueryResult quertResult = new QueryResult();

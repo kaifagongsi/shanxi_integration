@@ -340,22 +340,22 @@ public class AdminProductImpl implements AdminProductService {
         resultMap.put("adminArea",adminArea);
         //2.1设置批准公告
         TbProtectionNoticeExample example = new TbProtectionNoticeExample();
-        example.createCriteria().andTypevalEqualTo("批准公告");
+        example.createCriteria().andTypevalEqualTo("批准公告").andIsdeleteEqualTo(0);
         List<TbProtectionNotice>  noticeHeZhunList = tbProtectionNoticeMapper.selectByExample(example);
         resultMap.put("noticePiZhunList",noticeHeZhunList);
         //2.2设置受理公告
         example.clear();
-        example.createCriteria().andTypevalEqualTo("受理公告");
+        example.createCriteria().andTypevalEqualTo("受理公告").andIsdeleteEqualTo(0);
         List<TbProtectionNotice>  noticeList = tbProtectionNoticeMapper.selectByExample(example);
         resultMap.put("noticeShouLiList",noticeList);
         //3.1获取行政区间市级别
         TbAdministrativeAreaExample adminExample = new  TbAdministrativeAreaExample();
-        adminExample.createCriteria().andParentIdEqualTo("610000");
+        adminExample.createCriteria().andParentIdEqualTo("610000").andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> areas = tbAdministrativeAreaMapper.selectByExample(adminExample);
         resultMap.put("areasCityList",areas);
         //3.1设置县级别的
         adminExample.clear();
-        adminExample.createCriteria().andParentIdNotEqualTo("610000").andParentIdNotEqualTo("000000");
+        adminExample.createCriteria().andParentIdNotEqualTo("610000").andParentIdNotEqualTo("000000").andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> areasCopuntyList = tbAdministrativeAreaMapper.selectByExample(adminExample);
         resultMap.put("areasCountyList",areasCopuntyList);
         QueryResult queryResult = new QueryResult();

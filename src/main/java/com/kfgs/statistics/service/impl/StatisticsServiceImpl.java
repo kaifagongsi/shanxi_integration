@@ -55,12 +55,12 @@ public class StatisticsServiceImpl  implements StatisticsService {
         //获取省的数量
         TbProductExample provinceExample = new TbProductExample();
         //由于知道陕西省的id所以直接使用了
-        provinceExample.createCriteria().andAdministrativeAreaEqualTo("610000");
+        provinceExample.createCriteria().andAdministrativeAreaEqualTo("610000").andIsdeleteEqualTo(0);
         List<TbProduct> tbProductsPovince = tbProductMapper.selectByExample(provinceExample);
 
         //获取各个市的数量。
         TbAdministrativeAreaExample administrativeAreaExample = new TbAdministrativeAreaExample();
-        administrativeAreaExample.createCriteria().andLevelEqualTo(1);
+        administrativeAreaExample.createCriteria().andLevelEqualTo(1).andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> areaCity = tbAdministrativeAreaMapper.selectByExample(administrativeAreaExample);
         //获取城市id
         List<String> cityId = new ArrayList<>();
@@ -69,13 +69,13 @@ public class StatisticsServiceImpl  implements StatisticsService {
         }
         //获取所有cityId为list中的
         TbProductExample produceCityExample = new TbProductExample();
-        produceCityExample.createCriteria().andAdministrativeAreaIn(cityId);
+        produceCityExample.createCriteria().andAdministrativeAreaIn(cityId).andIsdeleteEqualTo(0);
         List<TbProduct> tbProductsCity = tbProductMapper.selectByExample(produceCityExample);
 
         //获取各个县的数量。
         cityId.clear();
         administrativeAreaExample  = new TbAdministrativeAreaExample();
-        administrativeAreaExample.createCriteria().andLevelEqualTo(2);
+        administrativeAreaExample.createCriteria().andLevelEqualTo(2).andIsdeleteEqualTo(0);
         areaCity = tbAdministrativeAreaMapper.selectByExample(administrativeAreaExample);
         //获取城市id
         for ( TbAdministrativeArea area : areaCity){
@@ -83,7 +83,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
         }
 
         //获取所有cityId为list中的
-        produceCityExample.createCriteria().andAdministrativeAreaIn(cityId);
+        produceCityExample.createCriteria().andAdministrativeAreaIn(cityId).andIsdeleteEqualTo(0);
         List<TbProduct> tbProductsCounty = tbProductMapper.selectByExample(produceCityExample);
 
         Map map = new HashMap();
@@ -131,7 +131,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
     public List<TbProduct> getMeetACondition(String areaId, String approvalYear, String classificationId){
         //1.查询选中的行政区间下属的行政区间的位置
         TbAdministrativeAreaExample areaExampl = new TbAdministrativeAreaExample();
-        areaExampl.createCriteria().andParentIdEqualTo(areaId);
+        areaExampl.createCriteria().andParentIdEqualTo(areaId).andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> administrativeAreaList = tbAdministrativeAreaMapper.selectByExample(areaExampl);
         List<String> areaList = new ArrayList<>();
         for(TbAdministrativeArea area : administrativeAreaList){
@@ -141,7 +141,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
         areaList.add(areaId);
         //2查询分类的下属子类
         TbClassificationExample classificationExample = new TbClassificationExample();
-        classificationExample.createCriteria().andParentidEqualTo(classificationId);
+        classificationExample.createCriteria().andParentidEqualTo(classificationId).andIsdeleteEqualTo(0);
         List<TbClassification> classificationList = tbClassificationMapper.selectByExample(classificationExample);
         List<String> classIdList = new ArrayList<>();
         for(TbClassification classification : classificationList){
@@ -186,6 +186,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
                 criteria.andApprovalYearEqualTo(approvalYear);
             }
         }
+        criteria.andIsdeleteEqualTo(0);
         //获取到当前条件下有多少产品
         List<TbProduct> list = tbProductMapper.selectByExample(example);
         return list;
@@ -207,7 +208,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
         for(TbProduct product : list){
             //处理行政区域
             TbAdministrativeAreaExample example = new TbAdministrativeAreaExample();
-            example.createCriteria().andCityIdEqualTo(product.getAdministrativeArea());
+            example.createCriteria().andCityIdEqualTo(product.getAdministrativeArea()).andIsdeleteEqualTo(0);
             List<TbAdministrativeArea> areas = tbAdministrativeAreaMapper.selectByExample(example);
             for(TbAdministrativeArea area : areas){
                 String areaName = area.getName();
@@ -232,7 +233,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
 
             //处理分类
             TbClassificationExample classificationexample = new TbClassificationExample();
-            classificationexample.createCriteria().andClassificationidEqualTo(product.getClassificationid());
+            classificationexample.createCriteria().andClassificationidEqualTo(product.getClassificationid()).andIsdeleteEqualTo(0);
             List<TbClassification> classifications = tbClassificationMapper.selectByExample(classificationexample);
             for(TbClassification classification : classifications){
                 String classificationName = classification.getName();
@@ -389,8 +390,10 @@ public class StatisticsServiceImpl  implements StatisticsService {
      */
     @Override
     public QueryResponseResult getSecondTabInit() {
+        TbAdministrativeAreaExample administrativeAreaExample= new TbAdministrativeAreaExample();
+        administrativeAreaExample.createCriteria().andIsdeleteEqualTo(0);
         //获取行政区域
-        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(null);
+        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(administrativeAreaExample);
         Map map = new HashMap();
         map.put("select",administrativeAreas);
         //查找批准年度
@@ -406,7 +409,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
 
     public List getClassifications(){
         TbClassificationExample slectExample = new TbClassificationExample();
-        slectExample.createCriteria().andParentidEqualTo("0000");
+        slectExample.createCriteria().andParentidEqualTo("0000").andIsdeleteEqualTo(0);
         return tbClassificationMapper.selectByExample(slectExample);
     }
 
@@ -544,6 +547,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
         if(pieAreaList != null && pieAreaList.size() > 0){
             example.createCriteria().andClassificationidIn(pieAreaList);
         }
+        example.createCriteria().andIsdeleteEqualTo(0);
         List<TbClassification> tbClassifications = tbClassificationMapper.selectByExample(example);
         for(String  str : pieAreaList){
             String classificationName  = getClassificationName(tbClassifications,str);
@@ -604,6 +608,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
         if(areaList != null && areaList.size() > 0){
             example.createCriteria().andCityIdIn(areaList);
         }
+        example.createCriteria().andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> administrativeAreaList = tbAdministrativeAreaMapper.selectByExample(example);
         for(String  str : areaList){
             String name  = getCityName(administrativeAreaList,str);
@@ -668,8 +673,10 @@ public class StatisticsServiceImpl  implements StatisticsService {
      */
     @Override
     public QueryResponseResult getThridTabInit() {
+        TbAdministrativeAreaExample administrativeAreaExample = new TbAdministrativeAreaExample();
+        administrativeAreaExample.createCriteria().andIsdeleteEqualTo(0);
         //获取行政区域
-        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(null);
+        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(administrativeAreaExample);
         Map map = new HashMap();
         map.put("select",administrativeAreas);
         //查找企业批准年度
@@ -760,6 +767,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
         if(areaList != null && areaList.size() > 0){
             example.createCriteria().andCityIdIn(areaList);
         }
+        example.createCriteria().andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> administrativeAreaList = tbAdministrativeAreaMapper.selectByExample(example);
         for(String  str : areaList){
             String name  = getCityName(administrativeAreaList,str);
@@ -868,7 +876,7 @@ public class StatisticsServiceImpl  implements StatisticsService {
     //查询顶级分类
     public List getFirstClassification() {
         TbClassificationExample slectExample = new TbClassificationExample();
-        slectExample.createCriteria().andParentidEqualTo("0000");
+        slectExample.createCriteria().andParentidEqualTo("0000").andIsdeleteEqualTo(0);
         List<TbClassification> tbClassifications = tbClassificationMapper.selectByExample(slectExample);
         return tbClassifications;
     }

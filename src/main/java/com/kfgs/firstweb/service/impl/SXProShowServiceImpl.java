@@ -19,7 +19,7 @@ public class SXProShowServiceImpl implements SXProShowService {
     public List getList(){
         //返回页面结果集
         TbClassificationExample tbClassificationExample = new TbClassificationExample();
-        tbClassificationExample.createCriteria().andParentidEqualTo("0000");
+        tbClassificationExample.createCriteria().andParentidEqualTo("0000").andIsdeleteEqualTo(0);
         List<TbClassification> list = tbClassificationMapper.selectByExample(tbClassificationExample);
         return list;
     }
@@ -93,7 +93,7 @@ public class SXProShowServiceImpl implements SXProShowService {
             newlist = typeMap.get(key);
             //根据key（id）获取name
             TbClassificationExample tbClassificationExample1 = new TbClassificationExample();
-            tbClassificationExample1.createCriteria().andClassificationidEqualTo(key);
+            tbClassificationExample1.createCriteria().andClassificationidEqualTo(key).andIsdeleteEqualTo(0);
             List<TbClassification> list1 = tbClassificationMapper.selectByExample(tbClassificationExample1);
             for(TbClassification fa:list1){
                 id = fa.getClassificationid();

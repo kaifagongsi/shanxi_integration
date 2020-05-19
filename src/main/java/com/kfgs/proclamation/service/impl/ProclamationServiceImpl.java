@@ -118,7 +118,7 @@ public class ProclamationServiceImpl implements ProclamtionService {
         TbProtectionNotice record = new TbProtectionNotice();
         record.setContent(pData.get("content").toString().getBytes());
         TbProtectionNoticeExample slectExample = new TbProtectionNoticeExample();
-        slectExample.createCriteria().andTitleEqualTo(pData.get("title").toString());
+        slectExample.createCriteria().andTitleEqualTo(pData.get("title").toString()).andIsdeleteEqualTo(0);
         int returnResult = tbProtectionNoticeMapper.updateByExampleSelective(record, slectExample);
         return returnResult;
     }

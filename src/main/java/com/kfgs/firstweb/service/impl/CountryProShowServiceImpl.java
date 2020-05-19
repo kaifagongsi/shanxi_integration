@@ -73,7 +73,7 @@ public class CountryProShowServiceImpl implements CountryProShowService {
 
             //根据key（id）获取name
             TbClassficationCountryExample tbClassificationExample1 = new TbClassficationCountryExample();
-            tbClassificationExample1.createCriteria().andClassificationidEqualTo(key);
+            tbClassificationExample1.createCriteria().andClassificationidEqualTo(key).andIsdeleteEqualTo(0);
             List<TbClassficationCountry> list1 = tbClassficationCountryMapper.selectByExample(tbClassificationExample1);
             for(TbClassficationCountry fa:list1){
                 id = fa.getClassificationid();

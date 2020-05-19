@@ -197,6 +197,7 @@ adminApp.controller('adminClassficationController',function ($scope,$http,adminC
         for (var i=0;i<num;i++){
             if (checkboxs[i].checked){
                 if(list.indexOf(checkboxs[i].value) > -1){
+                    console.log(list.indexOf(checkboxs[i].value));
                     alert("有产品的类别不能删除，请先删除产品");
                     return;
                 }

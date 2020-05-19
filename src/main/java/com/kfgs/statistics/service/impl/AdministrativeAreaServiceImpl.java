@@ -30,7 +30,9 @@ public class AdministrativeAreaServiceImpl implements AdministrativeAreaService 
 
     @Override
     public QueryResponseResult findAll() {
-        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(null);
+        TbAdministrativeAreaExample administrativeAreaExample = new TbAdministrativeAreaExample();
+        administrativeAreaExample.createCriteria().andIsdeleteEqualTo(0);
+        List<TbAdministrativeArea> administrativeAreas = tbAdministrativeAreaMapper.selectByExample(administrativeAreaExample);
         QueryResult queryResult = new QueryResult();
         queryResult.setList(administrativeAreas);
         return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
@@ -44,7 +46,7 @@ public class AdministrativeAreaServiceImpl implements AdministrativeAreaService 
     public QueryResponseResult findListByParentId(String parentId) {
         TbAdministrativeAreaExample selectByExample = new TbAdministrativeAreaExample();
         TbAdministrativeAreaExample.Criteria criteria = selectByExample.createCriteria();
-        criteria.andParentIdEqualTo(parentId);
+        criteria.andParentIdEqualTo(parentId).andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> list = tbAdministrativeAreaMapper.selectByExample(selectByExample);
         QueryResult queryResult = new QueryResult();
         queryResult.setList(list);
