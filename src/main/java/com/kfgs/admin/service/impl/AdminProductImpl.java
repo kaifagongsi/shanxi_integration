@@ -51,6 +51,9 @@ public class AdminProductImpl implements AdminProductService {
     @Autowired
     TbClassficationCountryMapper tbClassficationCountryMapper;
 
+    @Autowired
+    TbEnterpriseMapper tbEnterpriseMapper;
+
     @Override
     public QueryResponseResult getProductContentByProductId(String id) {
         Map<String,Object> resultMap = new HashMap<>();
@@ -242,9 +245,10 @@ public class AdminProductImpl implements AdminProductService {
 
     @Override
     public QueryResponseResult addProduct(TbProductExt tbProductExt) {
-        TbProduct product1 = tbProductMapper.selectByPrimaryKey(tbProductExt.getId());
+        Integer OldId = tbProductExt.getId();
+        TbProduct product1 = tbProductMapper.selectByPrimaryKey(OldId);
         if(product1 != null){
-            deleteProduct(tbProductExt.getId().toString());
+            deleteProduct(OldId.toString());
             //存在，直接删除
             //tbProductMapper.deleteByPrimaryKey(tbProductExt.getId());
 
@@ -313,6 +317,8 @@ public class AdminProductImpl implements AdminProductService {
         ppn1.setCreateTime(currentDate);
         ppn1.setProductId(String.valueOf(product.getId()));
         ppn1.setProtectionNoticeId(tbProductExt.getProtectionNoticeTitle());
+        //5 由于使用的是假删 那么用标企业表中的产品id需要更新  不考虑是否删除，直接进行全更新
+        tbEnterpriseMapper.updateProductIdByOldProductId(product.getId(),OldId);
         int insertPPN2 = tbProductProtectionNoticeMapper.insert(ppn1);
         if( 1 == insertPPN && 1 == insertClassification && 1 == insertList && 1 == insertProduct && 1 == insertPPN2){
             //设置id

@@ -87,7 +87,7 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         }else{
 
         }
-        if(StringUtils.isNotEmpty(tbEnterpriseExt.getAdministrativeId())){
+        if(StringUtils.isEmpty(tbEnterpriseExt.getAdministrativeId())){
             tbEnterpriseExt.setAdministrativeId("610000");
         }
         //设置批准公告
@@ -103,7 +103,11 @@ public class AdminEnterpriseServiceImpl implements AdminEnterpriseService {
         int insert = tbEnterpriseMapper.insertWithOutId(tbEnterpriseExt);
         if( 1 == insert ){
                 System.out.println("插入成功");
-                return new QueryResponseResult(CommonCode.SUCCESS,null);
+            QueryResult queryResult = new QueryResult();
+            Map resultMap = new HashMap();
+            resultMap.put("item",tbEnterpriseExt);
+            queryResult.setMap(resultMap);
+            return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
         }else{
             return new QueryResponseResult(CommonCode.FAIL,null);
         }

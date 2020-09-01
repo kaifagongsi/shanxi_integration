@@ -256,7 +256,7 @@
             tb_related_websites web
         LEFT JOIN tb_product pro ON web.product_id = pro.id
         where
-            web.product_id is  null
+            web.product_id is  null or web.product_id = ''
     </select>
 
 
@@ -314,7 +314,7 @@
             tb_related_websites web
         LEFT JOIN tb_product pro ON web.product_id = pro.id
         where
-            web.product_id is NOT null
+            web.product_id is NOT null and web.product_id != ''
     </select>
     <select id="selectProductRelatedWebsitesRellevanceByIdAndType"
             resultType="java.lang.String">

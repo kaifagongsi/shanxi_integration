@@ -401,6 +401,7 @@
       and approval_announcement_no_enterprise = #{approvalAnnouncementNoEnterprise,jdbcType=VARCHAR}
   </update>
 
+
     <!--新增方法 -->
 
     <select id="selectSydbqyList" resultType="com.kfgs.domain.ext.TbEnterpriseExt">
@@ -668,7 +669,7 @@
         update tb_enterprise  set  isdelete = '1' where id = #{id}
     </delete>
 
-    <insert id="insertWithOutId" parameterType="com.kfgs.domain.ext.TbEnterpriseExt" >
+    <insert id="insertWithOutId" parameterType="com.kfgs.domain.ext.TbEnterpriseExt" useGeneratedKeys="true" keyProperty="id" >
         insert into tb_enterprise (product_id, enterprise_name, approval_announcement_no_enterprise,
           enterprise_address, administrative_id,
           create_time, isdelete, brand,
@@ -682,4 +683,9 @@
           #{uniformSocialCreditCode,jdbcType=VARCHAR}, #{approvalAuthorityEnterprise,jdbcType=VARCHAR},
           #{approvalYear,jdbcType=VARCHAR}, #{isFirstSubmission,jdbcType=VARCHAR})
     </insert>
+
+    <update id="updateProductIdByOldProductId">
+       update tb_enterprise set product_id = #{NewId} where product_id = #{OldId}
+    </update>
+
 </mapper>

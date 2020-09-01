@@ -74,8 +74,12 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
 
     $scope.addEnterprise = function () {
         adminEnterpriseService.addEnterprise($scope.enterprise).success(function (response) {
+            console.log(response);
+            $scope.enterprise = response.queryResult.map.item;
+            $scope.enterprise.approvalAnnouncementNoEnterpriseAll = parseInt(response.queryResult.map.item.approvalAnnouncementNoEnterpriseAll);
             if('10000' == response.code){
                 alert(response.message);
+                location='./enterpriseDateList.html';
             }else{
                 alert('插入失败，请检查数据是否正常');
             }
@@ -227,6 +231,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
             }else{
                 alert('发送异常请稍候再试');
             }
+            location = './productDateList.html';
         });
     };
 
@@ -242,6 +247,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
         adminProductService.upload( $scope.pData ).success(
             function(response3){
                 alert('保存成功');
+                location = './countryProductDateList.html';
             }
         );
     };
@@ -257,6 +263,7 @@ adminApp.controller('adminProductAndEnterpriseController',function ($scope,admin
         adminProductService.uploadShanXiProductInfo( $scope.pData ).success(
             function(response3){
                 alert('保存成功');
+                location = './productDateList.html';
             }
         );
     };

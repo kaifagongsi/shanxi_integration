@@ -52,7 +52,7 @@ public class policypapersServiceImpl implements policypapersService {
 
     @Override
     public Map<String,Object> getList(Map searchMap) {
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),15);
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),14);
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
         TbPolicyDocumentExample slectExample = new TbPolicyDocumentExample();

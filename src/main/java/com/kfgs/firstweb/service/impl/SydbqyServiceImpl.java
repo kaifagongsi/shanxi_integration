@@ -265,15 +265,15 @@ public class SydbqyServiceImpl implements SydbqyService {
             tbEnterpriseExample.createCriteria().andProductIdIn(list);
             //List<TbEnterpriseExt> tbEnterpriseList = tbEnterpriseMapper.selectByExampleReturnTBEXT(tbEnterpriseExample);
         }else if("企业名称".equals(type)){
-            tbEnterpriseExample.createCriteria().andEnterpriseNameLike("%" + keywords + "%").andIsdeleteEqualTo(0);
+            tbEnterpriseExample.createCriteria().andEnterpriseNameLike("%" + keywords + "%");
         }else if("统一信用代码".equals(type)){
-            tbEnterpriseExample.createCriteria().andUniformSocialCreditCodeLike("%" + keywords + "%").andIsdeleteEqualTo(0);
+            tbEnterpriseExample.createCriteria().andUniformSocialCreditCodeLike("%" + keywords + "%");
         }else if("核准使用公告号".equals(type)){
-            tbEnterpriseExample.createCriteria().andApprovalAnnouncementNoEnterpriseLike("%" + keywords + "%").andIsdeleteEqualTo(0);
+            tbEnterpriseExample.createCriteria().andApprovalAnnouncementNoEnterpriseLike("%" + keywords + "%");
         }else if("核准时间".equals(type)){
-            tbEnterpriseExample.createCriteria().andApprovalYearLikeWithYongBiao("%" + keywords + "%").andIsdeleteEqualTo(0);
+            tbEnterpriseExample.createCriteria().andApprovalYearLikeWithYongBiao("%" + keywords + "%");
         }else if("核准单位".equals(type)){
-            tbEnterpriseExample.createCriteria().andApprovalAuthorityEnterpriseLike("%" + keywords + "%").andIsdeleteEqualTo(0);
+            tbEnterpriseExample.createCriteria().andApprovalAuthorityEnterpriseLike("%" + keywords + "%");
         }else if("".equals(type)){
 
         }
