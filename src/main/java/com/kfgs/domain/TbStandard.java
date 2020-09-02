@@ -1,10 +1,8 @@
 package com.kfgs.domain;
 
-
-import java.io.Serializable;
 import java.util.Date;
 
-public class TbStandard implements Serializable {
+public class TbStandard {
     private Integer id;
 
     private String productName;
@@ -43,32 +41,11 @@ public class TbStandard implements Serializable {
 
     private String standardType;
 
+    private String limitation;
 
-    public TbStandard(){
+    private String drafter;
 
-    }
-
-    public TbStandard(TbStandard tbStandard){
-        this.id = tbStandard.getId();
-        this.productName = tbStandard.getProductName();
-        this.standardNumber = tbStandard.getStandardNumber();
-        this.standardName = tbStandard.getStandardName();
-        this.address = tbStandard.getAddress();
-        this.state = tbStandard.getState();
-        this.publishTime = tbStandard.getPublishTime();
-        this.implementTime = tbStandard.getImplementTime();
-        this.recordNumber = tbStandard.getRecordNumber();
-        this.recordTime = tbStandard.getRecordTime();
-        this.type = tbStandard.getType();
-        this.settingOrRevision = tbStandard.getSettingOrRevision();
-        this.replaceStandard = tbStandard.getReplaceStandard();
-        this.chinaStandard = tbStandard.getChinaStandard();
-        this.internationalStandard = tbStandard.getInternationalStandard();
-        this.techniqueShall = tbStandard.getTechniqueShall();
-        this.approvalReleaseDepartment = tbStandard.getApprovalReleaseDepartment();
-        this.industryClassification = tbStandard.getIndustryClassification();
-        this.standardType = tbStandard.getStandardType();
-    }
+    private String draftUnit;
 
     public Integer getId() {
         return id;
@@ -83,7 +60,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
+        this.productName = productName == null ? null : productName.trim();
     }
 
     public String getStandardNumber() {
@@ -91,7 +68,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setStandardNumber(String standardNumber) {
-        this.standardNumber = standardNumber;
+        this.standardNumber = standardNumber == null ? null : standardNumber.trim();
     }
 
     public String getStandardName() {
@@ -99,7 +76,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setStandardName(String standardName) {
-        this.standardName = standardName;
+        this.standardName = standardName == null ? null : standardName.trim();
     }
 
     public String getAddress() {
@@ -107,7 +84,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = address == null ? null : address.trim();
     }
 
     public String getState() {
@@ -115,7 +92,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setState(String state) {
-        this.state = state;
+        this.state = state == null ? null : state.trim();
     }
 
     public Date getPublishTime() {
@@ -139,7 +116,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setRecordNumber(String recordNumber) {
-        this.recordNumber = recordNumber;
+        this.recordNumber = recordNumber == null ? null : recordNumber.trim();
     }
 
     public Date getRecordTime() {
@@ -155,7 +132,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.type = type == null ? null : type.trim();
     }
 
     public String getSettingOrRevision() {
@@ -163,7 +140,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setSettingOrRevision(String settingOrRevision) {
-        this.settingOrRevision = settingOrRevision;
+        this.settingOrRevision = settingOrRevision == null ? null : settingOrRevision.trim();
     }
 
     public String getReplaceStandard() {
@@ -171,7 +148,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setReplaceStandard(String replaceStandard) {
-        this.replaceStandard = replaceStandard;
+        this.replaceStandard = replaceStandard == null ? null : replaceStandard.trim();
     }
 
     public String getChinaStandard() {
@@ -179,7 +156,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setChinaStandard(String chinaStandard) {
-        this.chinaStandard = chinaStandard;
+        this.chinaStandard = chinaStandard == null ? null : chinaStandard.trim();
     }
 
     public String getInternationalStandard() {
@@ -187,7 +164,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setInternationalStandard(String internationalStandard) {
-        this.internationalStandard = internationalStandard;
+        this.internationalStandard = internationalStandard == null ? null : internationalStandard.trim();
     }
 
     public String getTechniqueShall() {
@@ -195,7 +172,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setTechniqueShall(String techniqueShall) {
-        this.techniqueShall = techniqueShall;
+        this.techniqueShall = techniqueShall == null ? null : techniqueShall.trim();
     }
 
     public String getApprovalReleaseDepartment() {
@@ -203,7 +180,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setApprovalReleaseDepartment(String approvalReleaseDepartment) {
-        this.approvalReleaseDepartment = approvalReleaseDepartment;
+        this.approvalReleaseDepartment = approvalReleaseDepartment == null ? null : approvalReleaseDepartment.trim();
     }
 
     public String getIndustryClassification() {
@@ -211,7 +188,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setIndustryClassification(String industryClassification) {
-        this.industryClassification = industryClassification;
+        this.industryClassification = industryClassification == null ? null : industryClassification.trim();
     }
 
     public String getStandardType() {
@@ -219,7 +196,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setStandardType(String standardType) {
-        this.standardType = standardType;
+        this.standardType = standardType == null ? null : standardType.trim();
     }
 
     public String getLimitation() {
@@ -227,7 +204,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setLimitation(String limitation) {
-        this.limitation = limitation;
+        this.limitation = limitation == null ? null : limitation.trim();
     }
 
     public String getDrafter() {
@@ -235,7 +212,7 @@ public class TbStandard implements Serializable {
     }
 
     public void setDrafter(String drafter) {
-        this.drafter = drafter;
+        this.drafter = drafter == null ? null : drafter.trim();
     }
 
     public String getDraftUnit() {
@@ -243,16 +220,6 @@ public class TbStandard implements Serializable {
     }
 
     public void setDraftUnit(String draftUnit) {
-        this.draftUnit = draftUnit;
+        this.draftUnit = draftUnit == null ? null : draftUnit.trim();
     }
-
-    private String limitation;
-
-    private String drafter;
-
-    private String draftUnit;
-
-
-
-
 }
