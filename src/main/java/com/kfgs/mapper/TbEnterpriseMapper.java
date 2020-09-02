@@ -77,4 +77,6 @@ public interface TbEnterpriseMapper {
     int selectCountWeiBianGen();
 
     int insertWithOutId(TbEnterpriseExt tbEnterpriseExt);
+
+    int updateProductIdByOldProductId(@Param("NewId") Integer NewId,@Param("OldId")Integer OldId);
 }
