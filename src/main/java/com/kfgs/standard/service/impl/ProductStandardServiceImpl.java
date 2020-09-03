@@ -40,4 +40,27 @@ public class ProductStandardServiceImpl implements ProductStandardService {
         map.put("total",page.getTotal());
         return map;
     }
+
+    @Override
+    public Map<String, Object> getStandardInfo(String standardName) {
+        Map resultMap = new HashMap();
+        if (standardName == null || standardName == "") {
+            resultMap.put("state","200");
+            resultMap.put("message","参数错误");
+            return resultMap;
+        }
+        TbStandardExample tbStandardExample = new TbStandardExample();
+        tbStandardExample.createCriteria().andStandardNameEqualTo(standardName);
+        List<TbStandard> list = tbProductStandardMapper.selectByExample(tbStandardExample);
+        if (list.size() == 1){
+            TbStandard tbStandard = list.get(0);
+            resultMap.put("state","200");
+            resultMap.put("data",tbStandard);
+            return resultMap;
+        }else {
+            resultMap.put("state","200");
+            resultMap.put("message","参数错误");
+            return resultMap;
+        }
+    }
 }
