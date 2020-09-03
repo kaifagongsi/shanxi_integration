@@ -1,5 +1,8 @@
 package com.kfgs.domain;
 
+
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 public class TbStandard {
@@ -15,12 +18,14 @@ public class TbStandard {
 
     private String state;
 
+    @JSONField(format="yyyy-MM-dd")
     private Date publishTime;
 
+    @JSONField(format="yyyy-MM-dd")
     private Date implementTime;
 
     private String recordNumber;
-
+    @JSONField(format="yyyy-MM-dd")
     private Date recordTime;
 
     private String type;
