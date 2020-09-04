@@ -49,9 +49,29 @@ adminApp.controller('adminProductStandardController',function ($scope,$location,
         if($location.$$search.id){ // 表示为编辑
             adminProductStandardService.initProductStandardInfoServer($location.$$search.id).success( function (response) {
                 $scope.productStandardInfoItem = response.queryResult.map.item;
+                console.log($scope.productStandardInfoItem);
             })
         }else{ // 表示为新增
 
         }
+    }
+
+    $scope.saveProductStandard = function () {
+        adminProductStandardService.saveProductStandardServer($scope.productStandardInfoItem).success( function (response) {
+            if(response.code == '10000'){
+                alert("保存成功！");
+                location.href="../../admin/productStandard/productStandardDataList.html";
+            }
+        })
+    }
+
+    $scope.deleteProductStandard = function (id) {
+        alert(id);
+        adminProductStandardService.deleteProductStandard(id).success(function (response) {
+            if(response.code == '10000'){
+                alert("删除成功！");
+                this.load();
+            }
+        })
     }
 });

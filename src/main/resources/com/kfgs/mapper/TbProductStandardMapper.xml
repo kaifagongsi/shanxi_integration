@@ -89,13 +89,248 @@
     <sql id="Base_Column_List">
         id, product_name, standard_number, standard_name, address, state, publish_time, implement_time, record_number, record_time, type, setting_or_revision, replace_standard, china_standard, international_standard, technique_shall, approval_release_department, industry_classification, standard_type, limitation, drafter, draft_unit
     </sql>
+    <!-- 处理时间后的 结果列 -->
+    <sql id="Deal_With_Time_Column_List">
+        id, product_name, standard_number, standard_name, address, state,   date_format(publish_time,'%Y-%m-%d') as publish_time, date_format(implement_time,'%Y-%m-%d') as  implement_time,  record_number,  date_format(record_time,'%Y-%m-%d') as  record_time, type, setting_or_revision, replace_standard, china_standard, international_standard, technique_shall, approval_release_department, industry_classification, standard_type, limitation, drafter, draft_unit
+    </sql>
+    <insert id="insert" parameterType="com.kfgs.domain.TbStandard" >
+        insert into tb_standard (id, product_name, standard_number,
+          standard_name, address, state,
+          publish_time, implement_time, record_number,
+          record_time, type, setting_or_revision,
+          replace_standard, china_standard, international_standard,
+          technique_shall, approval_release_department,
+          industry_classification, standard_type, limitation,
+          drafter, draft_unit)
+        values (#{id,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{standardNumber,jdbcType=VARCHAR},
+          #{standardName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},
+          #{publishTime,jdbcType=TIMESTAMP}, #{implementTime,jdbcType=TIMESTAMP}, #{recordNumber,jdbcType=VARCHAR},
+          #{recordTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{settingOrRevision,jdbcType=VARCHAR},
+          #{replaceStandard,jdbcType=VARCHAR}, #{chinaStandard,jdbcType=VARCHAR}, #{internationalStandard,jdbcType=VARCHAR},
+          #{techniqueShall,jdbcType=VARCHAR}, #{approvalReleaseDepartment,jdbcType=VARCHAR},
+          #{industryClassification,jdbcType=VARCHAR}, #{standardType,jdbcType=VARCHAR}, #{limitation,jdbcType=VARCHAR},
+          #{drafter,jdbcType=VARCHAR}, #{draftUnit,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.kfgs.domain.TbStandard" >
+        insert into tb_standard
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="productName != null" >
+                product_name,
+            </if>
+            <if test="standardNumber != null" >
+                standard_number,
+            </if>
+            <if test="standardName != null" >
+                standard_name,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+            <if test="state != null" >
+                state,
+            </if>
+            <if test="publishTime != null" >
+                publish_time,
+            </if>
+            <if test="implementTime != null" >
+                implement_time,
+            </if>
+            <if test="recordNumber != null" >
+                record_number,
+            </if>
+            <if test="recordTime != null" >
+                record_time,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="settingOrRevision != null" >
+                setting_or_revision,
+            </if>
+            <if test="replaceStandard != null" >
+                replace_standard,
+            </if>
+            <if test="chinaStandard != null" >
+                china_standard,
+            </if>
+            <if test="internationalStandard != null" >
+                international_standard,
+            </if>
+            <if test="techniqueShall != null" >
+                technique_shall,
+            </if>
+            <if test="approvalReleaseDepartment != null" >
+                approval_release_department,
+            </if>
+            <if test="industryClassification != null" >
+                industry_classification,
+            </if>
+            <if test="standardType != null" >
+                standard_type,
+            </if>
+            <if test="limitation != null" >
+                limitation,
+            </if>
+            <if test="drafter != null" >
+                drafter,
+            </if>
+            <if test="draftUnit != null" >
+                draft_unit,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="productName != null" >
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="standardNumber != null" >
+                #{standardNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="standardName != null" >
+                #{standardName,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="publishTime != null" >
+                #{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="implementTime != null" >
+                #{implementTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recordNumber != null" >
+                #{recordNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="recordTime != null" >
+                #{recordTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="settingOrRevision != null" >
+                #{settingOrRevision,jdbcType=VARCHAR},
+            </if>
+            <if test="replaceStandard != null" >
+                #{replaceStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="chinaStandard != null" >
+                #{chinaStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="internationalStandard != null" >
+                #{internationalStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="techniqueShall != null" >
+                #{techniqueShall,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalReleaseDepartment != null" >
+                #{approvalReleaseDepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="industryClassification != null" >
+                #{industryClassification,jdbcType=VARCHAR},
+            </if>
+            <if test="standardType != null" >
+                #{standardType,jdbcType=VARCHAR},
+            </if>
+            <if test="limitation != null" >
+                #{limitation,jdbcType=VARCHAR},
+            </if>
+            <if test="drafter != null" >
+                #{drafter,jdbcType=VARCHAR},
+            </if>
+            <if test="draftUnit != null" >
+                #{draftUnit,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective">
+        update tb_standard
+        <set >
+            <if test="productName != null" >
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="standardNumber != null" >
+                standard_number = #{standardNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="standardName != null" >
+                standard_name = #{standardName,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null" >
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="publishTime != null" >
+                publish_time = #{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="implementTime != null" >
+                implement_time = #{implementTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recordNumber != null" >
+                record_number = #{recordNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="recordTime != null" >
+                record_time = #{recordTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="settingOrRevision != null" >
+                setting_or_revision = #{settingOrRevision,jdbcType=VARCHAR},
+            </if>
+            <if test="replaceStandard != null" >
+                replace_standard = #{replaceStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="chinaStandard != null" >
+                china_standard = #{chinaStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="internationalStandard != null" >
+                international_standard = #{internationalStandard,jdbcType=VARCHAR},
+            </if>
+            <if test="techniqueShall != null" >
+                technique_shall = #{techniqueShall,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalReleaseDepartment != null" >
+                approval_release_department = #{approvalReleaseDepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="industryClassification != null" >
+                industry_classification = #{industryClassification,jdbcType=VARCHAR},
+            </if>
+            <if test="standardType != null" >
+                standard_type = #{standardType,jdbcType=VARCHAR},
+            </if>
+            <if test="limitation != null" >
+                limitation = #{limitation,jdbcType=VARCHAR},
+            </if>
+            <if test="drafter != null" >
+                drafter = #{drafter,jdbcType=VARCHAR},
+            </if>
+            <if test="draftUnit != null" >
+                draft_unit = #{draftUnit,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteByPrimaryKey">
+        delete from tb_standard
+    where id = #{id,jdbcType=INTEGER}
+    </delete>
 
     <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbStandardExample" >
         select
         <if test="distinct" >
             distinct
         </if>
-        <include refid="Base_Column_List" />
+        <include refid="Deal_With_Time_Column_List" />
         from tb_standard
         <if test="_parameter != null" >
             <include refid="Example_Where_Clause" />

@@ -36,4 +36,14 @@ public class AdminProductStandardController {
     public QueryResponseResult intiProductStandard(String id){
         return adminProductStandardService.getProductStandardInfo(id);
     }
+
+    @PostMapping("/saveProductStandard")
+    public QueryResponseResult saveProductStandard(@RequestBody TbStandard tbStandard){
+        return adminProductStandardService.saveProductStandard(tbStandard);
+    }
+
+    @DeleteMapping("/deleteProductStandard")
+    public QueryResponseResult deleteProductStandard(String id ){
+        return  adminProductStandardService.deleteProductStandard(id);
+    }
 }

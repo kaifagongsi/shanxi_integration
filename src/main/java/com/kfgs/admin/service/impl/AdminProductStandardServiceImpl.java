@@ -9,6 +9,7 @@ import com.kfgs.domain.response.QueryResult;
 import com.kfgs.mapper.TbProductStandardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,4 +38,39 @@ public class AdminProductStandardServiceImpl implements AdminProductStandardServ
             return new QueryResponseResult(CommonCode.FAIL,null);
         }
     }
+
+    @Override
+    @Transactional
+    public QueryResponseResult saveProductStandard(TbStandard tbStandard) {
+        System.out.println(tbStandard);
+        if(tbStandard.getId() != null){
+            //表示为更新
+            int insertSelective = tbProductStandardMapper.updateByPrimaryKeySelective(tbStandard);
+            if(insertSelective == 1){
+                return new QueryResponseResult(CommonCode.SUCCESS,null);
+            }else {
+                return new QueryResponseResult(CommonCode.FAIL,null);
+            }
+        }else{
+            //表示为新增
+            int insertSelective = tbProductStandardMapper.insertSelective(tbStandard);
+            if(insertSelective == 1){
+                return new QueryResponseResult(CommonCode.SUCCESS,null);
+            }else {
+                return new QueryResponseResult(CommonCode.FAIL,null);
+            }
+        }
+    }
+
+    @Override
+    public QueryResponseResult deleteProductStandard(String id) {
+        int deleteByPrimaryKey = tbProductStandardMapper.deleteByPrimaryKey(Integer.parseInt(id));
+        if(deleteByPrimaryKey == 1){
+            return new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else {
+            return new QueryResponseResult(CommonCode.FAIL,null);
+        }
+    }
+
+
 }

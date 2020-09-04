@@ -2,9 +2,13 @@ package com.kfgs.domain;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
+@Data
+@ToString
 public class TbStandard {
     private Integer id;
 
@@ -52,7 +56,7 @@ public class TbStandard {
 
     private String draftUnit;
 
-    public Integer getId() {
+  /*  public Integer getId() {
         return id;
     }
 
@@ -226,5 +230,5 @@ public class TbStandard {
 
     public void setDraftUnit(String draftUnit) {
         this.draftUnit = draftUnit == null ? null : draftUnit.trim();
-    }
+    }*/
 }
