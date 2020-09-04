@@ -70,7 +70,7 @@ adminApp.controller('adminProductStandardController',function ($scope,$location,
         adminProductStandardService.deleteProductStandard(id).success(function (response) {
             if(response.code == '10000'){
                 alert("删除成功！");
-                this.load();
+                $scope.load();
             }
         })
     }
