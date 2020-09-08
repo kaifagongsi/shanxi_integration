@@ -60,6 +60,9 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     @Autowired
     TbPolicyDocumentMapper tbPolicyDocumentMapper;
 
+    @Autowired
+    TbProductStandardMapper tbProductStandardMapper;
+
     @Override
     public Boolean upload(MultipartFile file,String dataBasesType,String productType) {
         String originalFilename = file.getOriginalFilename();
@@ -79,7 +82,10 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             }else if("4".equals(dataBasesType)){ //公告文件
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 3);
                 return uploadProtectionNotice(list.get(0).getDataList());
-            }else{
+            }else if ("5".equals(dataBasesType)){ //产品标准
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,21);
+                return uploadProductStandard(list.get(0).getDataList());
+            } else{
                 return  false;
             }
         } catch (IOException e) {
@@ -88,6 +94,69 @@ public class UploadExcelServiceImpl implements UploadExcelService {
         return  false;
     }
 
+    private Boolean uploadProductStandard(List<List<Object>> dataList) {
+        boolean b = false;
+        try{
+            List<TbStandard> standardList = new ArrayList<>();
+            List<TbStandard> oldStandardList = new ArrayList<>();
+            Date date = new Date();
+            for (int i=1;i<dataList.size();i++){
+                List<Object> item = dataList.get(i);
+                String productName = item.get(0).toString();
+                String newStandardNumber = item.get(1).toString();
+                String publishTime = item.get(5).toString();
+                String implementTime = item.get(6).toString();
+                String recordTime = item.get(8).toString();
+                item.add(0,0);
+                //发布日期
+                item.set(6,date);
+                //实施日期
+                item.set(7,date);
+                //备案日期
+                item.set(9,date);
+                //获取之前的相同产品的标准
+                TbStandardExample tbStandardExample = new TbStandardExample();
+                tbStandardExample.createCriteria().andProductNameEqualTo(productName);
+                oldStandardList = tbProductStandardMapper.selectByExample(tbStandardExample);
+                if (oldStandardList.size() != 0){
+                    //存在之前的标准
+                    TbStandard tbStandard = new TbStandard();
+                    TbStandardExample tbStandardExample1 = new TbStandardExample();
+                    for (int j=0;j<oldStandardList.size();j++){
+                        tbStandard = oldStandardList.get(j);
+                        String standardNumber = tbStandard.getStandardNumber();
+                        String state = tbStandard.getState();
+                        tbStandardExample1.createCriteria().andStandardNumberEqualTo(standardNumber);
+                        if ("现行".equals(state)){
+                            //代替现有标准
+                            tbStandard.setState("废止");
+                            tbStandard.setReplaceStandard(newStandardNumber);
+                            tbProductStandardMapper.updateByExample(tbStandard,tbStandardExample1);
+                        }
+                        TbStandard addTbStandard = new TbStandard();
+                        ListToModelUtils.listToModel(item,addTbStandard);
+                        standardList.add(addTbStandard);
+                    }
+                }else {
+                    //全新的标准
+                    //直接插入
+                    TbStandard addTbStandard = new TbStandard();
+                    ListToModelUtils.listToModel(item,addTbStandard);
+                    standardList.add(addTbStandard);
+                }
+            }
+            int insertNumber = tbProductStandardMapper.insertList(standardList);
+            if(insertNumber == dataList.size() - 1){
+                b = true;
+                System.out.println("插入ok");
+            }else{
+                System.out.println("插入失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return b;
+    }
     private Boolean uploadProtectionNotice(List<List<Object>> dataList) {
         boolean b = false;
         System.out.println(dataList);
@@ -469,10 +538,10 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     public void downLoadExcel(HttpServletResponse response, Integer index) {
         /**
          *  准备暴露的表
-         *  用标企业，政策文件，产品，产品公告
+         *  用标企业，政策文件，产品，产品公告,产品标准
          */
-        List name_database = Arrays.asList(new String[] {"tb_enterprise","tb_policy_document","tb_product","tb_protection_notice"});
-        List nameList = Arrays.asList(new String[] {"用标企业","政策文件","产品","产品公告"});
+        List name_database = Arrays.asList(new String[] {"tb_enterprise","tb_policy_document","tb_product","tb_protection_notice","tb_standard"});
+        List nameList = Arrays.asList(new String[] {"用标企业","政策文件","产品","产品公告","产品标准"});
         try {
             if (response != null && index != null) {
                 response.setContentType("application/vnd.ms-excel;charset=utf-8");

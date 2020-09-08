@@ -112,6 +112,7 @@
           #{drafter,jdbcType=VARCHAR}, #{draftUnit,jdbcType=VARCHAR})
     </insert>
 
+
     <insert id="insertSelective" parameterType="com.kfgs.domain.TbStandard" >
         insert into tb_standard
         <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -251,6 +252,28 @@
             </if>
         </trim>
     </insert>
+
+    <insert id="insertList" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_standard(product_name, standard_number,
+        standard_name, address, state,
+        publish_time, implement_time, record_number,
+        record_time, type, setting_or_revision,
+        replace_standard, china_standard, international_standard,
+        technique_shall, approval_release_department,
+        industry_classification, standard_type, limitation,
+        drafter, draft_unit)
+        values
+        <foreach collection="list" item="item"   separator=",">
+            (
+            #{item.productName},#{item.standardNumber},#{item.standardName},#{item.address},#{item.state},
+            #{item.publishTime},#{item.implementTime},#{item.recordNumber},#{item.recordTime},#{item.type},
+            #{item.settingOrRevision},#{item.replaceStandard},#{item.chinaStandard},#{item.internationalStandard},#{item.techniqueShall},
+            #{item.approvalReleaseDepartment},#{item.industryClassification},#{item.standardType},#{item.limitation},#{item.drafter},
+            #{item.draftUnit}
+            )
+        </foreach>
+    </insert>
+
     <update id="updateByPrimaryKeySelective">
         update tb_standard
         <set >
@@ -339,5 +362,34 @@
             order by ${orderByClause}
         </if>
     </select>
+
+    <update id="updateByExample" parameterType="map" >
+      update tb_standard
+      set id=#{record.id,jdbcType=INTEGER},
+      product_name=#{record.productName,jdbcType=VARCHAR},
+      standard_number=#{record.standardNumber,jdbcType=VARCHAR},
+      standard_name=#{record.standardName,jdbcType=VARCHAR},
+      address=#{record.address,jdbcType=VARCHAR},
+      state=#{record.state,jdbcType=VARCHAR},
+      publish_time=#{record.publishTime,jdbcType=TIMESTAMP},
+      implement_time=#{record.implementTime,jdbcType=TIMESTAMP},
+      record_number=#{record.recordNumber,jdbcType=VARCHAR},
+      record_time=#{record.recordTime,jdbcType=TIMESTAMP},
+      type=#{record.type,jdbcType=VARCHAR},
+      setting_or_revision=#{record.settingOrRevision,jdbcType=VARCHAR},
+      replace_standard=#{record.replaceStandard,jdbcType=VARCHAR},
+      china_standard=#{record.chinaStandard,jdbcType=VARCHAR},
+      international_standard=#{record.internationalStandard,jdbcType=VARCHAR},
+      technique_shall=#{record.techniqueShall,jdbcType=VARCHAR},
+      approval_release_department=#{record.approvalReleaseDepartment,jdbcType=VARCHAR},
+      industry_classification=#{record.industryClassification,jdbcType=VARCHAR},
+      standard_type=#{record.standardType,jdbcType=VARCHAR},
+      limitation=#{record.limitation,jdbcType=VARCHAR},
+      drafter=#{record.drafter,jdbcType=VARCHAR},
+      draft_unit=#{record.draftUnit,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
 
 </mapper>
