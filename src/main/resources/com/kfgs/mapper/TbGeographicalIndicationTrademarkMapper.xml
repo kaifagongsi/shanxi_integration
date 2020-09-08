@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kfgs.mapper.TbGeographicalIndicationTrademarkMapper" >
+  <resultMap id="BaseResultMap" type="com.kfgs.domain.TbGeographicalIndicationTrademark" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="registration_number" property="registrationNumber" jdbcType="VARCHAR" />
+    <result column="International_classification" property="internationalClassification" jdbcType="INTEGER" />
+    <result column="application_date" property="applicationDate" jdbcType="DATE" />
+    <result column="chinese_address_of_registrant" property="chineseAddressOfRegistrant" jdbcType="VARCHAR" />
+    <result column="name_of_agency" property="nameOfAgency" jdbcType="VARCHAR" />
+    <result column="issue_num_of_preliminary_examination_announcement" property="issueNumOfPreliminaryExaminationAnnouncement" jdbcType="INTEGER" />
+    <result column="announcement_date_of_preliminary_examination" property="announcementDateOfPreliminaryExamination" jdbcType="DATE" />
+    <result column="regeistration_notice_issue_no" property="regeistrationNoticeIssueNo" jdbcType="INTEGER" />
+    <result column="date_of_botice_of_regeistation" property="dateOfBoticeOfRegeistation" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, registration_number, International_classification, application_date, chinese_address_of_registrant, 
+    name_of_agency, issue_num_of_preliminary_examination_announcement, announcement_date_of_preliminary_examination, 
+    regeistration_notice_issue_no, date_of_botice_of_regeistation
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_geographical_indication_trademark
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_geographical_indication_trademark
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_geographical_indication_trademark
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" >
+    delete from tb_geographical_indication_trademark
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
+    insert into tb_geographical_indication_trademark (id, registration_number, International_classification, 
+      application_date, chinese_address_of_registrant, 
+      name_of_agency, issue_num_of_preliminary_examination_announcement, 
+      announcement_date_of_preliminary_examination, regeistration_notice_issue_no, 
+      date_of_botice_of_regeistation)
+    values (#{id,jdbcType=INTEGER}, #{registrationNumber,jdbcType=VARCHAR}, #{internationalClassification,jdbcType=INTEGER}, 
+      #{applicationDate,jdbcType=DATE}, #{chineseAddressOfRegistrant,jdbcType=VARCHAR}, 
+      #{nameOfAgency,jdbcType=VARCHAR}, #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER}, 
+      #{announcementDateOfPreliminaryExamination,jdbcType=DATE}, #{regeistrationNoticeIssueNo,jdbcType=INTEGER}, 
+      #{dateOfBoticeOfRegeistation,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
+    insert into tb_geographical_indication_trademark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="registrationNumber != null" >
+        registration_number,
+      </if>
+      <if test="internationalClassification != null" >
+        International_classification,
+      </if>
+      <if test="applicationDate != null" >
+        application_date,
+      </if>
+      <if test="chineseAddressOfRegistrant != null" >
+        chinese_address_of_registrant,
+      </if>
+      <if test="nameOfAgency != null" >
+        name_of_agency,
+      </if>
+      <if test="issueNumOfPreliminaryExaminationAnnouncement != null" >
+        issue_num_of_preliminary_examination_announcement,
+      </if>
+      <if test="announcementDateOfPreliminaryExamination != null" >
+        announcement_date_of_preliminary_examination,
+      </if>
+      <if test="regeistrationNoticeIssueNo != null" >
+        regeistration_notice_issue_no,
+      </if>
+      <if test="dateOfBoticeOfRegeistation != null" >
+        date_of_botice_of_regeistation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="registrationNumber != null" >
+        #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="internationalClassification != null" >
+        #{internationalClassification,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDate != null" >
+        #{applicationDate,jdbcType=DATE},
+      </if>
+      <if test="chineseAddressOfRegistrant != null" >
+        #{chineseAddressOfRegistrant,jdbcType=VARCHAR},
+      </if>
+      <if test="nameOfAgency != null" >
+        #{nameOfAgency,jdbcType=VARCHAR},
+      </if>
+      <if test="issueNumOfPreliminaryExaminationAnnouncement != null" >
+        #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER},
+      </if>
+      <if test="announcementDateOfPreliminaryExamination != null" >
+        #{announcementDateOfPreliminaryExamination,jdbcType=DATE},
+      </if>
+      <if test="regeistrationNoticeIssueNo != null" >
+        #{regeistrationNoticeIssueNo,jdbcType=INTEGER},
+      </if>
+      <if test="dateOfBoticeOfRegeistation != null" >
+        #{dateOfBoticeOfRegeistation,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" resultType="java.lang.Integer" >
+    select count(*) from tb_geographical_indication_trademark
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_geographical_indication_trademark
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.registrationNumber != null" >
+        registration_number = #{record.registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.internationalClassification != null" >
+        International_classification = #{record.internationalClassification,jdbcType=INTEGER},
+      </if>
+      <if test="record.applicationDate != null" >
+        application_date = #{record.applicationDate,jdbcType=DATE},
+      </if>
+      <if test="record.chineseAddressOfRegistrant != null" >
+        chinese_address_of_registrant = #{record.chineseAddressOfRegistrant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameOfAgency != null" >
+        name_of_agency = #{record.nameOfAgency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issueNumOfPreliminaryExaminationAnnouncement != null" >
+        issue_num_of_preliminary_examination_announcement = #{record.issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER},
+      </if>
+      <if test="record.announcementDateOfPreliminaryExamination != null" >
+        announcement_date_of_preliminary_examination = #{record.announcementDateOfPreliminaryExamination,jdbcType=DATE},
+      </if>
+      <if test="record.regeistrationNoticeIssueNo != null" >
+        regeistration_notice_issue_no = #{record.regeistrationNoticeIssueNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.dateOfBoticeOfRegeistation != null" >
+        date_of_botice_of_regeistation = #{record.dateOfBoticeOfRegeistation,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_geographical_indication_trademark
+    set id = #{record.id,jdbcType=INTEGER},
+      registration_number = #{record.registrationNumber,jdbcType=VARCHAR},
+      International_classification = #{record.internationalClassification,jdbcType=INTEGER},
+      application_date = #{record.applicationDate,jdbcType=DATE},
+      chinese_address_of_registrant = #{record.chineseAddressOfRegistrant,jdbcType=VARCHAR},
+      name_of_agency = #{record.nameOfAgency,jdbcType=VARCHAR},
+      issue_num_of_preliminary_examination_announcement = #{record.issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER},
+      announcement_date_of_preliminary_examination = #{record.announcementDateOfPreliminaryExamination,jdbcType=DATE},
+      regeistration_notice_issue_no = #{record.regeistrationNoticeIssueNo,jdbcType=INTEGER},
+      date_of_botice_of_regeistation = #{record.dateOfBoticeOfRegeistation,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
+    update tb_geographical_indication_trademark
+    <set >
+      <if test="registrationNumber != null" >
+        registration_number = #{registrationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="internationalClassification != null" >
+        International_classification = #{internationalClassification,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDate != null" >
+        application_date = #{applicationDate,jdbcType=DATE},
+      </if>
+      <if test="chineseAddressOfRegistrant != null" >
+        chinese_address_of_registrant = #{chineseAddressOfRegistrant,jdbcType=VARCHAR},
+      </if>
+      <if test="nameOfAgency != null" >
+        name_of_agency = #{nameOfAgency,jdbcType=VARCHAR},
+      </if>
+      <if test="issueNumOfPreliminaryExaminationAnnouncement != null" >
+        issue_num_of_preliminary_examination_announcement = #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER},
+      </if>
+      <if test="announcementDateOfPreliminaryExamination != null" >
+        announcement_date_of_preliminary_examination = #{announcementDateOfPreliminaryExamination,jdbcType=DATE},
+      </if>
+      <if test="regeistrationNoticeIssueNo != null" >
+        regeistration_notice_issue_no = #{regeistrationNoticeIssueNo,jdbcType=INTEGER},
+      </if>
+      <if test="dateOfBoticeOfRegeistation != null" >
+        date_of_botice_of_regeistation = #{dateOfBoticeOfRegeistation,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
+    update tb_geographical_indication_trademark
+    set registration_number = #{registrationNumber,jdbcType=VARCHAR},
+      International_classification = #{internationalClassification,jdbcType=INTEGER},
+      application_date = #{applicationDate,jdbcType=DATE},
+      chinese_address_of_registrant = #{chineseAddressOfRegistrant,jdbcType=VARCHAR},
+      name_of_agency = #{nameOfAgency,jdbcType=VARCHAR},
+      issue_num_of_preliminary_examination_announcement = #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER},
+      announcement_date_of_preliminary_examination = #{announcementDateOfPreliminaryExamination,jdbcType=DATE},
+      regeistration_notice_issue_no = #{regeistrationNoticeIssueNo,jdbcType=INTEGER},
+      date_of_botice_of_regeistation = #{dateOfBoticeOfRegeistation,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
