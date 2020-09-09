@@ -3,6 +3,9 @@
 <mapper namespace="com.kfgs.mapper.TbGeographicalIndicationTrademarkMapper" >
   <resultMap id="BaseResultMap" type="com.kfgs.domain.TbGeographicalIndicationTrademark" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="trade_name" property="tradeName" jdbcType="VARCHAR" />
+    <result column="trademark_type" property="trademarkType" jdbcType="VARCHAR" />
+    <result column="chinese_name_of_regisrant" property="chineseNameOfRegisrant" jdbcType="VARCHAR" />
     <result column="registration_number" property="registrationNumber" jdbcType="VARCHAR" />
     <result column="International_classification" property="internationalClassification" jdbcType="INTEGER" />
     <result column="application_date" property="applicationDate" jdbcType="DATE" />
@@ -72,9 +75,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, registration_number, International_classification, application_date, chinese_address_of_registrant, 
-    name_of_agency, issue_num_of_preliminary_examination_announcement, announcement_date_of_preliminary_examination, 
-    regeistration_notice_issue_no, date_of_botice_of_regeistation
+    id, trade_name, trademark_type, chinese_name_of_regisrant, registration_number, International_classification, 
+    application_date, chinese_address_of_registrant, name_of_agency, issue_num_of_preliminary_examination_announcement, 
+    announcement_date_of_preliminary_examination, regeistration_notice_issue_no, date_of_botice_of_regeistation
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" >
     select
@@ -107,22 +110,35 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
-    insert into tb_geographical_indication_trademark (id, registration_number, International_classification, 
-      application_date, chinese_address_of_registrant, 
-      name_of_agency, issue_num_of_preliminary_examination_announcement, 
-      announcement_date_of_preliminary_examination, regeistration_notice_issue_no, 
-      date_of_botice_of_regeistation)
-    values (#{id,jdbcType=INTEGER}, #{registrationNumber,jdbcType=VARCHAR}, #{internationalClassification,jdbcType=INTEGER}, 
-      #{applicationDate,jdbcType=DATE}, #{chineseAddressOfRegistrant,jdbcType=VARCHAR}, 
-      #{nameOfAgency,jdbcType=VARCHAR}, #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER}, 
-      #{announcementDateOfPreliminaryExamination,jdbcType=DATE}, #{regeistrationNoticeIssueNo,jdbcType=INTEGER}, 
-      #{dateOfBoticeOfRegeistation,jdbcType=DATE})
+    insert into tb_geographical_indication_trademark (id, trade_name, trademark_type, 
+      chinese_name_of_regisrant, registration_number, 
+      International_classification, application_date, 
+      chinese_address_of_registrant, name_of_agency, 
+      issue_num_of_preliminary_examination_announcement, announcement_date_of_preliminary_examination, 
+      regeistration_notice_issue_no, date_of_botice_of_regeistation
+      )
+    values (#{id,jdbcType=INTEGER}, #{tradeName,jdbcType=VARCHAR}, #{trademarkType,jdbcType=VARCHAR}, 
+      #{chineseNameOfRegisrant,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
+      #{internationalClassification,jdbcType=INTEGER}, #{applicationDate,jdbcType=DATE}, 
+      #{chineseAddressOfRegistrant,jdbcType=VARCHAR}, #{nameOfAgency,jdbcType=VARCHAR}, 
+      #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER}, #{announcementDateOfPreliminaryExamination,jdbcType=DATE}, 
+      #{regeistrationNoticeIssueNo,jdbcType=INTEGER}, #{dateOfBoticeOfRegeistation,jdbcType=DATE}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
     insert into tb_geographical_indication_trademark
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="tradeName != null" >
+        trade_name,
+      </if>
+      <if test="trademarkType != null" >
+        trademark_type,
+      </if>
+      <if test="chineseNameOfRegisrant != null" >
+        chinese_name_of_regisrant,
       </if>
       <if test="registrationNumber != null" >
         registration_number,
@@ -155,6 +171,15 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tradeName != null" >
+        #{tradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="trademarkType != null" >
+        #{trademarkType,jdbcType=VARCHAR},
+      </if>
+      <if test="chineseNameOfRegisrant != null" >
+        #{chineseNameOfRegisrant,jdbcType=VARCHAR},
       </if>
       <if test="registrationNumber != null" >
         #{registrationNumber,jdbcType=VARCHAR},
@@ -197,6 +222,15 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.tradeName != null" >
+        trade_name = #{record.tradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trademarkType != null" >
+        trademark_type = #{record.trademarkType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chineseNameOfRegisrant != null" >
+        chinese_name_of_regisrant = #{record.chineseNameOfRegisrant,jdbcType=VARCHAR},
+      </if>
       <if test="record.registrationNumber != null" >
         registration_number = #{record.registrationNumber,jdbcType=VARCHAR},
       </if>
@@ -232,6 +266,9 @@
   <update id="updateByExample" parameterType="map" >
     update tb_geographical_indication_trademark
     set id = #{record.id,jdbcType=INTEGER},
+      trade_name = #{record.tradeName,jdbcType=VARCHAR},
+      trademark_type = #{record.trademarkType,jdbcType=VARCHAR},
+      chinese_name_of_regisrant = #{record.chineseNameOfRegisrant,jdbcType=VARCHAR},
       registration_number = #{record.registrationNumber,jdbcType=VARCHAR},
       International_classification = #{record.internationalClassification,jdbcType=INTEGER},
       application_date = #{record.applicationDate,jdbcType=DATE},
@@ -248,6 +285,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
     update tb_geographical_indication_trademark
     <set >
+      <if test="tradeName != null" >
+        trade_name = #{tradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="trademarkType != null" >
+        trademark_type = #{trademarkType,jdbcType=VARCHAR},
+      </if>
+      <if test="chineseNameOfRegisrant != null" >
+        chinese_name_of_regisrant = #{chineseNameOfRegisrant,jdbcType=VARCHAR},
+      </if>
       <if test="registrationNumber != null" >
         registration_number = #{registrationNumber,jdbcType=VARCHAR},
       </if>
@@ -280,7 +326,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
     update tb_geographical_indication_trademark
-    set registration_number = #{registrationNumber,jdbcType=VARCHAR},
+    set trade_name = #{tradeName,jdbcType=VARCHAR},
+      trademark_type = #{trademarkType,jdbcType=VARCHAR},
+      chinese_name_of_regisrant = #{chineseNameOfRegisrant,jdbcType=VARCHAR},
+      registration_number = #{registrationNumber,jdbcType=VARCHAR},
       International_classification = #{internationalClassification,jdbcType=INTEGER},
       application_date = #{applicationDate,jdbcType=DATE},
       chinese_address_of_registrant = #{chineseAddressOfRegistrant,jdbcType=VARCHAR},

@@ -1,14 +1,24 @@
 package com.kfgs.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class TbGeographicalIndicationTrademark {
+public class TbGeographicalIndicationTrademark implements Serializable {
     private Integer id;
+
+    private String tradeName;
+
+    private String trademarkType;
+
+    private String chineseNameOfRegisrant;
 
     private String registrationNumber;
 
     private Integer internationalClassification;
 
+    @JSONField(format="yyyy-MM-dd")
     private Date applicationDate;
 
     private String chineseAddressOfRegistrant;
@@ -16,11 +26,11 @@ public class TbGeographicalIndicationTrademark {
     private String nameOfAgency;
 
     private Integer issueNumOfPreliminaryExaminationAnnouncement;
-
+    @JSONField(format="yyyy-MM-dd")
     private Date announcementDateOfPreliminaryExamination;
 
     private Integer regeistrationNoticeIssueNo;
-
+    @JSONField(format="yyyy-MM-dd")
     private Date dateOfBoticeOfRegeistation;
 
     public Integer getId() {
@@ -29,6 +39,30 @@ public class TbGeographicalIndicationTrademark {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTradeName() {
+        return tradeName;
+    }
+
+    public void setTradeName(String tradeName) {
+        this.tradeName = tradeName == null ? null : tradeName.trim();
+    }
+
+    public String getTrademarkType() {
+        return trademarkType;
+    }
+
+    public void setTrademarkType(String trademarkType) {
+        this.trademarkType = trademarkType == null ? null : trademarkType.trim();
+    }
+
+    public String getChineseNameOfRegisrant() {
+        return chineseNameOfRegisrant;
+    }
+
+    public void setChineseNameOfRegisrant(String chineseNameOfRegisrant) {
+        this.chineseNameOfRegisrant = chineseNameOfRegisrant == null ? null : chineseNameOfRegisrant.trim();
     }
 
     public String getRegistrationNumber() {

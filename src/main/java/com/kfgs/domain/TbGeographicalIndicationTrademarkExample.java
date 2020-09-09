@@ -192,6 +192,216 @@ public class TbGeographicalIndicationTrademarkExample {
             return (Criteria) this;
         }
 
+        public Criteria andTradeNameIsNull() {
+            addCriterion("trade_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameIsNotNull() {
+            addCriterion("trade_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameEqualTo(String value) {
+            addCriterion("trade_name =", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameNotEqualTo(String value) {
+            addCriterion("trade_name <>", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameGreaterThan(String value) {
+            addCriterion("trade_name >", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("trade_name >=", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameLessThan(String value) {
+            addCriterion("trade_name <", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameLessThanOrEqualTo(String value) {
+            addCriterion("trade_name <=", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameLike(String value) {
+            addCriterion("trade_name like", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameNotLike(String value) {
+            addCriterion("trade_name not like", value, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameIn(List<String> values) {
+            addCriterion("trade_name in", values, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameNotIn(List<String> values) {
+            addCriterion("trade_name not in", values, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameBetween(String value1, String value2) {
+            addCriterion("trade_name between", value1, value2, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeNameNotBetween(String value1, String value2) {
+            addCriterion("trade_name not between", value1, value2, "tradeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeIsNull() {
+            addCriterion("trademark_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeIsNotNull() {
+            addCriterion("trademark_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeEqualTo(String value) {
+            addCriterion("trademark_type =", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeNotEqualTo(String value) {
+            addCriterion("trademark_type <>", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeGreaterThan(String value) {
+            addCriterion("trademark_type >", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("trademark_type >=", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeLessThan(String value) {
+            addCriterion("trademark_type <", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeLessThanOrEqualTo(String value) {
+            addCriterion("trademark_type <=", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeLike(String value) {
+            addCriterion("trademark_type like", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeNotLike(String value) {
+            addCriterion("trademark_type not like", value, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeIn(List<String> values) {
+            addCriterion("trademark_type in", values, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeNotIn(List<String> values) {
+            addCriterion("trademark_type not in", values, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeBetween(String value1, String value2) {
+            addCriterion("trademark_type between", value1, value2, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrademarkTypeNotBetween(String value1, String value2) {
+            addCriterion("trademark_type not between", value1, value2, "trademarkType");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantIsNull() {
+            addCriterion("chinese_name_of_regisrant is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantIsNotNull() {
+            addCriterion("chinese_name_of_regisrant is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantEqualTo(String value) {
+            addCriterion("chinese_name_of_regisrant =", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantNotEqualTo(String value) {
+            addCriterion("chinese_name_of_regisrant <>", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantGreaterThan(String value) {
+            addCriterion("chinese_name_of_regisrant >", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantGreaterThanOrEqualTo(String value) {
+            addCriterion("chinese_name_of_regisrant >=", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantLessThan(String value) {
+            addCriterion("chinese_name_of_regisrant <", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantLessThanOrEqualTo(String value) {
+            addCriterion("chinese_name_of_regisrant <=", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantLike(String value) {
+            addCriterion("chinese_name_of_regisrant like", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantNotLike(String value) {
+            addCriterion("chinese_name_of_regisrant not like", value, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantIn(List<String> values) {
+            addCriterion("chinese_name_of_regisrant in", values, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantNotIn(List<String> values) {
+            addCriterion("chinese_name_of_regisrant not in", values, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantBetween(String value1, String value2) {
+            addCriterion("chinese_name_of_regisrant between", value1, value2, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
+        public Criteria andChineseNameOfRegisrantNotBetween(String value1, String value2) {
+            addCriterion("chinese_name_of_regisrant not between", value1, value2, "chineseNameOfRegisrant");
+            return (Criteria) this;
+        }
+
         public Criteria andRegistrationNumberIsNull() {
             addCriterion("registration_number is null");
             return (Criteria) this;

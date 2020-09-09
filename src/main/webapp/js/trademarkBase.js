@@ -1,0 +1,1 @@
+var trademarkApp = angular.module('shanxi-trademark',[ ]);
