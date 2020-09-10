@@ -32,6 +32,49 @@
             sethomebg("img/index");
         });
     </script>
+    <style>
+        .tableContenter {
+            position: relative;
+            width: 1015px;
+            margin: auto;
+            background-color: white;
+            border: 0;
+        }
+        .tableThead{
+            position: absolute;
+            left: 0;
+            overflow: hidden;
+        }
+        #fixedTab,#grid{
+            width: 2590px;
+            border: 0;
+        }
+        td,th{
+            height:35px;
+            text-align:center;
+        }
+
+        #fixedTab  .th {
+            background: #006EC1 url("img/index/cpth.gif") center right no-repeat;
+            position: relative;
+            font-size: 14px;
+            height: 50px;
+            color: #fff;
+            text-align: center;
+            padding-left: 1px;
+            border: 0;
+        }
+        #mainDiv{
+            width: 2590px;
+            overflow:auto;
+            overflow-x:hidden;
+            border: 0;
+            padding-top: 50px;
+        }
+        #grid .th{
+            height: 44px;
+        }
+    </style>
 </head>
 <body ng-app="shanxi-trademark" ng-controller="trademarkController" ng-init="search()">
 <div id="mbg" class="mbg" style="height: 100%"></div>
@@ -68,13 +111,11 @@
 
     </div>
     <!--/top-->
-    {{searchMap}}
     <div class="bztitle"></div>
-    <div class="ctnindex" style="min-height: 780px">
-        <div class="qycnt" style="min-width: 1400px;">
-
-            <div class="query" style="float:left;height:45px;padding-top:8px;margin-right: 15px; min-width: 500px;">
-                <div class="col-md-3" style="width: 30%;padding-left: 1px;" id="typeVal">
+    <div class="ctnindex" style="min-height: 709px">
+        <div class="qycnt">
+            <div class="query" style="float:left;height:45px;padding-top:8px;margin-right: 15px; min-width: 550px;">
+                <div class="col-md-3" style="width: 35%;padding-left: 1px;" id="typeVal">
                     <select id="classificationSelect" class="form-control"   ng-model="searchMap.searchType" >
                         <option value="0" >请选择</option>
                         <option value="1">商标名称</option>
@@ -93,60 +134,59 @@
                        onfocus="if(this.value=='请输入待查询信息')this.value=''" onblur="if(this.value=='')this.value='请输入待查询信息'" autocomplete="off">
                 <button style="height: 34px;width: 55px;"  class="button" ng-click="search()">确定</button>
             </div>
-
-            <div class="listth">
-                <table cellspacing="0" cellpadding="0" style="width: 1400px;">
-                    <tr valign="middle">
-                        <td class="th" width="50px;">序号</td>
-                        <td class="th" width="160px;">商标名称</td>
-                        <td class="th" width="160px;">商标类型</td>
-                        <td class="th" width="260px;">注册人中文名称</td>
-                        <td class="th" width="100px;">注册号</td>
-                        <td class="th" width="160px;">国际分类号</td>
-                        <td class="th" width="120px">申请日期</td>
-                        <td class="th" width="300px">注册人中文地址</td>
-                        <td class="th" width="300px">代理机构名称</td>
-                        <td class="th" width="220px">初审公告期号</td>
-                        <td class="th" width="180px">初审公告日期</td>
-                        <td class="th" width="220px">注册公告期号</td>
-                        <td class="th" width="180px">注册公告日期</td>
-                        <td class="th" width="180px">查看详细</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="qylist" style="width: 1400px;">
-                <table cellspacing="0" cellpadding="0" style="width: 1400px;">
-                    <tr ng-repeat="item in resultMap.rows">
-                        <td class="th" width="50px;">{{$index+1}}</td>
-                        <td class="th" width="160px;">{{item.tradeName}}</td>
-                        <td class="th" width="160px;">{{item.trademarkType}}</td>
-                        <td class="th" width="260px;">{{item.chineseNameOfRegisrant}}</td>
-                        <td class="th" width="100px;">{{item.registrationNumber}}</td>
-                        <td class="th" width="160px;">{{item.internationalClassification}}</td>
-                        <td class="th" width="120px;">{{item.applicationDate}}</td>
-                        <td class="th" width="300px;">{{item.chineseAddressOfRegistrant}}</td>
-                        <td class="th" width="300px;">{{item.nameOfAgency}}</td>
-                        <td class="th" width="220px;">{{item.issueNumOfPreliminaryExaminationAnnouncement}}</td>
-                        <td class="th" width="180px;">{{item.announcementDateOfPreliminaryExamination}}</td>
-                        <td class="th" width="220px">{{item.regeistrationNoticeIssueNo}}</td>
-                        <td class="th" width="180px">{{item.dateOfBoticeOfRegeistation}}</td>
-                        <td class="th" width="180px">查看详细</td>
-                    </tr>
-                </table>
+            <div class="tableContenter" style="overflow-x:auto;">
+                <div class="tableThead">
+                    <table id="fixedTab" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td class="th" width="50px;">序号</td>
+                                <td class="th" width="160px;">商标名称</td>
+                                <td class="th" width="160px;">商标类型</td>
+                                <td class="th" width="260px;">注册人中文名称</td>
+                                <td class="th" width="100px;">注册号</td>
+                                <td class="th" width="160px;">国际分类号</td>
+                                <td class="th" width="120px">申请日期</td>
+                                <td class="th" width="300px">注册人中文地址</td>
+                                <td class="th" width="300px">代理机构名称</td>
+                                <td class="th" width="220px">初审公告期号</td>
+                                <td class="th" width="180px">初审公告日期</td>
+                                <td class="th" width="220px">注册公告期号</td>
+                                <td class="th" width="180px">注册公告日期</td>
+                                <td class="th" width="180px">查看详细</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div>
+                    <div id="mainDiv">
+                        <table id="grid"     cellpadding="0" cellspacing="0">
+                            <tr ng-repeat="item in resultMap.rows">
+                                <td class="th" width="50px;">{{$index+1}}</td>
+                                <td class="th" width="160px;">{{item.tradeName}}</td>
+                                <td class="th" width="160px;">{{item.trademarkType}}</td>
+                                <td class="th" width="260px;">{{item.chineseNameOfRegisrant}}</td>
+                                <td class="th" width="100px;">{{item.registrationNumber}}</td>
+                                <td class="th" width="160px;">{{item.internationalClassification}}</td>
+                                <td class="th" width="120px;">{{item.applicationDate}}</td>
+                                <td class="th" width="300px;">{{item.chineseAddressOfRegistrant}}</td>
+                                <td class="th" width="300px;">{{item.nameOfAgency}}</td>
+                                <td class="th" width="220px;">{{item.issueNumOfPreliminaryExaminationAnnouncement}}</td>
+                                <td class="th" width="180px;">{{item.announcementDateOfPreliminaryExamination}}</td>
+                                <td class="th" width="220px">{{item.regeistrationNoticeIssueNo}}</td>
+                                <td class="th" width="180px">{{item.dateOfBoticeOfRegeistation}}</td>
+                                <td class="th" width="180px"><a target="_blank" href="static/trademark/pdf/深入理解Java虚拟机JVM高级特性与最佳实践(第2版).pdf">查看详细</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="pagebar" style="margin-top:0;height: 46px;line-height: 46px;">
-
                 <div class="pmsPage">
                     <div class="pull-left">
                         <div class="form-group form-inline">
                             总共{{resultMap.totalPages}} 页，共{{resultMap.total}} 条数据。
-                            <!--<span>
-                                到第<input style="width: 54px;height: 29px;" type="text" class="page-num" ng-model="searchMap.pageNo">页
-                                <button class="page-confirm" ng-click="queryByPage(searchMap.pageNo)">确定</button>
-                            </span>-->
                         </div>
                     </div>
-
                     <div class="box-tools pull-right">
                         <ul class="pagination">
                             <li>
@@ -168,7 +208,6 @@
                     </div>
                 </div>
             </div>
-            <div class=""  style="height: 3px;"></div>
         </div>
     </div>
 
@@ -184,11 +223,24 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
-        cobj=$(".qylist");
+        cobj=$("#mainDiv");
         minus=345;
         setContent();
         $(window).resize(setContent);
-        $(".qylist").mCustomScrollbar({theme:"3d-dark"});
+        $("#mainDiv").mCustomScrollbar({theme:"3d-dark"});
+    });
+    $(document).ready(function(){
+        $(".tableContenter").mCustomScrollbar({
+            theme:"3d-dark",
+            scrollInertia:550,
+                horizontalScroll:true,
+                mouseWheelPixels:116,
+                scrollButtons:{
+                enable:true,
+                    scrollType:"pixels",
+                    scrollAmount:116
+            }
+        })
     });
 </script>
 </body>
