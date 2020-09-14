@@ -42,8 +42,6 @@
 <div id="mbg" class="mbg" style="height: 100%"></div>
 <div class="main" style="width: 100%;height:100%;/*min-height: 1450px;*/min-width: 1200px;">
     <!--top-->
-
-
     <!-- custom scrollbar plugin -->
 
     <script src="js/index/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -54,16 +52,18 @@
             <div class="logo"></div>
             <div class="nav" >
                 <ul>
-                    <li ><a href="page/index.do" target="_self">首 页</a></li>
-                    <li ><a href="page/dbcpzs.do" target="_self" title="特色展示">特色展示</a></li>
-                    <li><a href="statisticsProductBulletin.html" target="_self" title="地理标志产品">地理标志产品</a></li>
-                    <li ><a href="page/sydbqy.do" target="_self" title="用标企业">用标企业</a></li>
-                    <li ><a href="statisticsStatistics.html" target="_self" title="查询统计">查询统计</a></li>
-                    <li ><a href="proclamationIndex.html" target="_self" title="地标公告">地标公告</a></li>
-                    <li ><a href="proclamationGuideBook.html" target="_self" title="地标指南">地标指南</a></li>
-                    <li ><a href="policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
-                    <li class="current"><a href="productStandard.html" target="_self" title="产品标准">产品标准</a></li>
-                    <li ><a href="productIntroduction.html" target="_self" title="地标制度">地标制度</a></li>
+                    <li><a href="/page/index.do" target="_self">首 页</a></li>
+                    <li ><a href="/page/dbcpzs.do" target="_self" title="特色展示">特色展示</a></li>
+                    <li ><a href="/statisticsProductBulletin.html" target="_self" title="地理标志产品">地理标志产品</a></li>
+                    <li ><a href="/page/sydbqy.do" target="_self" title="用标企业">用标企业</a></li>
+                    <li ><a href="/statisticsStatistics.html" target="_self" title="查询统计">查询统计</a></li>
+                    <li ><a href="/proclamationIndex.html" target="_self" title="相关公告">相关公告</a></li>
+                    <li ><a href="/proclamationGuideBook.html" target="_self" title="保护指南">保护指南</a></li>
+                    <li ><a href="/policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
+                    <li class="current"><a href="/productStandard.html" target="_self" title="产品标准">产品标准</a></li>
+                    <!--<li ><a href="/ComplainsRight.html" target="_self" title="投诉维权">投诉维权</a></li>-->
+                    <li><a href="/productLandmark.html" target="_self" title="农产品地理标志">农产品地理标志</a></li>
+                    <li ><a href="/geographicalIndicationTrademark.html" target="_self" title="地理标志商标">地理标志商标</a></li>
                 </ul>
                 <a href="http://www.patviewer.com/" target="_blank"><label class="showSearch" title="搜索"></label></a>
             </div>
@@ -79,14 +79,14 @@
                 <div class="col-md-2" style="width: 25%;padding-left: 1px;" id="typeVal">
                     <select id="classificationSelect" class="form-control"   ng-model="searchMap.searchType" >
                         <option value="" >请选择</option>
-                        <option value="name">标准号</option>
-                        <option value="classificationName">标准名称</option>
+                        <option value="number">标准号</option>
+                        <option value="name">标准名称</option>
                     </select>
                 </div>
 
                 <input type="text" name="searchMap.searchVal" value="请输入待查询信息" style="min-height: 34px;width:290px;"
                        onfocus="if(this.value=='请输入待查询信息')this.value=''" onblur="if(this.value=='')this.value='请输入待查询信息'" autocomplete="off">
-                <button style="height: 34px;width: 55px;"  class="button" ng-click="search()">确定</button>
+                <button style="height: 34px;width: 55px;"  class="button" ng-click="load()">确定</button>
             </div>
 
             <div class="listth">
@@ -95,13 +95,10 @@
                         <td class="th" width="50px;">序号</td>
                         <td class="th" width="100px;">产品名称</td>
                         <td class="th" width="150px;">标准号</td>
-                        <td class="th" width="200px;">标准名称</td>
+                        <td class="th" width="150px;">标准名称</td>
                         <td class="th" width="180px;">省市区</td>
-                        <td class="th" width="120px;">状态</td>
-                        <td class="th" width="180px;">批准日期</td>
-                        <td class="th" width="100px;">实施日期</td>
-                        <td class="th" width="180px">备案号</td>
-                        <td class="th" width="180px">备案日期</td>
+                        <td class="th" width="120px;">发布日期</td>
+                        <td class="th" width="200px;">查看详情</td>
                     </tr>
                 </table>
             </div>
@@ -111,13 +108,10 @@
                         <td class="th" width="50px;">{{$index+1}}</td>
                         <td class="th" width="100px;">{{item.productName}}</td>
                         <td class="th" width="150px;">{{item.standardNumber}}</td>
-                        <td class="th" width="200px;"><a href="productStandardShow.html#?nameVal={{item.standardName}}" ng-bind-html="item.standardName | trustHtml" target="_blank" style="text-decoration: none"> </a></td>
+                        <td class="th" width="150px;">{{item.standardName}}</td>
                         <td class="th" width="180px;">{{item.address}}</td>
-                        <td class="th" width="120px">{{item.state}}</td>
-                        <td class="th" width="180px;">{{item.publishTime}}</td>
-                        <td class="th" width="100px;">{{item.implementTime}}</td>
-                        <td class="th" width="180px">{{item.recordNumber}}</td>
-                        <td class="th" width="180px">{{item.recordTime}}</td>
+                        <td class="th" width="120px;">{{item.publishTime}}</td>
+                        <td class="th" width="200px;"><a href="productStandardShow.html#?nameVal={{item.standardName}}" ng-bind-html="item.standardName | trustHtml" target="_blank" style="text-decoration: none"> </a></td>
                     </tr>
                 </table>
             </div>

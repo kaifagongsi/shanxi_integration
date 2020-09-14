@@ -3,6 +3,7 @@ package com.kfgs.mapper;
 import com.kfgs.domain.TbProductLandmark;
 import com.kfgs.domain.TbProductLandmarkExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -28,4 +29,10 @@ public interface TbProductLandmarkMapper {
     int updateByPrimaryKeySelective(TbProductLandmark record);
 
     int updateByPrimaryKey(TbProductLandmark record);
+
+    List<String> selectIndustry();
+
+    List<String> selectTypeByIndustry(@Param("industry") String industry);
+
+    List<TbProductLandmark> getList(@Param("industry") String industry, @Param("type") String type,@Param("city") String city,@Param("county") String county,@Param("year") String year,@Param("keywords") String keywords);
 }

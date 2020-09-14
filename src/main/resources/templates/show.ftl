@@ -52,8 +52,11 @@
                     <li ><a href="../../proclamationIndex.html" target="_self" title="地标公告">地标公告</a></li>
                     <li ><a href="../../proclamationGuideBook.html" target="_self" title="地标指南">地标指南</a></li>
                     <li ><a href="../../policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
-                    <li ><a href="../../ComplainsRight.html" target="_self" title="投诉维权">投诉维权</a></li>
-                    <li ><a href="../../productIntroduction.html" target="_self" title="地标制度">地标制度</a></li>
+                    <li ><a href="../../productStandard.html" target="_self" title="产品标准">产品标准</a></li>
+                    <li ><a href="../../productLandmark.html" target="_self" title="农产品地理标志">农产品地理标志</a></li>
+                    <li ><a href="../../geographicalIndicationTrademark.html" target="_self" title="地理标志商标">地理标志商标</a></li>
+                    <#--<li ><a href="../../ComplainsRight.html" target="_self" title="投诉维权">投诉维权</a></li>
+                    <li ><a href="../../productIntroduction.html" target="_self" title="地标制度">地标制度</a></li>-->
                 </ul>
                 <label class="showSearch" title="搜索"></label>
             </div>

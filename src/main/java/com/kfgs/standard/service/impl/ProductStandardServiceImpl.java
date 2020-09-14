@@ -26,10 +26,12 @@ public class ProductStandardServiceImpl implements ProductStandardService {
         TbStandardExample tbStandardExample = new TbStandardExample();
         String type = searchMap.get("searchType").toString();
         String keywords = searchMap.get("searchVal").toString();
-        if ("标准号".equals(type)){
-            tbStandardExample.createCriteria().andTypeLike("%" + keywords + "%");
+        if ("number".equals(type)){
+            //标准号
+            tbStandardExample.createCriteria().andStandardNumberLike("%" + keywords + "%");
 
-        }else if ("标准名称".equals(type)){
+        }else if ("name".equals(type)){
+            //标准名称
             tbStandardExample.createCriteria().andStandardNameLike("%" + keywords + "%");
         }
         PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),20);

@@ -181,6 +181,33 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="selectIndustry" parameterType="com.kfgs.domain.TbProductLandmarkExample" resultType="java.lang.String">
+    select distinct industry from tb_product_landmark
+  </select>
+  <select id="selectTypeByIndustry" parameterType="com.kfgs.domain.TbProductLandmarkExample" resultType="java.lang.String">
+    select distinct type from tb_product_landmark where industry = #{industry}
+  </select>
+  <select id="getList" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbProductLandmarkExample">
+    select * from tb_product_landmark where 1=1
+    <if test="industry != null and industry != ''">
+      and industry=#{industry}
+    </if>
+    <if test="type != null and type != ''">
+      and type=#{type}
+    </if>
+    <if test="city != null and city != ''">
+      and city=#{city}
+    </if>
+    <if test="county != null and county != ''">
+      and county=#{county}
+    </if>
+    <if test="year != null and year != ''">
+      and register_year=#{year}
+    </if>
+    <if test="keywords != null and keywords != ''">
+      and CONCAT(industry, type,city,county,product_name,product_number,certificate_holder,register_year) LIKE CONCAT('%',#{keywords},'%')
+    </if>
+  </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update tb_product_landmark
     <set >
