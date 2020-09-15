@@ -2,7 +2,7 @@
 standardApp.controller('productStandardShowController',function ($scope,$location,productStandardShowService) {
 
     $scope.getStandardInfo = function () {
-        var name = $location.search()['nameVal'];
+        var name = $location.search()['numberVal'];
         console.log(name);
         productStandardShowService.getInfo(name).success(
             function (response) {

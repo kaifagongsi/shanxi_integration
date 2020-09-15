@@ -2,7 +2,7 @@
 standardApp.service('productStandardShowService',function ($http) {
 
     //列表页加载
-    this.getInfo = function (standardName) {
-        return $http.get('../../standard/getStandardInfo.do?standardName='+standardName);
+    this.getInfo = function (standardNumber) {
+        return $http.get('../../standard/getStandardInfo.do?standardNumber='+standardNumber);
     };
 });

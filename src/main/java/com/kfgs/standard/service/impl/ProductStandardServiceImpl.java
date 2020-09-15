@@ -44,15 +44,15 @@ public class ProductStandardServiceImpl implements ProductStandardService {
     }
 
     @Override
-    public Map<String, Object> getStandardInfo(String standardName) {
+    public Map<String, Object> getStandardInfo(String standardNumber) {
         Map resultMap = new HashMap();
-        if (standardName == null || standardName == "") {
+        if (standardNumber == null || standardNumber == "") {
             resultMap.put("state","200");
             resultMap.put("message","参数错误");
             return resultMap;
         }
         TbStandardExample tbStandardExample = new TbStandardExample();
-        tbStandardExample.createCriteria().andStandardNameEqualTo(standardName);
+        tbStandardExample.createCriteria().andStandardNumberEqualTo(standardNumber);
         List<TbStandard> list = tbProductStandardMapper.selectByExample(tbStandardExample);
         if (list.size() == 1){
             TbStandard tbStandard = list.get(0);

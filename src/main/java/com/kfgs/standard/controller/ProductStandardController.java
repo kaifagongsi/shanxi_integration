@@ -18,8 +18,8 @@ public class ProductStandardController {
         return productStandardService.getList(searchMap);
     }
 
-    @GetMapping("getStandardInfo")
-    public Map<String,Object> getProductInfo(String standardName){
-        return productStandardService.getStandardInfo(standardName);
+    @GetMapping("/getStandardInfo")
+    public Map<String,Object> getProductInfo(String standardNumber){
+        return productStandardService.getStandardInfo(standardNumber);
     }
 }
