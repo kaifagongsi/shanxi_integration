@@ -94,7 +94,10 @@
             <div class="col-xs-12">
                 <div class="box box-info">
                     <div class="page-header" style="margin-top:20px;">
-                        <h4 style="margin-left: 20px;">{{standardInfo.standardName}}<a href="javascript:void(0)" onclick="alert('购买标准，请联系陕西省标准化院，电话')"><img src="img/pdf.png" alt style="width: 38px;margin-left: 20px;"></a></h4>
+                        <h4 style="margin-left: 20px;">{{standardInfo.standardName}}
+                            <img src="img/pdf.png" title="如需获取全文,请联系陕西省地理标志运用促进中心  029-81101903" alt style="width: 38px;margin-left: 20px;">
+                            <!--<div>如需获取全文,请联系陕西省地理标志运用促进中心  029-81101903</div>-->
+                        </h4>
                         <div style="font-size:16px;margin-left: 20px;margin-top: 5px;">
                             <b>{{standardInfo.standardNumber}}</b>
                         </div>
@@ -154,7 +157,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">推荐性</label>
+                                <label class="col-sm-2 control-label">推荐性或强制性</label>
                                 <div class="col-sm-4">
                                     <p class="form-control-static">{{standardInfo.type}}</p>
                                 </div>
@@ -164,15 +167,31 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">适用范围</label>
+                                <!--<label class="col-sm-2 control-label">适用范围</label>
                                 <div class="col-sm-4">
                                     <p class="form-control-static">{{standardInfo.limitation}}</p>
-                                </div>
+                                </div>-->
                                 <label class="col-sm-2 control-label">标准类别</label>
                                 <div class="col-sm-4">
                                     <p class="form-control-static">{{standardInfo.standardType}}</p>
                                 </div>
+                                <label class="col-sm-2 control-label">代替标准</label>
+                                <div class="col-sm-4">
+                                    <p class="form-control-static">{{standardInfo.replaceStandard}}</p>
+                                </div>
                             </div>
+
+                            <div class="box-header with-border">
+                                <h3 class="box-title">适用范围</h3>
+                            </div>
+                            <!-- form start -->
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div style="margin-top: 10px;">
+                                        <p style="margin-left:180px;">{{standardInfo.limitation}}</p>
+                                    </div>
+                                </div>
+                            </form>
 
                             <div class="box-header with-border">
                                 <h3 class="box-title">起草单位</h3>
@@ -211,7 +230,8 @@
     <!--footer-->
     <div class="footer">
         <span style="margin-top: 2px;display: block;"></span>
-    </div>		<!--/footer-->
+    </div>
+    <!--/footer-->
 </div>
 </body>
 </html>

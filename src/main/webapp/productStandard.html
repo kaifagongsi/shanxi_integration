@@ -94,11 +94,14 @@
                     <tr valign="middle">
                         <td class="th" width="50px;">序号</td>
                         <td class="th" width="100px;">产品名称</td>
-                        <td class="th" width="150px;">标准号</td>
-                        <td class="th" width="150px;">标准名称</td>
+                        <td class="th" width="200px;">标准号</td>
+                        <td class="th" width="250px;">标准名称</td>
+                        <td class="th" width="60px;">状态</td>
                         <td class="th" width="180px;">省市区</td>
-                        <td class="th" width="120px;">发布日期</td>
-                        <td class="th" width="200px;">查看详情</td>
+                        <td class="th" width="150px;">发布日期</td>
+                        <td class="th" width="150px;">实施日期</td>
+                        <td class="th" width="150px;">备案号</td>
+                        <td class="th" width="150px;">备案日期</td>
                     </tr>
                 </table>
             </div>
@@ -107,11 +110,14 @@
                     <tr ng-repeat="item in resultMap.rows">
                         <td class="th" width="50px;">{{$index+1}}</td>
                         <td class="th" width="100px;">{{item.productName}}</td>
-                        <td class="th" width="150px;">{{item.standardNumber}}</td>
-                        <td class="th" width="150px;">{{item.standardName}}</td>
+                        <td class="th" width="200px;"><a href="productStandardShow.html#?numberVal={{item.standardNumber}}" target="_blank" style="color:royalblue;text-decoration: none">{{item.standardNumber}}</a></td>
+                        <td class="th" width="250px;">{{item.standardName}}</td>
+                        <td class="th" width="60px;">{{item.state}}</td>
                         <td class="th" width="180px;">{{item.address}}</td>
-                        <td class="th" width="120px;">{{item.publishTime}}</td>
-                        <td class="th" width="200px;"><a href="productStandardShow.html#?numberVal={{item.standardNumber}}" ng-bind-html="item.standardNumber | trustHtml" target="_blank" style="text-decoration: none"> </a></td>
+                        <td class="th" width="150px;">{{item.publishTime}}</td>
+                        <td class="th" width="150px;">{{item.implementTime}}</td>
+                        <td class="th" width="150px;">{{item.recordNumber}}</td>
+                        <td class="th" width="150px;">{{item.recordTime}}</td>
                     </tr>
                 </table>
             </div>
