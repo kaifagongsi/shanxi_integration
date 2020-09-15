@@ -26,7 +26,10 @@ public class ProductStandardServiceImpl implements ProductStandardService {
         TbStandardExample tbStandardExample = new TbStandardExample();
         String type = searchMap.get("searchType").toString();
         String keywords = searchMap.get("searchVal").toString();
-        if ("number".equals(type)){
+        if ("product".equals(type)){
+            //产品名称
+            tbStandardExample.createCriteria().andProductNameLike("%" + keywords + "%");
+        }else if ("number".equals(type)){
             //标准号
             tbStandardExample.createCriteria().andStandardNumberLike("%" + keywords + "%");
 
