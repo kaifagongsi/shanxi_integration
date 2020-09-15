@@ -110,10 +110,12 @@
                     <tr valign="middle">
                         <td class="th" width="50px;">序号</td>
                         <td class="th" width="100px;">产品名称</td>
-                        <td class="th" width="150px;">产地</td>
+                        <td class="th" width="150px;">地市&区县</td>
                         <td class="th" width="200px;">产品编号</td>
                         <td class="th" width="180px;">证书持有者</td>
                         <td class="th" width="120px;">登记年份</td>
+                        <td class="th" width="180px;">所属行业</td>
+                        <td class="th" width="120px;">类别</td>
                         <td class="th" width="180px;">查看详情</td>
                     </tr>
                 </table>
@@ -126,8 +128,10 @@
                         <td class="th" width="150px;">{{item.city+item.county}}</td>
                         <td class="th" width="200px;">{{item.productNumber}}</td>
                         <td class="th" width="180px;">{{item.certificateHolder}}</td>
-                        <td class="th" width="120px">{{item.registerYear}}</td>
-                        <td class="th" width="180px;"><a href="/static/landmarkShow/{{item.productName}}.html" ng-bind-html="item.productName | trustHtml" target="_blank" style="text-decoration: none"> </a></td>
+                        <td class="th" width="120px;">{{item.registerYear}}</td>
+                        <td class="th" width="180px;">{{item.industry}}</td>
+                        <td class="th" width="120px;">{{item.type}}</td>
+                        <td class="th" width="180px;"><a href="/static/landmarkShow/{{item.productName}}.html" target="_blank" style="text-decoration: none">查看详情</a></td>
                     </tr>
                 </table>
             </div>
