@@ -33,6 +33,13 @@
         });
     </script>
     <style>
+        /*.tableContenter {
+            position: relative;
+            width: 1015px;
+            margin: auto;
+            background-color: white;
+            border: 0;
+        }*/
         .tableContenter {
             position: relative;
             width: 1015px;
@@ -46,7 +53,7 @@
             overflow: hidden;
         }
         #fixedTab,#grid{
-            width: 2590px;
+            width: 1015px;
             border: 0;
         }
         td,th{
@@ -65,7 +72,7 @@
             border: 0;
         }
         #mainDiv{
-            width: 2590px;
+            width: 1015px;
             overflow:auto;
             overflow-x:hidden;
             border: 0;
@@ -136,7 +143,7 @@
                 <button style="height: 34px;width: 55px;"  class="button" ng-click="search()">确定</button>
             </div>
             <div class="tableContenter" style="overflow-x:auto;">
-                <div class="tableThead">
+                <!--<div class="tableThead">
                     <table id="fixedTab" cellpadding="0" cellspacing="0">
                         <thead>
                             <tr>
@@ -175,6 +182,38 @@
                                 <td class="th" width="100px;">{{item.announcementDateOfPreliminaryExamination}}</td>
                                 <td class="th" width="80px">{{item.regeistrationNoticeIssueNo}}</td>
                                 <td class="th" width="100px">{{item.dateOfBoticeOfRegeistation}}</td>
+                                <td class="th" width="100px"><a target="_blank" href="static/trademark/pdf/深入理解Java虚拟机JVM高级特性与最佳实践(第2版).pdf">查看详细</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>-->
+                <div class="tableThead">
+                    <table id="fixedTab" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td class="th" width="50px;">序号</td>
+                                <td class="th" width="120px;">商标名称</td>
+                                <td class="th" width="100px;">商标类型</td>
+                                <td class="th" width="260px;">注册人中文名称</td>
+                                <td class="th" width="100px;">注册号</td>
+                                <td class="th" width="100px;">国际分类号</td>
+                                <td class="th" width="120px">申请日期</td>
+                                <td class="th" width="100px">查看详细</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div>
+                    <div id="mainDiv">
+                        <table id="grid"     cellpadding="0" cellspacing="0">
+                            <tr ng-repeat="item in resultMap.rows">
+                                <td class="th" width="50px;">{{$index+1}}</td>
+                                <td class="th" width="120px;">{{item.tradeName}}</td>
+                                <td class="th" width="100px;">{{item.trademarkType}}</td>
+                                <td class="th" width="260px;">{{item.chineseNameOfRegisrant}}</td>
+                                <td class="th" width="100px;">{{item.registrationNumber}}</td>
+                                <td class="th" width="100px;">{{item.internationalClassification}}</td>
+                                <td class="th" width="120px;">{{item.applicationDate}}</td>
                                 <td class="th" width="100px"><a target="_blank" href="static/trademark/pdf/深入理解Java虚拟机JVM高级特性与最佳实践(第2版).pdf">查看详细</a></td>
                             </tr>
                         </table>
@@ -230,7 +269,7 @@
         $(window).resize(setContent);
         $("#mainDiv").mCustomScrollbar({theme:"3d-dark"});
     });
-    $(document).ready(function(){
+    /*$(document).ready(function(){
         $(".tableContenter").mCustomScrollbar({
             theme:"3d-dark",
             scrollInertia:550,
@@ -242,7 +281,7 @@
                     scrollAmount:116
             }
         })
-    });
+    });*/
 </script>
 </body>
 </html>
