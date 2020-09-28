@@ -971,6 +971,76 @@ public class TbGeographicalIndicationTrademarkExample {
             addCriterionForJDBCDate("date_of_botice_of_regeistation not between", value1, value2, "dateOfBoticeOfRegeistation");
             return (Criteria) this;
         }
+
+        public Criteria andPdfPathIsNull() {
+            addCriterion("pdf_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathIsNotNull() {
+            addCriterion("pdf_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathEqualTo(String value) {
+            addCriterion("pdf_path =", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathNotEqualTo(String value) {
+            addCriterion("pdf_path <>", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathGreaterThan(String value) {
+            addCriterion("pdf_path >", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathGreaterThanOrEqualTo(String value) {
+            addCriterion("pdf_path >=", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathLessThan(String value) {
+            addCriterion("pdf_path <", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathLessThanOrEqualTo(String value) {
+            addCriterion("pdf_path <=", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathLike(String value) {
+            addCriterion("pdf_path like", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathNotLike(String value) {
+            addCriterion("pdf_path not like", value, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathIn(List<String> values) {
+            addCriterion("pdf_path in", values, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathNotIn(List<String> values) {
+            addCriterion("pdf_path not in", values, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathBetween(String value1, String value2) {
+            addCriterion("pdf_path between", value1, value2, "pdfPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfPathNotBetween(String value1, String value2) {
+            addCriterion("pdf_path not between", value1, value2, "pdfPath");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

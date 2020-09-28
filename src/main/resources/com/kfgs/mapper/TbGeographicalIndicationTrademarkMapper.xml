@@ -15,6 +15,7 @@
     <result column="announcement_date_of_preliminary_examination" property="announcementDateOfPreliminaryExamination" jdbcType="DATE" />
     <result column="regeistration_notice_issue_no" property="regeistrationNoticeIssueNo" jdbcType="INTEGER" />
     <result column="date_of_botice_of_regeistation" property="dateOfBoticeOfRegeistation" jdbcType="DATE" />
+    <result column="pdf_path" property="pdfPath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,7 +78,8 @@
   <sql id="Base_Column_List" >
     id, trade_name, trademark_type, chinese_name_of_regisrant, registration_number, International_classification, 
     application_date, chinese_address_of_registrant, name_of_agency, issue_num_of_preliminary_examination_announcement, 
-    announcement_date_of_preliminary_examination, regeistration_notice_issue_no, date_of_botice_of_regeistation
+    announcement_date_of_preliminary_examination, regeistration_notice_issue_no, date_of_botice_of_regeistation, 
+    pdf_path
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" >
     select
@@ -115,15 +117,15 @@
       International_classification, application_date, 
       chinese_address_of_registrant, name_of_agency, 
       issue_num_of_preliminary_examination_announcement, announcement_date_of_preliminary_examination, 
-      regeistration_notice_issue_no, date_of_botice_of_regeistation
-      )
+      regeistration_notice_issue_no, date_of_botice_of_regeistation, 
+      pdf_path)
     values (#{id,jdbcType=INTEGER}, #{tradeName,jdbcType=VARCHAR}, #{trademarkType,jdbcType=VARCHAR}, 
       #{chineseNameOfRegisrant,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
       #{internationalClassification,jdbcType=INTEGER}, #{applicationDate,jdbcType=DATE}, 
       #{chineseAddressOfRegistrant,jdbcType=VARCHAR}, #{nameOfAgency,jdbcType=VARCHAR}, 
       #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER}, #{announcementDateOfPreliminaryExamination,jdbcType=DATE}, 
-      #{regeistrationNoticeIssueNo,jdbcType=INTEGER}, #{dateOfBoticeOfRegeistation,jdbcType=DATE}
-      )
+      #{regeistrationNoticeIssueNo,jdbcType=INTEGER}, #{dateOfBoticeOfRegeistation,jdbcType=DATE}, 
+      #{pdfPath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
     insert into tb_geographical_indication_trademark
@@ -167,6 +169,9 @@
       <if test="dateOfBoticeOfRegeistation != null" >
         date_of_botice_of_regeistation,
       </if>
+      <if test="pdfPath != null" >
+        pdf_path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -207,6 +212,9 @@
       </if>
       <if test="dateOfBoticeOfRegeistation != null" >
         #{dateOfBoticeOfRegeistation,jdbcType=DATE},
+      </if>
+      <if test="pdfPath != null" >
+        #{pdfPath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -258,6 +266,9 @@
       <if test="record.dateOfBoticeOfRegeistation != null" >
         date_of_botice_of_regeistation = #{record.dateOfBoticeOfRegeistation,jdbcType=DATE},
       </if>
+      <if test="record.pdfPath != null" >
+        pdf_path = #{record.pdfPath,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -277,7 +288,8 @@
       issue_num_of_preliminary_examination_announcement = #{record.issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER},
       announcement_date_of_preliminary_examination = #{record.announcementDateOfPreliminaryExamination,jdbcType=DATE},
       regeistration_notice_issue_no = #{record.regeistrationNoticeIssueNo,jdbcType=INTEGER},
-      date_of_botice_of_regeistation = #{record.dateOfBoticeOfRegeistation,jdbcType=DATE}
+      date_of_botice_of_regeistation = #{record.dateOfBoticeOfRegeistation,jdbcType=DATE},
+      pdf_path = #{record.pdfPath,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -321,6 +333,9 @@
       <if test="dateOfBoticeOfRegeistation != null" >
         date_of_botice_of_regeistation = #{dateOfBoticeOfRegeistation,jdbcType=DATE},
       </if>
+      <if test="pdfPath != null" >
+        pdf_path = #{pdfPath,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -337,7 +352,8 @@
       issue_num_of_preliminary_examination_announcement = #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER},
       announcement_date_of_preliminary_examination = #{announcementDateOfPreliminaryExamination,jdbcType=DATE},
       regeistration_notice_issue_no = #{regeistrationNoticeIssueNo,jdbcType=INTEGER},
-      date_of_botice_of_regeistation = #{dateOfBoticeOfRegeistation,jdbcType=DATE}
+      date_of_botice_of_regeistation = #{dateOfBoticeOfRegeistation,jdbcType=DATE},
+      pdf_path = #{pdfPath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

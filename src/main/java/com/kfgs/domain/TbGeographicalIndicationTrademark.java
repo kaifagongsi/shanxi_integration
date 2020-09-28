@@ -2,10 +2,9 @@ package com.kfgs.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TbGeographicalIndicationTrademark implements Serializable {
+public class TbGeographicalIndicationTrademark {
     private Integer id;
 
     private String tradeName;
@@ -17,7 +16,6 @@ public class TbGeographicalIndicationTrademark implements Serializable {
     private String registrationNumber;
 
     private Integer internationalClassification;
-
     @JSONField(format="yyyy-MM-dd")
     private Date applicationDate;
 
@@ -32,6 +30,8 @@ public class TbGeographicalIndicationTrademark implements Serializable {
     private Integer regeistrationNoticeIssueNo;
     @JSONField(format="yyyy-MM-dd")
     private Date dateOfBoticeOfRegeistation;
+
+    private String pdfPath;
 
     public Integer getId() {
         return id;
@@ -135,5 +135,13 @@ public class TbGeographicalIndicationTrademark implements Serializable {
 
     public void setDateOfBoticeOfRegeistation(Date dateOfBoticeOfRegeistation) {
         this.dateOfBoticeOfRegeistation = dateOfBoticeOfRegeistation;
+    }
+
+    public String getPdfPath() {
+        return pdfPath;
+    }
+
+    public void setPdfPath(String pdfPath) {
+        this.pdfPath = pdfPath == null ? null : pdfPath.trim();
     }
 }
