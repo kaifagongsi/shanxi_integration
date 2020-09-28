@@ -12,6 +12,9 @@
     <result column="industry" property="industry" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.kfgs.domain.TbProductLandmark" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARBINARY" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -74,6 +77,25 @@
     id, product_name, city, county, product_number, certificate_holder, register_year, 
     industry, type
   </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.kfgs.domain.TbProductLandmarkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_product_landmark
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbProductLandmarkExample" >
     select
     <if test="distinct" >
@@ -88,12 +110,29 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectIndustryList" resultType="java.lang.String">
+    select distinct industry from tb_product_landmark
+  </select>
+  <select id="selectTypeList" resultType="java.lang.String">
+    select distinct type from tb_product_landmark
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from tb_product_landmark
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByProductNumber" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_product_landmark
+    where product_number = #{productNumber,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from tb_product_landmark
     where id = #{id,jdbcType=INTEGER}
@@ -104,15 +143,24 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
+  <insert id="insertLandmark" parameterType="com.kfgs.domain.TbProductLandmark" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_product_landmark (product_name,city,county,product_number,certificate_holder,register_year,industry,type,content)
+    values (#{productName,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+      #{county,jdbcType=VARCHAR}, #{productNumber,jdbcType=VARCHAR}, #{certificateHolder,jdbcType=VARCHAR},
+      #{registerYear,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+      #{content,jdbcType=LONGVARBINARY})
+  </insert>
+
   <insert id="insert" parameterType="com.kfgs.domain.TbProductLandmark" >
     insert into tb_product_landmark (id, product_name, city, 
       county, product_number, certificate_holder, 
-      register_year, industry, type
-      )
+      register_year, industry, type, 
+      content)
     values (#{id,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{county,jdbcType=VARCHAR}, #{productNumber,jdbcType=VARCHAR}, #{certificateHolder,jdbcType=VARCHAR}, 
-      #{registerYear,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
-      )
+      #{registerYear,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="com.kfgs.domain.TbProductLandmark" >
     insert into tb_product_landmark
@@ -144,6 +192,9 @@
       <if test="type != null" >
         type,
       </if>
+      <if test="content != null" >
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -173,39 +224,15 @@
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARBINARY},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kfgs.domain.TbProductLandmarkExample" resultType="java.lang.Integer" >
     select count(*) from tb_product_landmark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <select id="selectIndustry" parameterType="com.kfgs.domain.TbProductLandmarkExample" resultType="java.lang.String">
-    select distinct industry from tb_product_landmark
-  </select>
-  <select id="selectTypeByIndustry" parameterType="com.kfgs.domain.TbProductLandmarkExample" resultType="java.lang.String">
-    select distinct type from tb_product_landmark where industry = #{industry}
-  </select>
-  <select id="getList" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbProductLandmarkExample">
-    select * from tb_product_landmark where 1=1
-    <if test="industry != null and industry != ''">
-      and industry=#{industry}
-    </if>
-    <if test="type != null and type != ''">
-      and type=#{type}
-    </if>
-    <if test="city != null and city != ''">
-      and city=#{city}
-    </if>
-    <if test="county != null and county != ''">
-      and county=#{county}
-    </if>
-    <if test="year != null and year != ''">
-      and register_year=#{year}
-    </if>
-    <if test="keywords != null and keywords != ''">
-      and CONCAT(industry, type,city,county,product_name,product_number,certificate_holder,register_year) LIKE CONCAT('%',#{keywords},'%')
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
@@ -238,7 +265,26 @@
       <if test="record.type != null" >
         type = #{record.type,jdbcType=VARCHAR},
       </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARBINARY},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tb_product_landmark
+    set id = #{record.id,jdbcType=INTEGER},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      county = #{record.county,jdbcType=VARCHAR},
+      product_number = #{record.productNumber,jdbcType=VARCHAR},
+      certificate_holder = #{record.certificateHolder,jdbcType=VARCHAR},
+      register_year = #{record.registerYear,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARBINARY}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -285,7 +331,23 @@
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARBINARY},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kfgs.domain.TbProductLandmark" >
+    update tb_product_landmark
+    set product_name = #{productName,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      county = #{county,jdbcType=VARCHAR},
+      product_number = #{productNumber,jdbcType=VARCHAR},
+      certificate_holder = #{certificateHolder,jdbcType=VARCHAR},
+      register_year = #{registerYear,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARBINARY}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kfgs.domain.TbProductLandmark" >

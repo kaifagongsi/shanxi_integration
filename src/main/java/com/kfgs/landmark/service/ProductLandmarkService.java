@@ -9,4 +9,6 @@ public interface ProductLandmarkService {
 
     public Map<String,Object> getList(Map searchMap);
 
+    Map<String,Object> getContentByProductNumber(Map pData);
+
 }

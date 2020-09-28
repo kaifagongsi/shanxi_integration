@@ -27,4 +27,9 @@ public class ProductLandmarkController {
     public List<Map<String,Object>> getIndustryAndType(){
         return productLandmarkService.getIndustryAndType();
     }*/
+
+    @PostMapping("/getContent")
+    public Map<String,Object> getContent(@RequestBody Map pData){
+        return productLandmarkService.getContentByProductNumber(pData);
+    }
 }

@@ -13,4 +13,9 @@ landmarkApp.service('landmarkService',function ($http) {
     this.getShanxiMap = function () {
         return $http.get('../../landmark/getShanxiMap.do');
     }
+
+    this.initByProductNumber = function (pData) {
+        return $http.post('../../landmark/getContent.do',pData);
+    }
+
 });

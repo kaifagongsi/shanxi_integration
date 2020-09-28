@@ -12,6 +12,8 @@ import com.kfgs.domain.response.QueryResult;
 import com.kfgs.landmark.service.ProductLandmarkService;
 import com.kfgs.mapper.TbAdministrativeAreaMapper;
 import com.kfgs.mapper.TbProductLandmarkMapper;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -162,6 +164,28 @@ public class ProductLandmarkServiceImpl implements ProductLandmarkService {
         map.put("rows",page.getResult());
         map.put("totalPages", page.getPages());
         map.put("total",page.getTotal());
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getContentByProductNumber(Map pData) {
+        Map<String,Object> map = new HashMap<>();
+        if(pData.get("productNumber") != "undefined" && pData.get("productNumber") != null && StringUtils.isNotBlank(ObjectUtils.toString(pData.get("productNumber"), ""))  ){
+            TbProductLandmark tbProductLandmark = tbProductLandmarkMapper.selectByProductNumber(pData.get("productNumber").toString());
+            if(tbProductLandmark != null){
+                if(tbProductLandmark.getContent() != null){
+                    map.put("content",new String(tbProductLandmark.getContent()));
+                }
+            }
+            map.put("productName",tbProductLandmark.getProductName());
+            map.put("productNumber",tbProductLandmark.getProductNumber());
+            map.put("city",tbProductLandmark.getCity());
+            map.put("county",tbProductLandmark.getCounty());
+            map.put("certificateHolder",tbProductLandmark.getCertificateHolder());
+            map.put("registerYear",tbProductLandmark.getRegisterYear());
+            map.put("industry",tbProductLandmark.getIndustry());
+            map.put("type",tbProductLandmark.getType());
+        }
         return map;
     }
 }

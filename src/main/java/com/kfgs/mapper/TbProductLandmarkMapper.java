@@ -2,10 +2,8 @@ package com.kfgs.mapper;
 
 import com.kfgs.domain.TbProductLandmark;
 import com.kfgs.domain.TbProductLandmarkExample;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TbProductLandmarkMapper {
     int countByExample(TbProductLandmarkExample example);
@@ -18,21 +16,31 @@ public interface TbProductLandmarkMapper {
 
     int insertSelective(TbProductLandmark record);
 
+    List<TbProductLandmark> selectByExampleWithBLOBs(TbProductLandmarkExample example);
+
     List<TbProductLandmark> selectByExample(TbProductLandmarkExample example);
+
+    List<String> selectIndustryList();
+
+    List<String> selectTypeList();
 
     TbProductLandmark selectByPrimaryKey(Integer id);
 
+    TbProductLandmark selectByProductNumber(String productNumber);
+
     int updateByExampleSelective(@Param("record") TbProductLandmark record, @Param("example") TbProductLandmarkExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") TbProductLandmark record, @Param("example") TbProductLandmarkExample example);
 
     int updateByExample(@Param("record") TbProductLandmark record, @Param("example") TbProductLandmarkExample example);
 
     int updateByPrimaryKeySelective(TbProductLandmark record);
 
+    int updateByPrimaryKeyWithBLOBs(TbProductLandmark record);
+
     int updateByPrimaryKey(TbProductLandmark record);
 
-    List<String> selectIndustry();
+    int insertLandmark(TbProductLandmark record);
 
-    List<String> selectTypeByIndustry(@Param("industry") String industry);
 
-    List<TbProductLandmark> getList(@Param("industry") String industry, @Param("type") String type,@Param("city") String city,@Param("county") String county,@Param("year") String year,@Param("keywords") String keywords);
 }

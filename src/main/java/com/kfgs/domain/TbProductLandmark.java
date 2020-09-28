@@ -19,6 +19,8 @@ public class TbProductLandmark {
 
     private String type;
 
+    private byte[] content;
+
     public Integer getId() {
         return id;
     }
@@ -89,5 +91,13 @@ public class TbProductLandmark {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
     }
 }

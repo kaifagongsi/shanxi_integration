@@ -127,7 +127,7 @@
                 <table cellspacing="0" cellpadding="0">
                     <tr valign="middle">
                         <td class="th" width="50px;">序号</td>
-                        <td class="th" width="100px;">产品名称</td>
+                        <td class="th" width="150px;">产品名称</td>
                         <td class="th" width="150px;">地市&区县</td>
                         <td class="th" width="200px;">产品编号</td>
                         <td class="th" width="180px;">证书持有者</td>
@@ -142,14 +142,14 @@
                 <table cellspacing="0" cellpadding="0">
                     <tr ng-repeat="item in resultMap.rows">
                         <td class="th" width="50px;">{{$index+1}}</td>
-                        <td class="th" width="100px;">{{item.productName}}</td>
+                        <td class="th" width="150px;">{{item.productName}}</td>
                         <td class="th" width="150px;">{{item.city+item.county}}</td>
                         <td class="th" width="200px;">{{item.productNumber}}</td>
                         <td class="th" width="180px;">{{item.certificateHolder}}</td>
                         <td class="th" width="120px;">{{item.registerYear}}</td>
                         <td class="th" width="180px;">{{item.industry}}</td>
                         <td class="th" width="120px;">{{item.type}}</td>
-                        <td class="th" width="180px;"><a href="/static/landmarkShow/{{item.productName}}.html" target="_blank" style="color:royalblue;text-decoration: none">查看详情</a></td>
+                        <td class="th" width="180px;"><a href="productLandmarkShow.html#?idVal={{item.productNumber}}" ng-bind-html="item.productName | trustHtml" target="_blank" style="color:royalblue;text-decoration: none">查看详情</a></td>
                     </tr>
                 </table>
             </div>
