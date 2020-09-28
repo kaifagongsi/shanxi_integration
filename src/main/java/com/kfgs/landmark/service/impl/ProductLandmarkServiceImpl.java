@@ -88,7 +88,7 @@ public class ProductLandmarkServiceImpl implements ProductLandmarkService {
         //返回页面结果集
         Map<String,Object> map = new HashMap<>();
         TbProductLandmarkExample tbProductLandmarkExample = new TbProductLandmarkExample();
-        String industry = "";
+        /*String industry = "";
         String type = "";
         String city = "";
         String county = "";
@@ -111,26 +111,54 @@ public class ProductLandmarkServiceImpl implements ProductLandmarkService {
         }
         if (searchMap.get("keywords") != null){
             keywords = searchMap.get("keywords").toString();
-        }
-
-        /*if (!"".equals(industry)){
-            tbProductLandmarkExample.createCriteria().andIndustryEqualTo(industry);
-        }
-        if (!"".equals(type)){
-            tbProductLandmarkExample.createCriteria().andTypeEqualTo(type);
-        }
-        if (!"".equals(city)){
-            tbProductLandmarkExample.createCriteria().andCityEqualTo(city);
-        }
-        if (!"".equals(county)){
-            tbProductLandmarkExample.createCriteria().andCountyEqualTo(county);
-        }
-        if (!"".equals(year)){
-            tbProductLandmarkExample.createCriteria().andRegisterYearEqualTo(year);
         }*/
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),Integer.parseInt(searchMap.get("pageSize").toString()));
+        /*String productName = "";
+        String productNumber = "";
+        String city = "";
+        String county = "";
+        String year = "";
+        String industry = "";
+        String certificateHolder = "";
+        String type = "";*/
+        String typeVal = searchMap.get("searchType").toString();
+        String keywords = searchMap.get("searchVal").toString();
+
+        if ("productName".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andProductNameLike("%" + keywords + "%");
+            //productName = keywords;
+        }
+        if ("productNumber".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andProductNumberLike("%" + keywords + "%");
+            //productNumber = keywords;
+        }
+        if ("city".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andCityLike("%" + keywords + "%");
+            //city = keywords;
+        }
+        if ("county".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andCountyLike("%" + keywords + "%");
+            //county = keywords;
+        }
+        if ("industry".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andIndustryLike("%" + keywords + "%");
+            //industry = keywords;
+        }
+        if ("certificateHolder".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andCertificateHolderLike("%" + keywords + "%");
+            //certificateHolder = keywords;
+        }
+        if ("type".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andTypeLike("%" + keywords + "%");
+            //type = keywords;
+        }
+        if ("year".equals(typeVal)){
+            tbProductLandmarkExample.createCriteria().andRegisterYearLike("%" + keywords + "%");
+        }
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),20);
+        Page<TbProductLandmark> page = (Page<TbProductLandmark>)tbProductLandmarkMapper.selectByExample(tbProductLandmarkExample);
+        /*PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),Integer.parseInt(searchMap.get("pageSize").toString()));
         Page<TbProductLandmark> page = (Page<TbProductLandmark>)tbProductLandmarkMapper.getList(industry,type,city,county,year,keywords);
-        System.out.println(page.getPages());
+        System.out.println(page.getPages());*/
         map.put("rows",page.getResult());
         map.put("totalPages", page.getPages());
         map.put("total",page.getTotal());
