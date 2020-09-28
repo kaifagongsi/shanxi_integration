@@ -17,4 +17,9 @@ adminApp.service('adminLandmarkService',function ($http) {
     this.saveLandmark = function (landmarkEntity) {
         return $http.post('../../admin/landmarkController/saveLandmark.do',landmarkEntity);
     }
+
+    //编辑
+    this.initByProductNumber = function (pData) {
+        return $http.post('../../admin/landmarkController/initByProductNumber.do',pData);
+    }
 });

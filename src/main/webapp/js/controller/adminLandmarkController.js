@@ -2,6 +2,8 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':10};
     $scope.pageDate={ 'list' : '','totalPages':''};
     $scope.landmarkEntity ={ "id":"","productName":"","productNumber":"","city":"","county":"","industry":"","type":"","certificateHolder":"","registerYear":""};
+    $scope.searchData = {'content':'','productNumber':''};
+    $scope.contentMap= {"id":"","content":"",'productName':'','productNumber':'','city':'','county':'','industry':'','type':'','certificateHolder':'','registerYear':''};
     $scope.currPageNo = 1;
     $scope.firstDot = true;//前面有点
     $scope.lastDot = true;//后面有点
@@ -243,9 +245,9 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
     $scope.industryList = null;
     $scope.typeList = null;
 
-    $scope.initLandmark = function() {
+    /*$scope.initLandmark = function() {
         initSelect();
-    }
+    }*/
     //初始化省市和行业下拉框
     function initSelect() {
         adminLandmarkService.initSelect().success(function (response){
@@ -261,13 +263,30 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
     /*
     * 监听市级别发生变化，进行重新获取县级别的区间
     * */
-    $scope.$watch('landmarkEntity.city',function (newValue,oldValue) {
+    $scope.$watch('contentMap.city',function (newValue,oldValue) {
         console.log(newValue,oldValue);
         adminLandmarkService.getAreasCountyList(newValue).success(function (response) {
             $scope.areasCountyList = response.queryResult.list;
         });
     });
 
+    /***************************农产品地理标志编辑********************************/
+    $scope.initByProductNumber = function (){
+        initSelect();
+        //接收index.html传参
+        var idVal = "";
+        if ($location.$$search.idVal) {
+            $scope.searchData.productNumber = $location.$$search['idVal'];
+        }
+        //alert($location.$$search['idVal'])
+        adminLandmarkService.initByProductNumber($scope.searchData).success(
+            function(response2){
+                console.log(response2);
+                CKEDITOR.instances.TextArea1.setData(response2.content);
+                $scope.contentMap=response2;//搜索返回的结果
+            }
+        )
+    };
 
     /*******************************农产品地理标志列表**********************************/
     $scope.loadLandmark = function () {
@@ -281,6 +300,7 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
 
     /*********************************新增农产品地理标志*****************************/
     $scope.saveLandmark = function () {
+        $scope.landmarkEntity.id = $("#landmarkId").val();
         $scope.landmarkEntity.productName = $("#productName").val();
         $scope.landmarkEntity.productNumber = $("#productNumber").val();
         $scope.landmarkEntity.city = $("#city option:selected").text();

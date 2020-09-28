@@ -43,4 +43,10 @@ public class AdminLandmarkController {
         ja.put("loadType", "农产品地理标志");
         return "success";
     }
+
+    //获取详情
+    @PostMapping("/initByProductNumber")
+    public Map<String,Object> initByProductNumber(@RequestBody Map pData){
+        return adminLandmarkService.initByProductNumber(pData);
+    }
 }

@@ -12,4 +12,6 @@ public interface AdminLandmarkService {
 
     QueryResponseResult getSelectMap();
 
+    Map<String,Object>  initByProductNumber(Map pData);
+
 }

@@ -142,4 +142,29 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
         return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
 
+    @Override
+    public Map<String, Object> initByProductNumber(Map pData) {
+        Map<String,Object> map = new HashMap<>();
+        if(pData.get("productNumber") != "undefined" && pData.get("productNumber") != null && StringUtils.isNotBlank(ObjectUtils.toString(pData.get("productNumber"), ""))  ){
+            TbProductLandmark tbProductLandmark = tbProductLandmarkMapper.selectByProductNumber(pData.get("productNumber").toString());
+            if(tbProductLandmark != null){
+                if(tbProductLandmark.getContent() != null){
+                    map.put("content",new String(tbProductLandmark.getContent()));
+                }else {
+                    map.put("content",new String("暂无数据"));
+                }
+            }
+            map.put("id",tbProductLandmark.getId());
+            map.put("productName",tbProductLandmark.getProductName());
+            map.put("productNumber",tbProductLandmark.getProductNumber());
+            map.put("city",tbProductLandmark.getCity());
+            map.put("county",tbProductLandmark.getCounty());
+            map.put("certificateHolder",tbProductLandmark.getCertificateHolder());
+            map.put("registerYear",tbProductLandmark.getRegisterYear());
+            map.put("industry",tbProductLandmark.getIndustry());
+            map.put("type",tbProductLandmark.getType());
+        }
+        return map;
+    }
+
 }
