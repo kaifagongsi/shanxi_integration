@@ -5,6 +5,7 @@ import com.kfgs.domain.*;
 import com.kfgs.domain.ext.ExcelSheetPO;
 import com.kfgs.domain.ext.TbEnterpriseExcel;
 import com.kfgs.domain.ext.TbProductExcel;
+import com.kfgs.domain.request.TbGeographicalIndicationTrademarkExcelPO;
 import com.kfgs.mapper.*;
 import com.kfgs.utils.DatabasePropertiesUtils;
 import com.kfgs.utils.ExportExcelUtil;
@@ -63,13 +64,16 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     @Autowired
     TbProductStandardMapper tbProductStandardMapper;
 
+    @Autowired
+    TbGeographicalIndicationTrademarkMapper tbGeographicalIndicationTrademarkMapper;
+
     @Override
     public Boolean upload(MultipartFile file,String dataBasesType,String productType) {
         String originalFilename = file.getOriginalFilename();
         String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         try {
             if("1".equals(dataBasesType)){//产品
-                // 设置excel读取15列数据
+                // 设置excel读取17列数据
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 17);
                 return uploadProduct(list.get(0).getDataList());
             }else if("2".equals(dataBasesType)){//用标企业
@@ -85,13 +89,54 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             }else if ("5".equals(dataBasesType)){ //产品标准
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,21);
                 return uploadProductStandard(list.get(0).getDataList());
-            } else{
-                return  false;
+            } else if("6".equals(dataBasesType)){//地理标志商标
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,12);
+                return  uploadTrademark(list.get(0).getDataList());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return  false;
+    }
+
+    /**
+     * 功能描述：
+     *  1.将excel中的数据上传到
+     * @param dataList
+     * @return
+     */
+    private Boolean uploadTrademark(List<List<Object>> dataList) {
+        boolean b = false;
+        System.out.println(dataList);
+        try {
+            List<TbGeographicalIndicationTrademark> trademarkList = new ArrayList<>();
+            for( int i =1; i<dataList.size(); i++){
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                TbGeographicalIndicationTrademark trademark = new TbGeographicalIndicationTrademark();
+                List<Object> item = dataList.get(i);
+                item.add(0,0);
+                item.set(5,Integer.parseInt(item.get(5).toString()));
+                item.set(6,format.parse(item.get(6).toString().substring(0,10)));
+                item.set(9,Integer.parseInt(item.get(9).toString()));
+                item.set(10,format.parse(item.get(10).toString().substring(0,10)));
+                item.set(11,Integer.parseInt(item.get(11).toString()));
+                item.set(12,format.parse(item.get(12).toString().substring(0,10)));
+                item.add(13,"");
+                ListToModelUtils.listToModel(item,trademark);
+                trademarkList.add(trademark);
+            }
+            System.out.println(trademarkList);
+            int insertNumber = tbGeographicalIndicationTrademarkMapper.insertList(trademarkList);
+            if(insertNumber == dataList.size() - 1){
+                b = true;
+                System.out.println("插入ok");
+            }else{
+                System.out.println("插入失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return b;
     }
 
     private Boolean uploadProductStandard(List<List<Object>> dataList) {

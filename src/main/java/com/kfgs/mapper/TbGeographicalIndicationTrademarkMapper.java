@@ -28,4 +28,6 @@ public interface TbGeographicalIndicationTrademarkMapper {
     int updateByPrimaryKeySelective(TbGeographicalIndicationTrademark record);
 
     int updateByPrimaryKey(TbGeographicalIndicationTrademark record);
+
+    int insertList(List<TbGeographicalIndicationTrademark> trademarkList);
 }

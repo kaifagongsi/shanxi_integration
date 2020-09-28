@@ -218,7 +218,37 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" resultType="java.lang.Integer" >
+    <insert id="insertList">
+      insert into tb_geographical_indication_trademark(trade_name,
+        trademark_type,
+        chinese_name_of_regisrant,
+        registration_number,
+        International_classification,
+        application_date,
+        chinese_address_of_registrant,
+        name_of_agency,
+        issue_num_of_preliminary_examination_announcement,
+        announcement_date_of_preliminary_examination,
+        regeistration_notice_issue_no, date_of_botice_of_regeistation)
+      values
+      <foreach collection="list" item="item"   separator=",">
+        (
+          #{item.tradeName},
+          #{item.trademarkType},
+          #{item.chineseNameOfRegisrant},
+          #{item.registrationNumber},
+          #{item.internationalClassification},
+          #{item.applicationDate},
+          #{item.chineseAddressOfRegistrant},
+          #{item.nameOfAgency},
+          #{item.issueNumOfPreliminaryExaminationAnnouncement,},
+          #{item.announcementDateOfPreliminaryExamination},
+          #{item.regeistrationNoticeIssueNo},
+          #{item.dateOfBoticeOfRegeistation}
+        )
+      </foreach>
+    </insert>
+    <select id="countByExample" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" resultType="java.lang.Integer" >
     select count(*) from tb_geographical_indication_trademark
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
