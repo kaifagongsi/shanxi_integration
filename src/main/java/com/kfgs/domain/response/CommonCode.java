@@ -15,6 +15,9 @@ public enum CommonCode implements ResultCode {
     SUCCESS(true,10000,"操作成功"),
     FAIL(false,11111,"操作失败"),
     SERVER_ERROR(false,10002,"权限不足，无法操作"),
+    INSERT_ERROR(false,10004,"插入数据异常"),
+    SELECT_ERROR_DATE(false,10004,"查询数据异常"),
+    DELETE_ERROR_DATE(false,10004,"删除数据异常"),
     INVALID_PARAM(false,10003,"非法参数");
 
 
