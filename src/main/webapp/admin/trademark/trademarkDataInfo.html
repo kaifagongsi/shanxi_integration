@@ -85,18 +85,8 @@
 
                                     <div class="col-md-2 title">注册号</div>
                                     <div class="col-md-4 data"  >
-                                        <input   type="text"  class="form-control" placeholder="注册号" class="form-control" ng-model="trademarkInfo.registrationNumber"  >
+                                        <input   type="text"  ng-readonly="{{registrationNumberFlag}}" class="form-control" placeholder="注册号" class="form-control" ng-model="trademarkInfo.registrationNumber"  >
                                     </div>
-
-                                    <!--<div class="col-md-2 title">现行状态</div>
-                                    <div class="col-md-4 data"  >
-
-                                        <select class="form-control" ng-model="trademarkInfo.state" >
-                                            <option value="现行" name="现行">现行</option>
-                                            <option value="废止" name="废止">废止</option>
-                                        </select>
-                                        &lt;!&ndash; <input   type="text"  class="form-control" placeholder="现行状态" class="form-control" ng-model="trademarkInfo.state"  >&ndash;&gt;
-                                    </div>-->
 
                                     <div class="col-md-2 title">国际分类</div>
                                     <div class="col-md-4 data">
@@ -168,7 +158,6 @@
                                     <div class="col-md-4 data">
                                         <input type="text" class="form-control" disabled  ng-model="trademarkInfo.pdfPath"  placeholder="已保存的文件名称">
                                     </div>
-                                    {{trademarkInfo}}
                                     <div class="col-md-10 data text-center">
                                         <button type="button" class="btn bg-maroon" ng-click="saveTrademark()">保存基本信息</button>
                                         <button type="button" class="btn bg-default" onclick="history.back(-1);">返回</button>

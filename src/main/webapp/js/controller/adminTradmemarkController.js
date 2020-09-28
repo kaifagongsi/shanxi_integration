@@ -3,15 +3,18 @@ adminApp.controller('adminTrademarkController',function ($scope,$location,adminT
     $scope.searchMap = {'keywords':'','pageNo':1,'pageSize':10};
     $scope.resultMap = {'totalPages': '0','total':'','rows':''};
     $scope.currPageNo = 1;
+    $scope.registrationNumberFlag = true;
     //初始化详细页面
     $scope.trademarkInfo = null;
     $scope.initTrademarkData = function() {
         if($location.$$search.id){
+            $scope.registrationNumberFlag = true;
             adminTrademarkServer.selectOne($location.$$search.id).success(function (response) {
                 console.log(response)
                 $scope.trademarkInfo = response.queryResult.map.item;
             })
         }else{// 表示为新增 上面都不做
+            $scope.registrationNumberFlag = false;
 
         }
 
