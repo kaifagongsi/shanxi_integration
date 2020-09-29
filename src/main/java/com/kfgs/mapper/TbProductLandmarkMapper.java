@@ -24,6 +24,8 @@ public interface TbProductLandmarkMapper {
 
     List<String> selectTypeList();
 
+    List<String> selectProductNumberList();
+
     TbProductLandmark selectByPrimaryKey(Integer id);
 
     TbProductLandmark selectByProductNumber(String productNumber);

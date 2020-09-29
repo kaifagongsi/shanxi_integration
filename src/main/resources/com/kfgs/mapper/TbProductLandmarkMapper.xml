@@ -116,6 +116,9 @@
   <select id="selectTypeList" resultType="java.lang.String">
     select distinct type from tb_product_landmark
   </select>
+  <select id="selectProductNumberList" resultType="java.lang.String">
+    select distinct product_number from tb_product_landmark
+  </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

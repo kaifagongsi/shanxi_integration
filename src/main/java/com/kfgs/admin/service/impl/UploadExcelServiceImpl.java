@@ -92,13 +92,12 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             }else if ("5".equals(dataBasesType)){//农产品地理标志
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,8);
                 return uploadLandmark(list.get(0).getDataList());
-            }
-            /*else if ("5".equals(dataBasesType)){ //产品标准
-                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,21);
-                return uploadProductStandard(list.get(0).getDataList());
-            } */else if("6".equals(dataBasesType)){//地理标志商标
+            } else if("6".equals(dataBasesType)){//地理标志商标
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,12);
                 return  uploadTrademark(list.get(0).getDataList());
+            } else if ("7".equals(dataBasesType)){ //产品标准
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,21);
+                return uploadProductStandard(list.get(0).getDataList());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,10 +107,14 @@ public class UploadExcelServiceImpl implements UploadExcelService {
 
     /**
      * 农产品地理标志上传
+     *
+     * 检查产品编号重复
      */
     private Boolean uploadLandmark(List<List<Object>> dataList){
         boolean b = false;
         System.out.println(dataList);
+        /*List<String> productNumberList = new ArrayList<>();
+        productNumberList = tbProductLandmarkMapper.selectProductNumberList();*/
         try{
             List<TbProductLandmark> landmarkList = new ArrayList<>();
             for (int i = 1;i<dataList.size();i++){
@@ -181,51 +184,37 @@ public class UploadExcelServiceImpl implements UploadExcelService {
         try{
             List<TbStandard> standardList = new ArrayList<>();
             List<TbStandard> oldStandardList = new ArrayList<>();
-            Date date = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             for (int i=1;i<dataList.size();i++){
                 List<Object> item = dataList.get(i);
                 String productName = item.get(0).toString();
+                //当前新的标准号
                 String newStandardNumber = item.get(1).toString();
-                String publishTime = item.get(5).toString();
-                String implementTime = item.get(6).toString();
-                String recordTime = item.get(8).toString();
+                //替代标准号
+                String replaceNumber = item.get(11).toString();
+                //有替代标准,将替代标准的状态改为废止
+                if (!("".equals(replaceNumber)) &&replaceNumber != "" && replaceNumber != null){
+                    TbStandard tbStandard = new TbStandard();
+                    TbStandardExample tbStandardExample = new TbStandardExample();
+                    tbStandardExample.createCriteria().andStandardNumberEqualTo(replaceNumber);
+                    List<TbStandard> oldList = tbProductStandardMapper.selectByExample(tbStandardExample);
+                    if (oldList.size() == 1){
+                        tbStandard = oldList.get(0);
+                        tbStandard.setState("废止");
+                        tbProductStandardMapper.updateByPrimaryKeySelective(tbStandard);
+                    }
+                }
+                //插入当前标准
                 item.add(0,0);
                 //发布日期
-                item.set(6,date);
+                item.set(6,format.parse(item.get(6).toString().substring(0,10)));
                 //实施日期
-                item.set(7,date);
+                item.set(7,format.parse(item.get(7).toString().substring(0,10)));
                 //备案日期
-                item.set(9,date);
-                //获取之前的相同产品的标准
-                TbStandardExample tbStandardExample = new TbStandardExample();
-                tbStandardExample.createCriteria().andProductNameEqualTo(productName);
-                oldStandardList = tbProductStandardMapper.selectByExample(tbStandardExample);
-                if (oldStandardList.size() != 0){
-                    //存在之前的标准
-                    TbStandard tbStandard = new TbStandard();
-                    TbStandardExample tbStandardExample1 = new TbStandardExample();
-                    for (int j=0;j<oldStandardList.size();j++){
-                        tbStandard = oldStandardList.get(j);
-                        String standardNumber = tbStandard.getStandardNumber();
-                        String state = tbStandard.getState();
-                        tbStandardExample1.createCriteria().andStandardNumberEqualTo(standardNumber);
-                        if ("现行".equals(state)){
-                            //代替现有标准
-                            tbStandard.setState("废止");
-                            tbStandard.setReplaceStandard(newStandardNumber);
-                            tbProductStandardMapper.updateByExample(tbStandard,tbStandardExample1);
-                        }
-                        TbStandard addTbStandard = new TbStandard();
-                        ListToModelUtils.listToModel(item,addTbStandard);
-                        standardList.add(addTbStandard);
-                    }
-                }else {
-                    //全新的标准
-                    //直接插入
-                    TbStandard addTbStandard = new TbStandard();
-                    ListToModelUtils.listToModel(item,addTbStandard);
-                    standardList.add(addTbStandard);
-                }
+                item.set(9,format.parse(item.get(9).toString().substring(0,10)));
+                TbStandard addTbStandard = new TbStandard();
+                ListToModelUtils.listToModel(item,addTbStandard);
+                standardList.add(addTbStandard);
             }
             int insertNumber = tbProductStandardMapper.insertList(standardList);
             if(insertNumber == dataList.size() - 1){

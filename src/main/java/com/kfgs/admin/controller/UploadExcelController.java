@@ -44,7 +44,7 @@ public class UploadExcelController {
             }else{
                 result.setCode(Response.FALIE_CODE);
                 result.setSuccess(Response.FALIE);
-                result.setMessage("上传失败,系统内部异常，请稍候重试");
+                result.setMessage("上传失败,系统内部异常或数据错误，请检查或稍候重试");
             }
             return  result;
         } catch (Exception e) {
