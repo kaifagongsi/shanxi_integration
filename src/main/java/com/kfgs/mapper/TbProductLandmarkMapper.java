@@ -42,5 +42,7 @@ public interface TbProductLandmarkMapper {
 
     int insertLandmark(TbProductLandmark record);
 
+    int insertList(List<TbProductLandmark> landmarkList);
+
 
 }

@@ -67,6 +67,9 @@ public class UploadExcelServiceImpl implements UploadExcelService {
     @Autowired
     TbGeographicalIndicationTrademarkMapper tbGeographicalIndicationTrademarkMapper;
 
+    @Autowired
+    TbProductLandmarkMapper tbProductLandmarkMapper;
+
     @Override
     public Boolean upload(MultipartFile file,String dataBasesType,String productType) {
         String originalFilename = file.getOriginalFilename();
@@ -86,10 +89,14 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             }else if("4".equals(dataBasesType)){ //公告文件
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file, null, 3);
                 return uploadProtectionNotice(list.get(0).getDataList());
-            }else if ("5".equals(dataBasesType)){ //产品标准
+            }else if ("5".equals(dataBasesType)){//农产品地理标志
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,8);
+                return uploadLandmark(list.get(0).getDataList());
+            }
+            /*else if ("5".equals(dataBasesType)){ //产品标准
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,21);
                 return uploadProductStandard(list.get(0).getDataList());
-            } else if("6".equals(dataBasesType)){//地理标志商标
+            } */else if("6".equals(dataBasesType)){//地理标志商标
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,12);
                 return  uploadTrademark(list.get(0).getDataList());
             }
@@ -97,6 +104,36 @@ public class UploadExcelServiceImpl implements UploadExcelService {
             e.printStackTrace();
         }
         return  false;
+    }
+
+    /**
+     * 农产品地理标志上传
+     */
+    private Boolean uploadLandmark(List<List<Object>> dataList){
+        boolean b = false;
+        System.out.println(dataList);
+        try{
+            List<TbProductLandmark> landmarkList = new ArrayList<>();
+            for (int i = 1;i<dataList.size();i++){
+                TbProductLandmark tbProductLandmark = new TbProductLandmark();
+                List<Object> item = dataList.get(i);
+                item.add(0,0);
+                item.add(9,"");
+                ListToModelUtils.listToModel(item,tbProductLandmark);
+                landmarkList.add(tbProductLandmark);
+            }
+            System.out.println(landmarkList);
+            int insertNumber = tbProductLandmarkMapper.insertList(landmarkList);
+            if(insertNumber == dataList.size() - 1){
+                b = true;
+                System.out.println("插入成功");
+            }else{
+                System.out.println("插入失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return b;
     }
 
     /**

@@ -152,6 +152,27 @@
       #{content,jdbcType=LONGVARBINARY})
   </insert>
 
+  <insert id="insertList">
+    insert into tb_product_landmark(
+      product_name,city,
+      county, product_number, certificate_holder,
+      register_year, industry,
+      type
+    )values
+    <foreach collection="list" item="item"   separator=",">
+    (
+    #{item.productName},
+    #{item.city},
+    #{item.county},
+    #{item.productNumber},
+    #{item.certificateHolder},
+    #{item.registerYear},
+    #{item.industry},
+    #{item.type}
+    )
+    </foreach>
+  </insert>
+
   <insert id="insert" parameterType="com.kfgs.domain.TbProductLandmark" >
     insert into tb_product_landmark (id, product_name, city, 
       county, product_number, certificate_holder, 
