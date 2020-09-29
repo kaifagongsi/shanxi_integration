@@ -22,4 +22,9 @@ adminApp.service('adminLandmarkService',function ($http) {
     this.initByProductNumber = function (pData) {
         return $http.post('../../admin/landmarkController/initByProductNumber.do',pData);
     }
+
+    //删除
+    this.landmarkDelete = function (productNumber) {
+        return  $http.delete('../../admin/landmarkController/deleteLandmark.do',{params:{'productNumber':productNumber}});
+    }
 });

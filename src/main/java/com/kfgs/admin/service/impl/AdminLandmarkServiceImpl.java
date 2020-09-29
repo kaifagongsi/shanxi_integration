@@ -167,4 +167,17 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
         return map;
     }
 
+    @Override
+    public QueryResponseResult deleteLandmark(String productNumber) {
+        TbProductLandmarkExample tbProductLandmarkExample = new TbProductLandmarkExample();
+        tbProductLandmarkExample.createCriteria().andProductNumberEqualTo(productNumber);
+        int delete = tbProductLandmarkMapper.deleteByExample(tbProductLandmarkExample);
+        if(delete == 1){
+            return  new QueryResponseResult(CommonCode.SUCCESS,null);
+        }else{
+            return  new QueryResponseResult(CommonCode.FAIL,null);
+        }
+
+    }
+
 }

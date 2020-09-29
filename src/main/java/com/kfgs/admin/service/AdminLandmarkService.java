@@ -14,4 +14,6 @@ public interface AdminLandmarkService {
 
     Map<String,Object>  initByProductNumber(Map pData);
 
+    QueryResponseResult deleteLandmark(String productNumber);
+
 }

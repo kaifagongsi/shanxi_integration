@@ -39,14 +39,25 @@ public class AdminLandmarkController {
     public String saveLandmark(@RequestBody Map landmarkEntity) {
         int returnStr = adminLandmarkService.saveLandmark(landmarkEntity);
         JSONObject ja = new JSONObject();
-        ja.put("isSuccess", returnStr);
-        ja.put("loadType", "农产品地理标志");
-        return "success";
+        if (returnStr == 1){
+            return "success";
+        }else {
+            return "false";
+        }
+        /*ja.put("isSuccess", returnStr);
+        ja.put("loadType", "农产品地理标志");*/
+        //return "success";
     }
 
     //获取详情
     @PostMapping("/initByProductNumber")
     public Map<String,Object> initByProductNumber(@RequestBody Map pData){
         return adminLandmarkService.initByProductNumber(pData);
+    }
+
+    //删除
+    @DeleteMapping("deleteLandmark")
+    public QueryResponseResult deleteLandmark(String productNumber){
+        return adminLandmarkService.deleteLandmark(productNumber);
     }
 }
