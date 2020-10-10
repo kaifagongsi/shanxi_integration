@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="../../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 
-
     <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../../plugins/jQueryUI/jquery-ui.min.js"></script>
     <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -36,6 +35,7 @@
     <!--<script type="text/javascript" src="../../js/controller/productLandmarkController.js"></script>-->
     <script type="text/javascript" src="../../plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="../../plugins/ckeditor/config.js"></script>
+
 </head>
 
 <body class="hold-transition skin-purple sidebar-mini" ng-app="shanxi-admin" ng-controller="adminLandmarkController" ng-init="initByProductNumber()" >
@@ -85,36 +85,36 @@
 
                                 <div class="col-md-2 title">地市</div>
                                 <div class="col-md-4 data">
-                                    <select class="form-control select2" ng-model="contentMap.city"  id="city"  ng-options = "c.cityId as c.name for c in areasCityList">
+                                    <select class="form-control" ng-model="contentMap.city"  id="city"  ng-options = "c.cityId as c.name for c in areasCityList">
                                     </select>
                                 </div>
 
                                 <div class="col-md-2 title">区县</div>
                                 <div class="col-md-4 data">
-                                    <select class="form-control select2" ng-model="contentMap.county"  id="county"  ng-options = "c.cityId as c.name for c in areasCountyList">
+                                    <select class="form-control" ng-model="contentMap.county"  id="county"  ng-options = "c.countyId as c.name for c in areasCountyList">
                                     </select>
                                 </div>
 
                                 <div class="col-md-2 title">所属行业</div>
                                 <div class="col-md-4 data">
-                                    <select class="form-control select2" ng-model="contentMap.industry"  id="industry"  ng-options = "obj.industry for obj in industryMap">
+                                    <select class="form-control" ng-model="contentMap.industry"  id="industry"  ng-options = "obj for obj in industryList">
                                     </select>
                                 </div>
 
                                 <div class="col-md-2 title">类别</div>
                                 <div class="col-md-4 data">
-                                    <select class="form-control select2" ng-model="contentMap.type"  id="type"  ng-options = "label for label in contentMap.industry.type">
+                                    <select class="form-control" ng-model="contentMap.type"  id="type"  ng-options = "label for label in typeList">
                                     </select>
                                 </div>
 
                                 <div class="col-md-2 title">证书持有者</div>
                                 <div class="col-md-4 data">
-                                    <input type="text" class="form-control select2" ng-model="contentMap.certificateHolder" id="certificateHolder"  value="">
+                                    <input type="text" class="form-control" ng-model="contentMap.certificateHolder" id="certificateHolder"  value="">
                                 </div>
 
                                 <div class="col-md-2 title">登记年份</div>
                                 <div class="col-md-4 data"  >
-                                    <select class="form-control select2" ng-model="contentMap.registerYear"  id="registerYear"  ng-options = "year for year in yearList">
+                                    <select class="form-control" ng-model="contentMap.registerYear"  id="registerYear"  ng-options = "year for year in yearList">
                                     </select>
                                 </div>
 
@@ -147,8 +147,6 @@
 </div>
 
 <script>
-
-
 
 
 </script>

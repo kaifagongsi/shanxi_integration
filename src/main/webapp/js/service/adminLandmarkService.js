@@ -13,6 +13,11 @@ adminApp.service('adminLandmarkService',function ($http) {
         return $http.get('../../admin/landmarkController/selectByParentId.do?id=' + cityId);
     };
 
+    //根据行业获取分类
+    this.getTypeList = function (industryName) {
+        return $http.get('../../admin/landmarkController/selectByIndustry.do?name=' + industryName);
+    }
+
     //新增
     this.saveLandmark = function (landmarkEntity) {
         return $http.post('../../admin/landmarkController/saveLandmark.do',landmarkEntity);
