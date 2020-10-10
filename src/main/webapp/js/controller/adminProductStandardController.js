@@ -7,6 +7,7 @@ adminApp.controller('adminProductStandardController',function ($scope,$location,
     $scope.load=function(){
         adminProductStandardService.loadList( $scope.searchMap ).success(
             function(response){
+                console.log(response)
                 $scope.resultMap = response.queryResult.map;//搜索返回的结果
                 buildPageLabel();
             }
@@ -39,6 +40,32 @@ adminApp.controller('adminProductStandardController',function ($scope,$location,
         for(var i = firstPage;i <=lastPage; i++){
             $scope.pageLabel.push(i);
         }
+    };
+    //判断当前为第一页
+    $scope.isTopPage = function () {
+        if($scope.currPageNo == 1){
+            return true;
+        }else{
+            return false;
+        }
+    };
+
+    //判断当前为最后一页
+    $scope.isEndPage = function () {
+        if($scope.resultMap.totalPages == $scope.currPageNo){
+            return true;
+        }else{
+            return false;
+        }
+    };
+    $scope.queryByPage = function (pageNo) {
+        //页码验证
+        if(pageNo < 1 || pageNo > $scope.resultMap.totalPages){
+            return;
+        }
+        $scope.searchMap.pageNo = pageNo;
+        $scope.currPageNo = pageNo;
+        $scope.load();
     };
 
 
