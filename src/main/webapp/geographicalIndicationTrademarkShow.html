@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>中国▪陕西地理标志保护产品</title>
+    <meta content="陕西地理标志保护产品,陕西地理标志保护产品,产品,地理,保护,标志,地理标志,地理标志保护,地理标志保护产品,茶,酒,果蔬,养殖,中药材,经济作物,地方特种,地方特色食品,食品,工艺品" name="keywords" />
+    <meta content="" name="description" />
+
+    <link rel="stylesheet" type="text/css" href="css/index/owl.carousel.css" />
+    <link rel="stylesheet" type="text/css" href="css/index/dbcp.css">
+    <link rel="stylesheet" type="text/css" href="css/index/cmsstyle.css">
+    <link href="css/index/atlas.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/index/jquery.mCustomScrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/bootstrap/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
+
+    <script src="js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="js/index/home.js"></script>
+    <script type="text/javascript" src="js/index/owl.carousel.js"></script>
+    <script type="text/javascript" src="plugins/bootstrap/js/bootstrap.js"></script>
+
+    <!--  导入angularjs  -->
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="js/trademarkBase.js"></script>
+    <script type="text/javascript" src="js/service/geographicalIndicationTrademarkService.js"></script>
+    <script type="text/javascript" src="js/controller/geographicalIndicationTrademarkController.js"></script>
+
+    <!-- 导入pdf预览插件-->
+    <script type="text/javascript" src="plugins/pdfobject/pdfobject.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            sethomebg("img/index");
+        });
+
+
+    </script>
+</head>
+<body ng-app="shanxi-trademark" ng-controller="trademarkController" ng-init="initByProductNumber()">
+<div id="mbg" class="mbg" style="height: 100%"></div>
+<div class="main" style="width: 100%;height:100%;/*min-height: 1450px;*/min-width: 1200px;">
+    <!--top-->
+
+
+    <!-- custom scrollbar plugin -->
+
+    <script src="js/index/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript" src="js/index/mcomm.js"></script>
+    <div class="headerbg" style=" width: 100%;">
+        <div class="header">
+            <div class="logo"></div>
+            <div class="nav" >
+                <ul>
+                    <li ><a href="page/index.do" target="_self">首 页</a></li>
+                    <li ><a href="page/dbcpzs.do" target="_self" title="特色展示">特色展示</a></li>
+                    <li><a href="statisticsProductBulletin.html" target="_self" title="地理标志产品">地理标志产品</a></li>
+                    <li ><a href="page/sydbqy.do" target="_self" title="用标企业">用标企业</a></li>
+                    <li ><a href="statisticsStatistics.html" target="_self" title="查询统计">查询统计</a></li>
+                    <li ><a href="proclamationIndex.html" target="_self" title="相关公告">相关公告</a></li>
+                    <li ><a href="proclamationGuideBook.html" target="_self" title="保护指南">保护指南</a></li>
+                    <li ><a href="policyPapers.html" target="_self" title="政策文件">政策文件</a></li>
+                    <li ><a href="/productStandard.html" target="_self" title="产品标准">产品标准</a></li>
+                    <li><a href="/productLandmark.html" target="_self" title="农产品地理标志">农产品地理标志</a></li>
+                    <!--<li ><a href="ComplainsRight.html" target="_self" title="投诉维权">投诉维权</a></li>-->
+                    <!--<li ><a href="productIntroduction.html" target="_self" title="地标制度">地标制度</a></li>-->
+                    <li  class="current" ><a href="/geographicalIndicationTrademark.html" target="_self" title="地理标志商标">地理标志商标</a></li>
+                </ul>
+                <a href="http://www.patviewer.com/" target="_blank"><label class="showSearch" title="搜索"></label></a>
+            </div>
+        </div>
+
+    </div>
+    <!--/top-->
+    <div class="bztitle"></div>
+
+    <div class="ctnindex" style="min-height: 690px">
+                <div id="pdf1">
+                </div>
+        </div>
+
+    </div>
+    <!--footer-->
+    <div class="footer" style="height: 45px;">
+        <span style="margin-top: 2px;display: block;">
+            中国杨凌农业知识产权信息网 版权所有 Copyright © 2014www.ylagrin.com. All Rights Reserved 地址：陕西省西安市雁塔区丈八一路3号旺都D座11层<br>
+            邮政编码：710086 电话：029-81101903 传真：029-81101903 信箱：service@fvce.com 陕ICP备20070059
+        </span>
+    </div>
+    <!--/footer-->
+</div>
+
+</body>
+</html>

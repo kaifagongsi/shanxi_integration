@@ -2,6 +2,22 @@
 trademarkApp.controller('trademarkController',function ($scope,$location,geographicalIndicationTrademarkService) {
     $scope.searchMap = {'pageNo': 1, 'pageSize': 15,'searchType':'0','searchVal':''};
     $scope.resultMap = {'totalPages': '0','rows':null,'total':0};
+    $scope.pdfName = "";
+
+    //页面pdf加载
+    $scope.initByProductNumber= function(){
+
+        var options = {
+            height: "650px"
+        };
+        //接收index.html传参
+        var id = "";
+        if ($location.$$search.id) {
+            $scope.pdfName = $location.$$search['id'];
+            PDFObject.embed("static/trademark/pdf/"+$scope.pdfName, "#pdf1",options);
+        }
+
+    };
 
     //页面加载
     $scope.search = function () {
