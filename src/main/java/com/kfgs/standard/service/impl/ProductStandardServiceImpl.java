@@ -37,7 +37,7 @@ public class ProductStandardServiceImpl implements ProductStandardService {
             //标准名称
             tbStandardExample.createCriteria().andStandardNameLike("%" + keywords + "%");
         }
-        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),20);
+        PageHelper.startPage(Integer.parseInt(searchMap.get("pageNo").toString()),Integer.parseInt(searchMap.get("pageSize").toString()));
         Page<TbStandard> page = (Page<TbStandard>)tbProductStandardMapper.selectByExample(tbStandardExample);
         System.out.println(page.getPages());
         map.put("rows",page.getResult());
