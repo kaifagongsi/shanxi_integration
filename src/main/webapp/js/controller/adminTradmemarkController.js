@@ -23,8 +23,6 @@ adminApp.controller('adminTrademarkController',function ($scope,$location,adminT
     //保存详细
     $scope.saveTrademark = function(){
         var parse = JSON.stringify($scope.trademarkInfo);
-        console.log(parse)
-        console.log(pdfFile.files[0]);
         if(pdfFile.files[0] != null){//表示上传新文件
             adminTrademarkServer.saveTrademark(parse).success(function (response) {
                 if(response.code  === '10000'){

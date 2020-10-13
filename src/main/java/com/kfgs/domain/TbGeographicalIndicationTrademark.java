@@ -18,7 +18,7 @@ public class TbGeographicalIndicationTrademark {
     private Integer internationalClassification;
     @JSONField(format="yyyy-MM-dd")
     private Date applicationDate;
-
+/*
     private String chineseAddressOfRegistrant;
 
     private String nameOfAgency;
@@ -29,7 +29,7 @@ public class TbGeographicalIndicationTrademark {
 
     private Integer regeistrationNoticeIssueNo;
     @JSONField(format="yyyy-MM-dd")
-    private Date dateOfBoticeOfRegeistation;
+    private Date dateOfBoticeOfRegeistation;*/
 
     private String pdfPath;
 
@@ -89,7 +89,7 @@ public class TbGeographicalIndicationTrademark {
         this.applicationDate = applicationDate;
     }
 
-    public String getChineseAddressOfRegistrant() {
+    /*public String getChineseAddressOfRegistrant() {
         return chineseAddressOfRegistrant;
     }
 
@@ -135,7 +135,7 @@ public class TbGeographicalIndicationTrademark {
 
     public void setDateOfBoticeOfRegeistation(Date dateOfBoticeOfRegeistation) {
         this.dateOfBoticeOfRegeistation = dateOfBoticeOfRegeistation;
-    }
+    }*/
 
     public String getPdfPath() {
         return pdfPath;

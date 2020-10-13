@@ -9,12 +9,6 @@
     <result column="registration_number" property="registrationNumber" jdbcType="VARCHAR" />
     <result column="International_classification" property="internationalClassification" jdbcType="INTEGER" />
     <result column="application_date" property="applicationDate" jdbcType="DATE" />
-    <result column="chinese_address_of_registrant" property="chineseAddressOfRegistrant" jdbcType="VARCHAR" />
-    <result column="name_of_agency" property="nameOfAgency" jdbcType="VARCHAR" />
-    <result column="issue_num_of_preliminary_examination_announcement" property="issueNumOfPreliminaryExaminationAnnouncement" jdbcType="INTEGER" />
-    <result column="announcement_date_of_preliminary_examination" property="announcementDateOfPreliminaryExamination" jdbcType="DATE" />
-    <result column="regeistration_notice_issue_no" property="regeistrationNoticeIssueNo" jdbcType="INTEGER" />
-    <result column="date_of_botice_of_regeistation" property="dateOfBoticeOfRegeistation" jdbcType="DATE" />
     <result column="pdf_path" property="pdfPath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -77,8 +71,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, trade_name, trademark_type, chinese_name_of_regisrant, registration_number, International_classification, 
-    application_date, chinese_address_of_registrant, name_of_agency, issue_num_of_preliminary_examination_announcement, 
-    announcement_date_of_preliminary_examination, regeistration_notice_issue_no, date_of_botice_of_regeistation, 
+    application_date,
     pdf_path
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademarkExample" >
@@ -115,16 +108,12 @@
     insert into tb_geographical_indication_trademark (id, trade_name, trademark_type, 
       chinese_name_of_regisrant, registration_number, 
       International_classification, application_date, 
-      chinese_address_of_registrant, name_of_agency, 
-      issue_num_of_preliminary_examination_announcement, announcement_date_of_preliminary_examination, 
-      regeistration_notice_issue_no, date_of_botice_of_regeistation, 
+
       pdf_path)
     values (#{id,jdbcType=INTEGER}, #{tradeName,jdbcType=VARCHAR}, #{trademarkType,jdbcType=VARCHAR}, 
       #{chineseNameOfRegisrant,jdbcType=VARCHAR}, #{registrationNumber,jdbcType=VARCHAR}, 
       #{internationalClassification,jdbcType=INTEGER}, #{applicationDate,jdbcType=DATE}, 
-      #{chineseAddressOfRegistrant,jdbcType=VARCHAR}, #{nameOfAgency,jdbcType=VARCHAR}, 
-      #{issueNumOfPreliminaryExaminationAnnouncement,jdbcType=INTEGER}, #{announcementDateOfPreliminaryExamination,jdbcType=DATE}, 
-      #{regeistrationNoticeIssueNo,jdbcType=INTEGER}, #{dateOfBoticeOfRegeistation,jdbcType=DATE}, 
+
       #{pdfPath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kfgs.domain.TbGeographicalIndicationTrademark" >
@@ -224,12 +213,8 @@
         chinese_name_of_regisrant,
         registration_number,
         International_classification,
-        application_date,
-        chinese_address_of_registrant,
-        name_of_agency,
-        issue_num_of_preliminary_examination_announcement,
-        announcement_date_of_preliminary_examination,
-        regeistration_notice_issue_no, date_of_botice_of_regeistation)
+        application_date
+        )
       values
       <foreach collection="list" item="item"   separator=",">
         (
@@ -238,13 +223,7 @@
           #{item.chineseNameOfRegisrant},
           #{item.registrationNumber},
           #{item.internationalClassification},
-          #{item.applicationDate},
-          #{item.chineseAddressOfRegistrant},
-          #{item.nameOfAgency},
-          #{item.issueNumOfPreliminaryExaminationAnnouncement,},
-          #{item.announcementDateOfPreliminaryExamination},
-          #{item.regeistrationNoticeIssueNo},
-          #{item.dateOfBoticeOfRegeistation}
+          #{item.applicationDate}
         )
       </foreach>
     </insert>
