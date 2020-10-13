@@ -2,6 +2,8 @@ package com.kfgs.statistics.service.impl;
 
 import com.kfgs.domain.TbAdministrativeArea;
 import com.kfgs.domain.TbAdministrativeAreaExample;
+import com.kfgs.domain.TbProductLandmark;
+import com.kfgs.domain.TbProductLandmarkExample;
 import com.kfgs.mapper.TbAdministrativeAreaMapper;
 import com.kfgs.domain.response.CommonCode;
 import com.kfgs.domain.response.QueryResponseResult;

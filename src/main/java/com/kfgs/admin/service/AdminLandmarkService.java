@@ -16,4 +16,6 @@ public interface AdminLandmarkService {
 
     QueryResponseResult deleteLandmark(String productNumber);
 
+    public QueryResponseResult findTypeByIndustry(String name);
+
 }

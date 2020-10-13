@@ -123,19 +123,19 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
         List<TbAdministrativeArea> areas = tbAdministrativeAreaMapper.selectByExample(adminExample);
         resultMap.put("areasCityList",areas);
 
-        /*//2、获取行政区间区县级别
+        //2、获取行政区间区县级别
         adminExample.clear();
         adminExample.createCriteria().andParentIdNotEqualTo("610000").andParentIdNotEqualTo("000000").andIsdeleteEqualTo(0);
         List<TbAdministrativeArea> areasCopuntyList = tbAdministrativeAreaMapper.selectByExample(adminExample);
-        resultMap.put("areasCountyList",areasCopuntyList);*/
+        resultMap.put("areasCountyList",areasCopuntyList);
 
         //3、获取行业分类
         List<String> industryList = tbProductLandmarkMapper.selectIndustryList();
         resultMap.put("industryList",industryList);
 
-        /*//4、获取所属分类
+        //4、获取所属分类
         List<String> typeList = tbProductLandmarkMapper.selectTypeList();
-        resultMap.put("typeList",typeList);*/
+        resultMap.put("typeList",typeList);
 
         QueryResult queryResult = new QueryResult();
         queryResult.setMap(resultMap);
@@ -147,24 +147,36 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
         Map<String,Object> map = new HashMap<>();
         if(pData.get("productNumber") != "undefined" && pData.get("productNumber") != null && StringUtils.isNotBlank(ObjectUtils.toString(pData.get("productNumber"), ""))  ){
             TbProductLandmark tbProductLandmark = tbProductLandmarkMapper.selectByProductNumber(pData.get("productNumber").toString());
-            if(tbProductLandmark != null){
-                if(tbProductLandmark.getContent() != null){
-                    map.put("content",new String(tbProductLandmark.getContent()));
-                }else {
+            if (tbProductLandmark == null){
+                map.put("content",new String("暂无数据"));
+            }else{
+                map.put("id",tbProductLandmark.getId());
+                map.put("productName",tbProductLandmark.getProductName());
+                map.put("productNumber",tbProductLandmark.getProductNumber());
+                map.put("city",tbProductLandmark.getCity());
+                map.put("county",tbProductLandmark.getCounty());
+                map.put("certificateHolder",tbProductLandmark.getCertificateHolder());
+                map.put("registerYear",tbProductLandmark.getRegisterYear());
+                map.put("industry",tbProductLandmark.getIndustry());
+                map.put("type",tbProductLandmark.getType());
+                if(tbProductLandmark.getContent() == null || StringUtils.isBlank(tbProductLandmark.getContent().toString())){
                     map.put("content",new String("暂无数据"));
+                }else {
+                    map.put("content",new String(tbProductLandmark.getContent()));
                 }
             }
-            map.put("id",tbProductLandmark.getId());
-            map.put("productName",tbProductLandmark.getProductName());
-            map.put("productNumber",tbProductLandmark.getProductNumber());
-            map.put("city",tbProductLandmark.getCity());
-            map.put("county",tbProductLandmark.getCounty());
-            map.put("certificateHolder",tbProductLandmark.getCertificateHolder());
-            map.put("registerYear",tbProductLandmark.getRegisterYear());
-            map.put("industry",tbProductLandmark.getIndustry());
-            map.put("type",tbProductLandmark.getType());
         }
         return map;
+    }
+
+    @Override
+    public QueryResponseResult findTypeByIndustry(String name) {
+        /*TbProductLandmarkExample tbProductLandmarkExample = new TbProductLandmarkExample();
+        tbProductLandmarkExample.createCriteria().andIndustryEqualTo(name);*/
+        List<String> list = tbProductLandmarkMapper.findTypeByIndustry(name);
+        QueryResult queryResult = new QueryResult();
+        queryResult.setList(list);
+        return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
     }
 
     @Override

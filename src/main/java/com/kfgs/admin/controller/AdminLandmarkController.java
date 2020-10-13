@@ -28,6 +28,11 @@ public class AdminLandmarkController {
         return adminLandmarkService.getSelectMap();
     }
 
+    @GetMapping("/selectByIndustry")
+    public QueryResponseResult selectByIndustry(String name){
+        return adminLandmarkService.findTypeByIndustry(name);
+    }
+
     @GetMapping("/selectByParentId")
     public QueryResponseResult selectByParentId(String id){
         return administrativeAreaService.findListByParentId(id);
