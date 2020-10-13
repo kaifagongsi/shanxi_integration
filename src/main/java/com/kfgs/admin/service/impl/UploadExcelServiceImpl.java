@@ -93,7 +93,7 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,8);
                 return uploadLandmark(list.get(0).getDataList());
             } else if("6".equals(dataBasesType)){//地理标志商标
-                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,12);
+                List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,6);
                 return  uploadTrademark(list.get(0).getDataList());
             } else if ("7".equals(dataBasesType)){ //产品标准
                 List<ExcelSheetPO> list = ImportExcelSheetUtil.readExcel(file,null,21);
@@ -156,12 +156,8 @@ public class UploadExcelServiceImpl implements UploadExcelService {
                 List<Object> item = dataList.get(i);
                 item.add(0,0);
                 item.set(5,Integer.parseInt(item.get(5).toString()));
-                item.set(6,format.parse(item.get(6).toString().substring(0,10)));
-                item.set(9,Integer.parseInt(item.get(9).toString()));
-                item.set(10,format.parse(item.get(10).toString().substring(0,10)));
-                item.set(11,Integer.parseInt(item.get(11).toString()));
-                item.set(12,format.parse(item.get(12).toString().substring(0,10)));
-                item.add(13,"");
+                item.set(6,format.parse(item.get(6).toString().substring(0,12)));
+                item.add(7,"");
                 ListToModelUtils.listToModel(item,trademark);
                 trademarkList.add(trademark);
             }
