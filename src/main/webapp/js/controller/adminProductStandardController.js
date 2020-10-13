@@ -1,7 +1,7 @@
 adminApp.controller('adminProductStandardController',function ($scope,$location,adminProductStandardService) {
 
     // 查询参数
-    $scope.searchMap = {'pageNo': 1, 'pageSize': 15, 'keywords': '', 'searchType': '', 'searchVal': ''};
+    $scope.searchMap = {'pageNo': 1, 'pageSize': 10, 'keywords': '', 'searchType': '', 'searchVal': ''};
     $scope.resultMap = {'totalPages': '0','total':'','rows':''};
     //数据列表页面列表页加载
     $scope.load=function(){
