@@ -67,9 +67,13 @@ public class AdminTrademarkServiceImpl implements AdminTrademarkService {
         List<TbGeographicalIndicationTrademark> list = trademarkMapper.selectByExample(example);
 
         if(list.size() == 0){//表示为新增
-            //修改文件路径
-            trademark.setPdfPath(file.getOriginalFilename());
-            return insertTrademark(file,trademark,httpRequest,true);
+            if(file != null){ //判断有无文件上传
+                //修改文件路径
+                trademark.setPdfPath(file.getOriginalFilename());
+                return insertTrademark(file,trademark,httpRequest,true);
+            }else{
+                return insertTrademark(file,trademark,httpRequest,false);
+            }
         }else if(list.size() == 1){//标识为更新，并且数据正常
 
             int delete = trademarkMapper.deleteByExample(example);
