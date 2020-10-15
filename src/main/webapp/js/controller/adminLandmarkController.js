@@ -75,7 +75,7 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
     //初始化省市和行业下拉框
     function initSelect() {
         adminLandmarkService.initSelect().success(function (response){
-            console.log(response);
+            //console.log(response);
             $scope.areasCityList = response.queryResult.map.areasCityList;
             $scope.areasCountyList = response.queryResult.map.areasCountyList;
             $scope.industryList = response.queryResult.map.industryList;
@@ -103,13 +103,14 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
         })
     })
 
+
     /***************************农产品地理标志编辑********************************/
     $scope.initByProductNumber = function (){
         //接收index.html传参
         var idVal = "";
         if ($location.$$search.idVal) {
             //表示为更新
-            //initSelect();
+            initSelect();
             $scope.searchData.productNumber = $location.$$search['idVal'];
             adminLandmarkService.initByProductNumber($scope.searchData).success(
                 function (response2) {
@@ -142,6 +143,7 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
         }
         else{
             initSelect();
+            return;
         }
     };
 

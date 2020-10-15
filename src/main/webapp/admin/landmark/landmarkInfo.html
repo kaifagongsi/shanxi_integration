@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:s="http://java.sun.com/xml/ns/javaee">
 
 <head>
     <!-- 页面meta -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible">
 
     <title>农产品地理标志</title>
     <meta name="description" content="农产品地理标志">
@@ -21,20 +21,10 @@
     <link rel="stylesheet" href="../../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../../css/style.css">
 
-    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="../../plugins/jQueryUI/jquery-ui.min.js"></script>
-    <script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../plugins/adminLTE/js/app.min.js"></script>
-
     <!--  angularjs -->
     <!-- 导入controller  -->
     <script type="text/javascript" src="../../plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="../../js/adminBase.js"></script>
-    <script type="text/javascript" src="../../js/service/adminLandmarkService.js"></script>
-    <script type="text/javascript" src="../../js/controller/adminLandmarkController.js"></script>
-    <!--<script type="text/javascript" src="../../js/controller/productLandmarkController.js"></script>-->
-    <script type="text/javascript" src="../../plugins/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="../../plugins/ckeditor/config.js"></script>
 
 </head>
 
@@ -80,7 +70,7 @@
 
                                 <div class="col-md-2 title">产品编号</div>
                                 <div class="col-md-4 data"  >
-                                    <input type="text" class="form-control" ng-model="contentMap.productNumber" id="productNumber"  value="">
+                                    <input type="text" class="form-control" ng-model="contentMap.productNumber" id="productNumber">
                                 </div>
 
                                 <div class="col-md-2 title">地市</div>
@@ -120,7 +110,7 @@
 
                                 <div class="col-md-2 title rowHeight2x">详情信息</div>
                                 <div class="col-md-10 data rowHeight2x">
-                                    <textarea id="TextArea1" ng-model="contentMap.content" name="content"  rows="3" class="ckeditor form-control"></textarea>
+                                        <textarea id="TextArea1" name="TextArea1"  rows="3" ng-model="contentMap.content" class="ckeditor"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -146,10 +136,23 @@
     <!-- 内容区域 /-->
 </div>
 
-<script>
-
-
-</script>
 </body>
+
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../plugins/adminLTE/js/app.min.js"></script>
+
+<script type="text/javascript" src="../../plugins/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="../../plugins/ckeditor/config.js"></script>
+
+<script type="text/javascript" src="../../js/service/adminLandmarkService.js"></script>
+<script type="text/javascript" src="../../js/controller/adminLandmarkController.js"></script>
+<!--<script type="text/javascript">
+    if (CKEDITOR.instances["TextArea1"]) {
+        CKEDITOR.remove(CKEDITOR.instances["TextArea1"]);
+    }
+    CKEDITOR.replace("TextArea1");
+</script>-->
 
 </html>
