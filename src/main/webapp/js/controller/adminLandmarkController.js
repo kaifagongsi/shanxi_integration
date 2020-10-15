@@ -114,7 +114,6 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
             $scope.searchData.productNumber = $location.$$search['idVal'];
             adminLandmarkService.initByProductNumber($scope.searchData).success(
                 function (response2) {
-                    initSelect();
                     $scope.contentMap = response2;//搜索返回的结果
                     $("#city").find("option").eq(0).val(response2.city).text(response2.city);
                     $("#county").find("option").eq(0).val(response2.county).text(response2.county);
@@ -169,7 +168,8 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
         $scope.landmarkEntity.type = $("#type option:selected").text();
         $scope.landmarkEntity.certificateHolder = $("#certificateHolder").val();
         $scope.landmarkEntity.registerYear = $("#registerYear option:selected").text();
-        $scope.landmarkEntity.content = CKEDITOR.instances.TextArea1.getData();
+        $scope.landmarkEntity.content = $scope.contentMap.content;
+        //$scope.landmarkEntity.content = CKEDITOR.instances.TextArea1.getData();
         adminLandmarkService.saveLandmark($scope.landmarkEntity).success(
             function(response2){
                 console.log(response2);
