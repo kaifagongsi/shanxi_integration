@@ -75,7 +75,7 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
     //初始化省市和行业下拉框
     function initSelect() {
         adminLandmarkService.initSelect().success(function (response){
-            console.log(response);
+            //console.log(response);
             $scope.areasCityList = response.queryResult.map.areasCityList;
             $scope.areasCountyList = response.queryResult.map.areasCountyList;
             $scope.industryList = response.queryResult.map.industryList;
@@ -103,30 +103,33 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
         })
     })
 
+
     /***************************农产品地理标志编辑********************************/
     $scope.initByProductNumber = function (){
         //接收index.html传参
         var idVal = "";
         if ($location.$$search.idVal) {
             //表示为更新
-            //initSelect();
+            initSelect();
             $scope.searchData.productNumber = $location.$$search['idVal'];
             adminLandmarkService.initByProductNumber($scope.searchData).success(
                 function (response2) {
-                    initSelect();
                     $scope.contentMap = response2;//搜索返回的结果
+                    CKEDITOR.instances.TextArea1.setData($scope.contentMap.content);
                     $("#city").find("option").eq(0).val(response2.city).text(response2.city);
                     $("#county").find("option").eq(0).val(response2.county).text(response2.county);
                     $("#industry").find("option").eq(0).val(response2.industry).text(response2.industry);
                     $("#type").find("option").eq(0).val(response2.type).text(response2.type);
-                    //$("#city option[text='"+response2.city+"']").attr("selected",true);
-                    CKEDITOR.instances.TextArea1.setData($scope.contentMap.content);
+                    if ($("#TextArea1").val() == "" && CKEDITOR.instances.TextArea1.getData() != ""){
+                        $("#TextArea1").val(CKEDITOR.instances.TextArea1.getData());
+                    }
                     console.log($scope.contentMap)
                 }
             )
         }
         else{
             initSelect();
+            return;
         }
     };
 

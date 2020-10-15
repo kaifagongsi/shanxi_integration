@@ -82,7 +82,7 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
             if (landmarkEntity.get("id") != "undefined" && landmarkEntity.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(landmarkEntity.get("id"), ""))){
                 tbProductLandmark.setId(Integer.parseInt(landmarkEntity.get("id").toString()));
                 tbProductLandmark.setProductName(landmarkEntity.get("productName").toString());
-                //tbProductLandmark.setProductNumber(landmarkEntity.get("productNumber").toString());
+                tbProductLandmark.setProductNumber(landmarkEntity.get("productNumber").toString());
                 tbProductLandmark.setCity(landmarkEntity.get("city").toString());
                 tbProductLandmark.setCounty(landmarkEntity.get("county").toString());
                 tbProductLandmark.setCertificateHolder(landmarkEntity.get("certificateHolder").toString());
