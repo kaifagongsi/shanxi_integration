@@ -120,7 +120,7 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
                     $("#county").find("option").eq(0).val(response2.county).text(response2.county);
                     $("#industry").find("option").eq(0).val(response2.industry).text(response2.industry);
                     $("#type").find("option").eq(0).val(response2.type).text(response2.type);
-                    console.log(CKEDITOR.instances.TextArea1.status === 'unloaded')
+                    //console.log(CKEDITOR.instances.TextArea1.status === 'unloaded')
                     //$("#city option[text='"+response2.city+"']").attr("selected",true);
                     /*console.log(CKEDITOR.instances.TextArea1.status);
                     if(CKEDITOR.instances.TextArea1.status === 'unloaded'){
@@ -133,11 +133,11 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
                             break;
                         }
                     }while(true)*/
-                    CKEDITOR.on( 'instanceReady', function( evt ) {
+                   /* CKEDITOR.on( 'instanceReady', function( evt ) {
                         var editor = evt.editor;
                         editor.setData( $scope.contentMap.content );
 
-                    });
+                    });*/
                 }
             )
         }
