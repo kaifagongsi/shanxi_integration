@@ -245,6 +245,7 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
             return;
         }
         $scope.searchMap.pageNo = pageNo;
+        $scope.currPageNo = pageNo;
         $scope.loadLandmark();
     };
 
