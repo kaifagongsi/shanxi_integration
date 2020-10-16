@@ -10,12 +10,12 @@ adminApp.service('adminLandmarkService',function ($http) {
 
     //根据省市获取区县
     this.getAreasCountyList = function (cityId) {
-        return $http.get('../../admin/landmarkController/selectByParentId.do?id=' + cityId);
+        return $http.get('../../admin/landmarkController/selectByParentId.do?id='+cityId);
     };
 
     //根据行业获取分类
     this.getTypeList = function (industryName) {
-        return $http.get('../../admin/landmarkController/selectByIndustry.do?name=' + industryName);
+        return $http.get('../../admin/landmarkController/selectByIndustry.do?name='+encodeURI(encodeURI(industryName)));
     }
 
     //新增

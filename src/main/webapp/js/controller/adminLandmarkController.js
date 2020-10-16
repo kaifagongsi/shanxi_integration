@@ -75,7 +75,7 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
     //初始化省市和行业下拉框
     function initSelect() {
         adminLandmarkService.initSelect().success(function (response){
-            //console.log(response);
+            console.log(response);
             $scope.areasCityList = response.queryResult.map.areasCityList;
             $scope.areasCountyList = response.queryResult.map.areasCountyList;
             $scope.industryList = response.queryResult.map.industryList;
@@ -99,8 +99,10 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
     $scope.$watch('contentMap.industry',function (newValue,oldValue) {
         console.log(newValue,oldValue);
         adminLandmarkService.getTypeList(newValue).success(function (response) {
+            console.log(response.queryResult.list);
             $scope.typeList = response.queryResult.list;
         })
+
     })
 
 
@@ -115,10 +117,11 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
             adminLandmarkService.initByProductNumber($scope.searchData).success(
                 function (response2) {
                     $scope.contentMap = response2;//搜索返回的结果
+                    //console.log(response2)
                     $("#city").find("option").eq(0).val(response2.city).text(response2.city);
                     $("#county").find("option").eq(0).val(response2.county).text(response2.county);
-                    $("#industry").find("option").eq(0).val(response2.industry).text(response2.industry);
-                    $("#type").find("option").eq(0).val(response2.type).text(response2.type);
+                    /*$("#industry").find("option").eq(0).val(response2.industry).text(response2.industry);
+                    $("#type").find("option").eq(0).val(response2.type).text(response2.type);*/
                     //console.log(CKEDITOR.instances.TextArea1.status === 'unloaded')
                     //$("#city option[text='"+response2.city+"']").attr("selected",true);
                     /*console.log(CKEDITOR.instances.TextArea1.status);

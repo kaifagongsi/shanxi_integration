@@ -173,7 +173,7 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
     public QueryResponseResult findTypeByIndustry(String name) {
         /*TbProductLandmarkExample tbProductLandmarkExample = new TbProductLandmarkExample();
         tbProductLandmarkExample.createCriteria().andIndustryEqualTo(name);*/
-        List<String> list = tbProductLandmarkMapper.findTypeByIndustry(name);
+        List<String> list = tbProductLandmarkMapper.findTypeByIndustry(java.net.URLDecoder.decode(name));
         QueryResult queryResult = new QueryResult();
         queryResult.setList(list);
         return new QueryResponseResult(CommonCode.SUCCESS, queryResult);
