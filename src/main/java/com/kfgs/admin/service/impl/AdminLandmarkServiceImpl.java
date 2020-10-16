@@ -79,7 +79,7 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
         }
         else try{
             //修改
-            if (landmarkEntity.get("id") != "undefined" && landmarkEntity.get("id") != null && StringUtils.isNotBlank(ObjectUtils.toString(landmarkEntity.get("id"), ""))){
+            if (landmarkEntity.get("id") != "undefined" && landmarkEntity.get("id") != null && !("0".equals(landmarkEntity.get("id"))) && StringUtils.isNotBlank(ObjectUtils.toString(landmarkEntity.get("id"), ""))){
                 tbProductLandmark.setId(Integer.parseInt(landmarkEntity.get("id").toString()));
                 tbProductLandmark.setProductName(landmarkEntity.get("productName").toString());
                 tbProductLandmark.setProductNumber(landmarkEntity.get("productNumber").toString());
@@ -93,7 +93,7 @@ public class AdminLandmarkServiceImpl implements AdminLandmarkService {
                 returnResult = tbProductLandmarkMapper.updateByPrimaryKeySelective(tbProductLandmark);
             }
             //新增
-            else {
+            else{
                 tbProductLandmark.setProductName(landmarkEntity.get("productName").toString());
                 tbProductLandmark.setProductNumber(landmarkEntity.get("productNumber").toString());
                 tbProductLandmark.setCity(landmarkEntity.get("city").toString());

@@ -142,7 +142,6 @@ adminApp.controller('adminLandmarkController',function ($scope,$location,adminLa
         }
         else{
             initSelect();
-            return;
         }
     };
 
